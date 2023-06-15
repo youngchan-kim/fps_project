@@ -1,0 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerCam : MonoBehaviour
+{
+
+    public float sensX;
+    public float sensY;
+
+    public Transform orientation;
+
+    float xRotation;
+    float yRotation;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        //커서를 움직이지 않도록 하고 보이지 않도록 해야함.
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //마우스 좌표를 받아오기
+        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+
+        //마우스의 움직인 좌표값은 X좌표값은 Y축의 회전에 더해주고 Y좌표 값은 X축의 회전에 빼준다.
+        yRotation += mouseX;
+
+        xRotation -= mouseY;
+        //x축화전에 90도가 넘어가면 뒤집히지 않도록 고정해준다.
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        //카메라의 회전과 회전방향을 일치시키기 위한 단계
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+    }
+}
