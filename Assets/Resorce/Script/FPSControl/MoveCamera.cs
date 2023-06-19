@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class MoveCamera : MonoBehaviour
 {
-    //Ä«¸Ş¶óÀÇ Æ÷Áö¼Ç¿¡ ÄÉ¸¯ÅÍÀÇ Æ÷Áö¼ÇÀ» ³ÖÀ¸¸é
-    //Ä«¸Ş¶ó´Â ÄÉ¸¯ÅÍ¿Í  °°Àº Æ÷Áö¼ÇÀ» À¯ÁöÇÏ°ÔµÊ
+    //ì¹´ë©”ë¼ì˜ í¬ì§€ì…˜ì— ì¼€ë¦­í„°ì˜ í¬ì§€ì…˜ì„ ë„£ìœ¼ë©´
+    //ì¹´ë©”ë¼ëŠ” ì¼€ë¦­í„°ì™€  ê°™ì€ í¬ì§€ì…˜ì„ ìœ ì§€í•˜ê²Œë¨
     public Transform cameraPosition;
 
     // Update is called once per frame
     public void Update()
     {
         transform.position = cameraPosition.position;
-    }
+   }
 }
