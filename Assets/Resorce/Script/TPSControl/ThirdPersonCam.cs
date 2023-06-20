@@ -21,14 +21,21 @@ public class ThirdPersonCam : MonoBehaviour
     public GameObject rightWaveCam;
     public GameObject leftWaveCam;
 
-    public CameraStyle curentStyle;
+    protected CameraStyle curentStyle;
     public enum CameraStyle
     {
         Basic,
         RightWave,
         LeftWave,
+        OnePerson,
         Topdown
     }
+
+    public CameraStyle GetCameraStyle()
+    {
+        return curentStyle;
+    }
+
     //
     int wavecontrol = 0;
 
@@ -131,4 +138,5 @@ public class ThirdPersonCam : MonoBehaviour
         else if (newStyle == CameraStyle.LeftWave) { leftWaveCam.SetActive(true);  }
         curentStyle = newStyle;
     }
+
 }
