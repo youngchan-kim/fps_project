@@ -46,7 +46,6 @@ public class ThirdPersonCam : MonoBehaviour
         {
             
             if (curentStyle == CameraStyle.RightWave)
-                thirdPersonCam.
                 thirdPersonCam.transform.localPosition.Set(rightWaveCam.transform.position.x + 10, rightWaveCam.transform.position.y, rightWaveCam.transform.position.z);
             else if (curentStyle == CameraStyle.LeftWave)
                 thirdPersonCam.transform.position.Set(leftWaveCam.transform.position.x - 10, leftWaveCam.transform.position.y, leftWaveCam.transform.position.z);
