@@ -5,39 +5,15 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    public float amplitudeGain;
-    public float frequemcyGain;
-    public CinemachineFreeLook cmFreeCam;
-    public float shakeDuration;
 
-
-    public IEnumerator Shake()
-    {
-        Noise(amplitudeGain, frequemcyGain);
-        yield return new WaitForSeconds(shakeDuration);
-        Noise(0, 0);
-    }
-
-    void Noise(float amplitude, float frequency)
-    {
-        cmFreeCam.GetRig(0).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = amplitude;
-        cmFreeCam.GetRig(1).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = amplitude;
-        cmFreeCam.GetRig(2).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = amplitude;
-
-        cmFreeCam.GetRig(0).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = frequency;
-        cmFreeCam.GetRig(1).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = frequency;
-        cmFreeCam.GetRig(2).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = frequency;
-
-    }
-
-    /*//비동기 작업과 비슷한 작업을 하게 해줌
+    //비동기 작업과 비슷한 작업을 하게 해줌
     //총알이 나가는 동시에 흔들리는 효과가 들어가야하기 때문
     public IEnumerator Shake (float duration, float magnitude)
     {
         
         //카메라의 기본 위치에서
         Vector3 originalPos = transform.localPosition;
-
+        
         //호출 될 때 마다 초기화 되어야함
         float elapsed = 0.0f;
 
@@ -58,8 +34,8 @@ public class CameraShake : MonoBehaviour
         }
         //예제에서는 복귀 하지만 복귀할 필요가 없음
         //처음 위치로 카메라의 위치를 복귀
-        *//*transform.localPosition = originalPos;*//*
-        
-    }*/
+        transform.localPosition = originalPos;
+
+    }
 
 }

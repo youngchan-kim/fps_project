@@ -29,6 +29,10 @@ public class GunSystem : MonoBehaviour
     //언떤 것을 공격했는지
     public LayerMask whatIsEnemy;
 
+    //Graphics
+    public GameObject muzzleFlash, 
+    public CameraShake camShake;
+    public float camShakeMagnitude, camShakeDuration;
 
     private void Awake()
     {
@@ -81,6 +85,10 @@ public class GunSystem : MonoBehaviour
             if (rayHit.collider.CompareTag("Enemy"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
+
+        //ShakeCamera
+        camShake.Shake(camShakeDuration, camShakeMagnitude)
+
         bulletsLeft--;
         bulletsShot--;
         //총 쏘면서 바뀐 속성 리셋
