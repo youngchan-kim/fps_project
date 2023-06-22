@@ -6,3 +6,6 @@ Cinemachine Collider는 추가하려면 CinemachineFreeLook의 가장 하단에 
 
 벽이 플레이어를 가린경우 
 Strategy에서 어떻게 플레이어를 촬영할지에 대한 전략을 설정할 수 있다.
+
+
+Gun오브젝트에 추가한 gun system script에 있는 Attack Point를 움직여 총기의 반동을 유도할 수 있을 꺼 같은데?

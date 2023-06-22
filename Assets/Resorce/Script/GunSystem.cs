@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class GunSystem : MonoBehaviour
 
     //bools
     bool shooting, readyToShoot, reloading;
-
+    bool shoot = true;
     //Reference
     public Camera fpsCam;
     //공격할지점
@@ -30,9 +31,10 @@ public class GunSystem : MonoBehaviour
     public LayerMask whatIsEnemy;
 
     //Graphics
-    public GameObject muzzleFlash, 
+    public GameObject muzzleFlash, bulletHoleGraphic;
     public CameraShake camShake;
     public float camShakeMagnitude, camShakeDuration;
+    public TextMeshProUGUI text;
 
     private void Awake()
     {
@@ -44,12 +46,35 @@ public class GunSystem : MonoBehaviour
     private void Update()
     {
         MyInput();
+
+        //SetText
+        text.SetText(bulletsLeft + "/" + magazineSize);
     }
     private void MyInput()
     {
-        //버튼 눌림 체크가 false이면
-        if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
-        else shooting = Input.GetKeyDown(KeyCode.Mouse0);
+        //연사와 단발을 B키를 통해 조작할 수 있다.
+        if (Input.GetKeyDown(KeyCode.B))
+            if (allowButtonHold)
+                allowButtonHold = false;
+            else allowButtonHold = true;
+        /*if (!Input.GetKeyUp(KeyCode.Mouse0))*/
+                //버튼 눌림 체크가 false이면 shooting은 눌렸을 때 ture;
+                //연사 가능 일때
+        if (allowButtonHold) 
+        { 
+            shooting = Input.GetKey(KeyCode.Mouse0);
+            if (Input.GetKey(KeyCode.Mouse0) && shoot) {
+                StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
+                    shoot = false;
+            }
+        }
+        //연사 불가는 일때
+        else
+        {
+            shooting = Input.GetKeyDown(KeyCode.Mouse0);
+           if (Input.GetKeyDown(KeyCode.Mouse0) && shoot) StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
+            shoot = false;
+        }
 
         //R키가 눌렸고 남은 탄이 탄창보다 작고 리로드 중이 아닐때 호출한다.
         if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
@@ -82,21 +107,34 @@ public class GunSystem : MonoBehaviour
         if (Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
             Debug.Log(rayHit.collider.name);
-            if (rayHit.collider.CompareTag("Enemy"))
+            if (rayHit.collider.CompareTag("whaisWall"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
 
         //ShakeCamera
-        camShake.Shake(camShakeDuration, camShakeMagnitude)
+        camShake.Shake(camShakeDuration, camShakeMagnitude);
+
+        //Graphics
+        //프리펩혹은 Hierarchy에 있는 GameObject를 복제(생성)및 삭제 할 수 있다.
+        //많은 비용이 들기 때문에 Update()에서 호출하지 않는 것이 좋다.
+        //복제하려는 오브젝트는 bulletHoleGraphic이고 만들 위치는 rayHit.point,
+        // 만들어진 오브젝트의 회전은 Quaternion.Euler(0, 180, 0)이다.
+        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
+        Instantiate(muzzleFlash, attackPoint.position, Quaternion.Euler(0, -90, 0));
+
 
         bulletsLeft--;
         bulletsShot--;
         //총 쏘면서 바뀐 속성 리셋
         Invoke("ResetShot", timeBetweenShooting);
 
-        //
+        //총을 쏠때 연사시간
         if (bulletsShot > 0 && bulletsLeft > 0)
+        { 
             Invoke("Shoot", timeBetweenShots);
+            
+        }
+        shoot = true;
     }
 
     private void ResetShot()

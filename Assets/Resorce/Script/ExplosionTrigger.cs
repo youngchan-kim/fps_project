@@ -6,7 +6,7 @@ using Cinemachine;
 public class ExplosionTrigger : MonoBehaviour
 {
 
-    public ParticleSystem explosion;
+    /*public ParticleSystem explosion;*/
     public CameraShake cameraShake;
     //ThirdPersonCam thirdpersoncam;
 
@@ -23,7 +23,7 @@ public class ExplosionTrigger : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            explosion.Play();
+            /*explosion.Play();*/
             StartCoroutine(cameraShake.Shake(.15f, .2f));
             //camerSwitching();
 
