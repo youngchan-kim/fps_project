@@ -24,17 +24,19 @@ public class GunSystem : MonoBehaviour
     //Reference
     public Camera fpsCam;
     //공격할지점
-    public Transform attackPoint;
+    /*public Transform attackPoint;*/
+    public AimShaker attackPoint;
     //공격한 곳
     public RaycastHit rayHit;
     //언떤 것을 공격했는지
     public LayerMask whatIsEnemy;
 
     //Graphics
-    public GameObject muzzleFlash, bulletHoleGraphic;
+    public GameObject /*muzzleFlash,*/ bulletHoleGraphic;
     public CameraShake camShake;
     public float camShakeMagnitude, camShakeDuration;
     public TextMeshProUGUI text;
+    public ParticleSystem muzzleFlashparticle;
 
     private void Awake()
     {
@@ -63,17 +65,24 @@ public class GunSystem : MonoBehaviour
         if (allowButtonHold) 
         { 
             shooting = Input.GetKey(KeyCode.Mouse0);
-            if (Input.GetKey(KeyCode.Mouse0) && shoot) {
-                StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
-                    shoot = false;
+            if (Input.GetKey(KeyCode.Mouse0) && shoot) 
+            {
+                StartCoroutine(attackPoint.AimShake(camShakeDuration, camShakeMagnitude));
+                muzzleFlashparticle.Play();
+                shoot = false;
             }
         }
         //연사 불가는 일때
         else
         {
             shooting = Input.GetKeyDown(KeyCode.Mouse0);
-           if (Input.GetKeyDown(KeyCode.Mouse0) && shoot) StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
-            shoot = false;
+            if (Input.GetKeyDown(KeyCode.Mouse0) && shoot)
+            {
+                StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
+                muzzleFlashparticle.Play();
+                shoot = false;
+            }
+            
         }
 
         //R키가 눌렸고 남은 탄이 탄창보다 작고 리로드 중이 아닐때 호출한다.
@@ -120,8 +129,8 @@ public class GunSystem : MonoBehaviour
         //복제하려는 오브젝트는 bulletHoleGraphic이고 만들 위치는 rayHit.point,
         // 만들어진 오브젝트의 회전은 Quaternion.Euler(0, 180, 0)이다.
         Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
-        Instantiate(muzzleFlash, attackPoint.position, Quaternion.Euler(0, -90, 0));
-
+        /*Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);*/
+        Instantiate(muzzleFlashparticle, attackPoint.transform.position, Quaternion.identity);
 
         bulletsLeft--;
         bulletsShot--;

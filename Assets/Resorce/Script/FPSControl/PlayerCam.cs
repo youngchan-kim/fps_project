@@ -16,7 +16,7 @@ public class PlayerCam : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        //Ä¿¼­¸¦ ¿òÁ÷ÀÌÁö ¾Êµµ·Ï ÇÏ°í º¸ÀÌÁö ¾Êµµ·Ï ÇØ¾ßÇÔ.
+        //ì»¤ì„œë¥¼ ì›€ì§ì´ì§€ ì•Šë„ë¡ í•˜ê³  ë³´ì´ì§€ ì•Šë„ë¡ í•´ì•¼í•¨.
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -24,19 +24,28 @@ public class PlayerCam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //¸¶¿ì½º ÁÂÇ¥¸¦ ¹Ş¾Æ¿À±â
+        //ë§ˆìš°ìŠ¤ ì¢Œí‘œë¥¼ ë°›ì•„ì˜¤ê¸°
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
-        //¸¶¿ì½ºÀÇ ¿òÁ÷ÀÎ ÁÂÇ¥°ªÀº XÁÂÇ¥°ªÀº YÃàÀÇ È¸Àü¿¡ ´õÇØÁÖ°í YÁÂÇ¥ °ªÀº XÃàÀÇ È¸Àü¿¡ »©ÁØ´Ù.
-        yRotation += mouseX;
+        //ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì¸ ì¢Œí‘œê°’ì€ Xì¢Œí‘œê°’ì€ Yì¶•ì˜ íšŒì „ì— ë”í•´ì£¼ê³  Yì¢Œí‘œ ê°’ì€ Xì¶•ì˜ íšŒì „ì— ë¹¼ì¤€ë‹¤.
+        yRotation += (mouseX + SetAimXMove());
 
-        xRotation -= mouseY;
-        //xÃàÈ­Àü¿¡ 90µµ°¡ ³Ñ¾î°¡¸é µÚÁıÈ÷Áö ¾Êµµ·Ï °íÁ¤ÇØÁØ´Ù.
+        xRotation -= (mouseY + SetAimYMove());
+        //xì¶•í™”ì „ì— 90ë„ê°€ ë„˜ì–´ê°€ë©´ ë’¤ì§‘íˆì§€ ì•Šë„ë¡ ê³ ì •í•´ì¤€ë‹¤.
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        //Ä«¸Ş¶óÀÇ È¸Àü°ú È¸Àü¹æÇâÀ» ÀÏÄ¡½ÃÅ°±â À§ÇÑ ´Ü°è
+        //ì¹´ë©”ë¼ì˜ íšŒì „ê³¼ íšŒì „ë°©í–¥ì„ ì¼ì¹˜ì‹œí‚¤ê¸° ìœ„í•œ ë‹¨ê³„
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+    }
+
+    public float SetAimXMove(float AimX = 0)
+    {
+        return AimX;
+    }
+    public float SetAimYMove(float AimY = 0)
+    {
+        return AimY;
     }
 }
