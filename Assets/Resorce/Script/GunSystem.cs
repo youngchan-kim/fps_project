@@ -34,7 +34,7 @@ public class GunSystem : MonoBehaviour
     //Graphics
     public GameObject /*muzzleFlash,*/ bulletHoleGraphic;
     public CameraShake camShake;
-    public float camShakeMagnitude, camShakeDuration;
+    public float ShakeMagnitude, ShakeDuration;
     public TextMeshProUGUI text;
     public ParticleSystem muzzleFlashparticle;
 
@@ -67,7 +67,7 @@ public class GunSystem : MonoBehaviour
             shooting = Input.GetKey(KeyCode.Mouse0);
             if (Input.GetKey(KeyCode.Mouse0) && shoot) 
             {
-                StartCoroutine(attackPoint.AimShake(camShakeDuration, camShakeMagnitude));
+                StartCoroutine(attackPoint.AimShake(spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -78,7 +78,7 @@ public class GunSystem : MonoBehaviour
             shooting = Input.GetKeyDown(KeyCode.Mouse0);
             if (Input.GetKeyDown(KeyCode.Mouse0) && shoot)
             {
-                StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
+                StartCoroutine(attackPoint.AimShake(spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -100,35 +100,40 @@ public class GunSystem : MonoBehaviour
     {
         readyToShoot = false;
 
+        //AimShake에서 Spread를 통제
         //Spread
-        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);
+/*        float x = Random.Range(-spread, spread);
+        float y = Random.Range(-spread, spread);*/
 
         //Spread될 방향을 계산
         //normal direction+ spread
-        Vector3 direction = fpsCam.transform.forward + new Vector3(x, y, 0);
+        Vector3 direction = attackPoint.transform.forward/* + new Vector3(x, y, 0)*/;
 
         //RayCast
         //1인칭 기준으로 만들기 때문
         //접촉한 단일 개체의 정보를 얻어오기 위함
         //특정 위치에서 일정한 방향으로 광선을 발사
 
-        if (Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy))
+        if (Physics.Raycast(attackPoint.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
             Debug.Log(rayHit.collider.name);
             if (rayHit.collider.CompareTag("whaisWall"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
 
-        //ShakeCamera
-        camShake.Shake(camShakeDuration, camShakeMagnitude);
+        //ShakeAim
+        /*        attackPoint.AimShake(spread);*/
 
         //Graphics
         //프리펩혹은 Hierarchy에 있는 GameObject를 복제(생성)및 삭제 할 수 있다.
         //많은 비용이 들기 때문에 Update()에서 호출하지 않는 것이 좋다.
         //복제하려는 오브젝트는 bulletHoleGraphic이고 만들 위치는 rayHit.point,
         // 만들어진 오브젝트의 회전은 Quaternion.Euler(0, 180, 0)이다.
-        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
+        //Quaternion.LookRotation()
+        var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
+        //이펙트
+       // t.transform.LookAt(rayHit.point + rayHit.normal);
+
         /*Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);*/
         Instantiate(muzzleFlashparticle, attackPoint.transform.position, Quaternion.identity);
 

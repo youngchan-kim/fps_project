@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
-
+    public AimShaker aim; 
     public float sensX;
     public float sensY;
 
@@ -29,23 +29,14 @@ public class PlayerCam : MonoBehaviour
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
         //마우스의 움직인 좌표값은 X좌표값은 Y축의 회전에 더해주고 Y좌표 값은 X축의 회전에 빼준다.
-        yRotation += (mouseX + SetAimXMove());
+        yRotation += (mouseX + aim.GetAimX());
 
-        xRotation -= (mouseY + SetAimYMove());
+        xRotation -= (mouseY + aim.GetAimY());
         //x축화전에 90도가 넘어가면 뒤집히지 않도록 고정해준다.
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         //카메라의 회전과 회전방향을 일치시키기 위한 단계
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-    }
-
-    public float SetAimXMove(float AimX = 0)
-    {
-        return AimX;
-    }
-    public float SetAimYMove(float AimY = 0)
-    {
-        return AimY;
     }
 }
