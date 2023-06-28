@@ -5,6 +5,8 @@ using UnityEngine;
 public class Scope : MonoBehaviour
 {
     public Animator animator;
+
+    public GameObject scopeOverlay;
     private bool isScoped = false;
     void Update()
     {
@@ -14,6 +16,7 @@ public class Scope : MonoBehaviour
             //bool값이 반다로 바뀐다.
             isScoped = !isScoped;
             animator.SetBool("is Scoped", isScoped);
+            scopeOverlay.SetActive(isScoped);
         }
     }
 }
