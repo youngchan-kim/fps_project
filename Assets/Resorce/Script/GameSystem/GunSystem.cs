@@ -35,8 +35,8 @@ public class GunSystem : MonoBehaviour
 
     //Graphics
     public GameObject bulletHoleGraphic;
-    public CameraShake camShake;
-/*    public float ShakeMagnitude, ShakeDuration;*/
+    //public CameraShake camShake;
+    //public float ShakeMagnitude, ShakeDuration;
     public TextMeshProUGUI text;
     public ParticleSystem muzzleFlashparticle;
     public int Equipped_parts_Scopes;
@@ -128,7 +128,7 @@ public class GunSystem : MonoBehaviour
         if (Physics.Raycast(attackPoint.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
             /*Debug.Log(rayHit.collider.name)*/;
-            if (rayHit.collider.CompareTag("whaisWall"))
+            if (rayHit.collider.CompareTag("whatisWall"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
 

@@ -25,3 +25,4 @@ public sealed class GameMgr : MonoBehaviour
     void Initialize() { }
     void StartGame() { }
 }
+
