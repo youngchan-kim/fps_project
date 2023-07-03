@@ -6,6 +6,8 @@ using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
+
+    public PickUpController pickup;
     //GunSystem의 속성
     public int damage;
     //총의 제어권, 확산, 범위, 재장전 시간, 연사속도
@@ -25,19 +27,21 @@ public class GunSystem : MonoBehaviour
     public Camera fpsCam;
     //공격할지점
     /*public Transform attackPoint;*/
-    public AimShaker attackPoint;
+    public AimShaker attackPoint; 
     //공격한 곳
     public RaycastHit rayHit;
     //언떤 것을 공격했는지
     public LayerMask whatIsEnemy;
 
     //Graphics
-    public GameObject /*muzzleFlash,*/ bulletHoleGraphic;
+    public GameObject bulletHoleGraphic;
     public CameraShake camShake;
-    public float ShakeMagnitude, ShakeDuration;
+/*    public float ShakeMagnitude, ShakeDuration;*/
     public TextMeshProUGUI text;
     public ParticleSystem muzzleFlashparticle;
-
+    public int Equipped_parts_Scopes;
+    //private bool Equipped_parts_Holo;
+    //private bool Equipped_parts_RedDot;
     private void Awake()
     {
         //탄창사이즈 만큼 남은 탄을 채워준다.
@@ -45,15 +49,25 @@ public class GunSystem : MonoBehaviour
         //쏠 수 있는 상태
         readyToShoot = true;
     }
+    public int CheckGunParts()
+    {
+        return Equipped_parts_Scopes;
+    }
+
     private void Update()
     {
-        MyInput();
-
-        //SetText
-        text.SetText(bulletsLeft + "/" + magazineSize);
+        if (pickup.GetEquipped())
+        {
+            MyInput();
+            //SetText
+            text.SetText(bulletsLeft + "/" + magazineSize);
+        }
     }
+
+
     private void MyInput()
     {
+
         //연사와 단발을 B키를 통해 조작할 수 있다.
         if (Input.GetKeyDown(KeyCode.B))
             if (allowButtonHold)
@@ -96,17 +110,14 @@ public class GunSystem : MonoBehaviour
             Shoot();
         }
     }
+
+
     private void Shoot()
     {
         readyToShoot = false;
 
         //AimShake에서 Spread를 통제
-        //Spread
-/*        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);*/
 
-        //Spread될 방향을 계산
-        //normal direction+ spread
         Vector3 direction = attackPoint.transform.forward/* + new Vector3(x, y, 0)*/;
 
         //RayCast
@@ -116,13 +127,10 @@ public class GunSystem : MonoBehaviour
 
         if (Physics.Raycast(attackPoint.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
-            Debug.Log(rayHit.collider.name);
+            /*Debug.Log(rayHit.collider.name)*/;
             if (rayHit.collider.CompareTag("whaisWall"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
-
-        //ShakeAim
-        /*        attackPoint.AimShake(spread);*/
 
         //Graphics
         //프리펩혹은 Hierarchy에 있는 GameObject를 복제(생성)및 삭제 할 수 있다.
@@ -131,8 +139,6 @@ public class GunSystem : MonoBehaviour
         // 만들어진 오브젝트의 회전은 Quaternion.Euler(0, 180, 0)이다.
         //Quaternion.LookRotation()
         var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
-        //이펙트
-       // t.transform.LookAt(rayHit.point + rayHit.normal);
 
         /*Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);*/
         Instantiate(muzzleFlashparticle, attackPoint.transform.position, Quaternion.identity);
@@ -146,21 +152,25 @@ public class GunSystem : MonoBehaviour
         if (bulletsShot > 0 && bulletsLeft > 0)
         { 
             Invoke("Shoot", timeBetweenShots);
-            
         }
-        shoot = true;
+        shoot = false;
     }
+
 
     private void ResetShot()
     {
         readyToShoot = true;
+        shoot = true;
     }
+
 
     private void Reload()
     {
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
+
+
     private void ReloadFinished()
     {
         bulletsLeft = magazineSize;
