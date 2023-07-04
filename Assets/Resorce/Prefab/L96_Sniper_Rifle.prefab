@@ -4865,7 +4865,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 2
   m_Constraints: 0
   m_CollisionDetection: 3
@@ -4910,11 +4910,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 448
   bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
-  camShake: {fileID: 0}
-  ShakeMagnitude: 0
-  ShakeDuration: 0
   text: {fileID: 0}
   muzzleFlashparticle: {fileID: 8505405164639399658}
+  Equipped_parts_Scopes: 0
 --- !u!114 &8505405165094985527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4933,6 +4931,7 @@ MonoBehaviour:
   player: {fileID: 0}
   gunContainer: {fileID: 0}
   fpsCam: {fileID: 0}
+  ItemObject: {fileID: 0}
   pickUpRange: 4
   dropForwardForce: 15
   dropUpwardForce: 7

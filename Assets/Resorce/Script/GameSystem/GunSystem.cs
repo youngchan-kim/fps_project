@@ -58,6 +58,7 @@ public class GunSystem : MonoBehaviour
     {
         if (pickup.GetEquipped())
         {
+            
             MyInput();
             //SetText
             text.SetText(bulletsLeft + "/" + magazineSize);

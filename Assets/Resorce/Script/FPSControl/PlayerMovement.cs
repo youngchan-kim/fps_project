@@ -44,9 +44,9 @@ public class PlayerMovement : MonoBehaviour
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
         
         MyInput();
-        SpeedControl();
+       
 
-        //µå·¡±× ÇÚµé
+        //ë“œë˜ê·¸ í•¸ë“¤
         if (grounded)
         {
             rb.drag = groundDrag;
@@ -60,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        SpeedControl();
     }
 
     private void MyInput()
@@ -80,31 +81,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        //¿òÁ÷ÀÌ´Â ¹æÇâÀ» °è»ê
+        //ì›€ì§ì´ëŠ” ë°©í–¥ì„ ê³„ì‚°
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
        
 
-        //¶¥À§¿¡ ÀÖÀ»¶§
+        //ë•…ìœ„ì— ìˆì„ë•Œ
         if(grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
-        //°øÁß¿¡ ÀÖÀ»¶§
+        //ê³µì¤‘ì— ìˆì„ë•Œ
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f*airMultiplier, ForceMode.Force);
     }
 
     private void SpeedControl()
     {
-        //ÄÉ¸¯ÅÍÀÇ º¤ÅÍÀÇ ¹æÇâ°ú ÁÂÇ¥°ªÀ»°¡Áø´Ù.
+        //ì¼€ë¦­í„°ì˜ ë²¡í„°ì˜ ë°©í–¥ê³¼ ì¢Œí‘œê°’ì„ê°€ì§„ë‹¤.
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         //limit velocity if needed
-        //ÄÉ¸¯ÅÍÀÇ º¤ÅÍÀÇ Æò±ÕÀÌ moveSpeedº¸´Ù Å¬¶§ Àû¿ë
+        //ì¼€ë¦­í„°ì˜ ë²¡í„°ì˜ í‰ê· ì´ moveSpeedë³´ë‹¤ í´ë•Œ ì ìš©
         if(flatVel.magnitude > moveSpeed)
         {
-            //ÃÖ°í ¼Óµµ´Â ÄÉ¸¯ÅÍÀÇ Á¤±ÔÈ­¹éÅÍ¿¡ ¹«ºê½ºÇÇÆ®¸¦ °öÇØÁØ´Ù. 
+            //ìµœê³  ì†ë„ëŠ” ì¼€ë¦­í„°ì˜ ì •ê·œí™”ë°±í„°ì— ë¬´ë¸ŒìŠ¤í”¼íŠ¸ë¥¼ ê³±í•´ì¤€ë‹¤. 
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            //ÄÉ¸¯ÅÍÀÇ ¼Óµµ¿¡ Á¦ÇÑµÈ ¼Óµµ°ªÀ» ³Ö¾îÁØ´Ù.
+            //ì¼€ë¦­í„°ì˜ ì†ë„ì— ì œí•œëœ ì†ë„ê°’ì„ ë„£ì–´ì¤€ë‹¤.
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
@@ -112,14 +113,14 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         //reset y velocity
-        //Ç×»ó Á¤È®È÷ °°Àº ³ôÀÌ·Î Á¡ÇÁÇÏ±â À§ÇÔ
+        //í•­ìƒ ì •í™•íˆ ê°™ì€ ë†’ì´ë¡œ ì í”„í•˜ê¸° ìœ„í•¨
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        //ForceMode.Impulse´Â ÈûÀ» ÇÑ¹ø¸¸ Àû¿ëÇØÁØ´Ù.
+        //ForceMode.ImpulseëŠ” í˜ì„ í•œë²ˆë§Œ ì ìš©í•´ì¤€ë‹¤.
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
     private void ResetJump()
     {
-        Debug.Log("Á¡ÇÁ¸¦ ´©¸¦¼ö ÀÖ½À´Ï´Ù." + jumpCooldown+"ÃÊ Áö³µ½À´Ï´Ù.");
+        Debug.Log("ì í”„ë¥¼ ëˆ„ë¥¼ìˆ˜ ìˆìŠµë‹ˆë‹¤." + jumpCooldown+"ì´ˆ ì§€ë‚¬ìŠµë‹ˆë‹¤.");
         readyToJump = true;  
     }
 }

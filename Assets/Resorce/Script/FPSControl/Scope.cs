@@ -17,7 +17,7 @@ public class Scope : MonoBehaviour
     public Camera mainCamera;
 
     
-    public GunSystem checkparts;
+    //public GunSystem checkparts;
 
     public float scopedFOV;
     private float normalFOV;
@@ -29,7 +29,7 @@ public class Scope : MonoBehaviour
         //마우스 오른 버튼이 눌리면 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            PartsNum = checkparts.CheckGunParts();
+            //PartsNum = checkparts.CheckGunParts();
             //bool값이 반다로 바뀐다.
             isScoped = !isScoped;
             animator.SetBool("is Scoped", isScoped);

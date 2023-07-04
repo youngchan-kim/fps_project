@@ -60,7 +60,7 @@ public class PickUpController : MonoBehaviour
         equipped = true;
         slotFull = true;
 
-        //무기를 카메라의 자식으로 만든다
+        //무기transform을 초기화 한뒤   건컨데이터의 자식으로 만든다
         transform.SetParent(gunContainer);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -68,7 +68,9 @@ public class PickUpController : MonoBehaviour
 
         //충돌에 대한 트리거 활성화
         //물리 운동 활성화
-        rb.isKinematic = true;
+        //rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        rb.useGravity = false;
         coll.isTrigger = true;
 
         //총의 스크립스 활성화
@@ -85,7 +87,9 @@ public class PickUpController : MonoBehaviour
 
         //충돌에 대한 트리거 비활성화
         //물리 운동 비활성화
-        rb.isKinematic = false;
+        //rb.isKinematic = false;
+        rb.constraints = RigidbodyConstraints.None;
+        rb.useGravity = true;
         coll.isTrigger = false;
 
         //총을 버릴때의 버려지는 곳
