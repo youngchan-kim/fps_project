@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -321,6 +321,10 @@ PrefabInstance:
       propertyPath: attackPoint
       value: 
       objectReference: {fileID: 1995291451}
+    - target: {fileID: 8505405165094985512, guid: 38e67075ef1f15c44a492824f5ee9ca8, type: 3}
+      propertyPath: Equipped_parts_Scopes
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8505405165094985522, guid: 38e67075ef1f15c44a492824f5ee9ca8, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -384,7 +388,7 @@ PrefabInstance:
     - target: {fileID: 8505405165094985527, guid: 38e67075ef1f15c44a492824f5ee9ca8, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1958550855}
+      objectReference: {fileID: 596565476}
     - target: {fileID: 8505405165094985527, guid: 38e67075ef1f15c44a492824f5ee9ca8, type: 3}
       propertyPath: equipped
       value: 0
@@ -1427,7 +1431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &532960444
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1435,7 +1439,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 532960443}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
@@ -1968,7 +1972,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1440397680}
   scopeOverlay: {fileID: 950955668}
-  weaponcamera: {fileID: 1440397678}
   mainCamera: {fileID: 586327709}
   checkparts: {fileID: 805470802}
   scopedFOV: 15
@@ -2880,7 +2883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &950955669
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4486,7 +4489,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1440397680}
   scopeOverlay: {fileID: 950955668}
-  weaponcamera: {fileID: 0}
   mainCamera: {fileID: 586327709}
   checkparts: {fileID: 805470802}
   scopedFOV: 15
@@ -5002,7 +5004,7 @@ PrefabInstance:
     - target: {fileID: 1916259553796253525, guid: ac2a1993fffef30419e79bf19b59c5bb, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1958550855}
+      objectReference: {fileID: 596565476}
     - target: {fileID: 1916259553796253525, guid: ac2a1993fffef30419e79bf19b59c5bb, type: 3}
       propertyPath: equipped
       value: 0

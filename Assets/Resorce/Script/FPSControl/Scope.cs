@@ -13,7 +13,7 @@ public class Scope : MonoBehaviour
     public Animator animator;
 
     public GameObject scopeOverlay;
-    public GameObject weaponcamera;
+    //public GameObject weaponcamera;
     public Camera mainCamera;
 
     
@@ -43,7 +43,7 @@ public class Scope : MonoBehaviour
     void OnUnScoped()
     {
         scopeOverlay.SetActive(false);
-        weaponcamera.SetActive(true);
+       // weaponcamera.SetActive(true);
 
         mainCamera.fieldOfView = normalFOV;
     }
@@ -73,7 +73,7 @@ public class Scope : MonoBehaviour
 
         }
 
-        weaponcamera.SetActive(true);
+        //weaponcamera.SetActive(true);
 
         mainCamera.fieldOfView = scopedFOV;
     }
