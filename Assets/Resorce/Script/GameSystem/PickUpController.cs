@@ -21,7 +21,6 @@ public class PickUpController : MonoBehaviour
 
     public bool GetEquipped()
     {
-        
         return equipped;
     }
     private void Start()
@@ -63,7 +62,6 @@ public class PickUpController : MonoBehaviour
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
         transform.localScale = Vector3.one;
-        fpsCam.transform.localRotation = Quaternion.Euler(Vector3.zero);
         //총의 스크립스 활성화
         gunScript.enabled = true;
     }
@@ -75,7 +73,6 @@ public class PickUpController : MonoBehaviour
 
         //무기의 부모를 초기화한다.
         transform.SetParent(ItemObject);
-
         //총의 스크립스 비활성화
         gunScript.enabled = false;
     }
