@@ -31,59 +31,41 @@ public class Scope : MonoBehaviour
     }
     void Update()
     {
-        
-        //마우스 오른 버튼이 눌리면 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            //PartsNum = checkparts.CheckGunParts();
-            //bool값이 반다로 바뀐다.
-            isScoped = !isScoped;
-            animator.SetBool("is Scoped", isScoped);
-            if (isScoped)
-                StartCoroutine(OnScoped());
-            else
-                OnUnScoped();
-        }
-    }
 
-    void OnUnScoped()
+        //마우스 오른 버튼이 눌리면 
+        if (Input.GetMouseButton(1))
+        {
+            isScoped = true;
+
+            StartCoroutine(OnScoped());
+        }
+        else
+        {
+            isScoped = false;
+            OnUnScoped();
+        }
+        animator.SetBool("is Scoped", isScoped);
+    }
+    public void OnUnScoped()
     {
         site.SetActive(false);
         scopeOverlay.SetActive(false);
-       // weaponcamera.SetActive(true);
 
         mainCamera.fieldOfView = normalFOV;
     }
 
     IEnumerator OnScoped()
     {
-        yield return new WaitForSeconds(.15f);
+        
+        yield return new WaitForSeconds(.25f);
         site.SetActive(true);
         normalFOV = mainCamera.fieldOfView;
         scopedFOV = 15f;
-        //scopeOverlay.SetActive(true);
-        /*switch (PartsNum)
-        {
-            case 0:
-                scopedFOV = 15f;
-                virtualcamera.Follow = site;
-                scopeOverlay.SetActive(true);
-                break;
-           *//* case (int)Scopes.holo:
-                scopedFOV = 10;
-                break;
-            case (int)Scopes.reddot:
-                scopedFOV = 10;
-                break;*//*
+        if (site.GetComponentInChildren<Transform>().Find("scope"))
+            scopeOverlay.SetActive(true); 
+        else
+            scopeOverlay.SetActive(false);
 
-            default:
-                scopedFOV = 10;
-                scopeOverlay.SetActive(false);
-                break;
-
-        }*/
-
-        //weaponcamera.SetActive(true);
 
         mainCamera.fieldOfView = scopedFOV;
     }

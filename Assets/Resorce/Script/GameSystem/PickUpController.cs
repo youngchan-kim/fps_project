@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class PickUpController : MonoBehaviour
 {
-    public GunSystem gunScript, scopeScript;
+    public GunSystem gunScript;
+    public Scope scopeScript;
     public Transform player, gunContainer, fpsCam, ItemObject;
-
+    //내려지는 레이어
+    public LayerMask whatIsGround;
     //오브젝트를 얻을 수 있는 범위
     public float pickUpRange;
     //내려놓는 힘과 잡는 힘
@@ -18,6 +20,7 @@ public class PickUpController : MonoBehaviour
     //모든 스크립트에서 변경하기 위함
     public static bool slotFull;
     
+    private Vector3 hitPos;
 
     public bool GetEquipped()
     {
@@ -43,12 +46,17 @@ public class PickUpController : MonoBehaviour
 
     private void Update()
     {
+        
+       
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
         Vector3 distanceToPlayer = player.position - transform.position;
         if (!equipped && distanceToPlayer.magnitude <= pickUpRange && Input.GetKeyDown(KeyCode.E) && !slotFull) PickUp();
 
         //플레이어가 총을 가지고 있는지 체크와 G키를 통해 내려놓음
-        if (equipped && Input.GetKeyDown(KeyCode.G)) Drop();
+        if (equipped && Input.GetKeyDown(KeyCode.G))
+        {
+            Drop();
+        }
         
     }
 
@@ -64,6 +72,7 @@ public class PickUpController : MonoBehaviour
         transform.localScale = Vector3.one;
         //총의 스크립스 활성화
         gunScript.enabled = true;
+        scopeScript.enabled = true;
     }
 
     private void Drop()
@@ -73,7 +82,16 @@ public class PickUpController : MonoBehaviour
 
         //무기의 부모를 초기화한다.
         transform.SetParent(ItemObject);
+        bool ground = Physics.Raycast(player.transform.position, Vector3.down, out RaycastHit rayHit, 100f, whatIsGround);
+        if(ground) Debug.Log("땅");
+        hitPos = rayHit.point;
+        hitPos.y = 0.0f;
+        transform.localPosition = hitPos;
+        transform.localRotation = Quaternion.Euler(90,0,0);
+
         //총의 스크립스 비활성화
         gunScript.enabled = false;
+        scopeScript.OnUnScoped();
+        scopeScript.enabled = false;
     }
 }

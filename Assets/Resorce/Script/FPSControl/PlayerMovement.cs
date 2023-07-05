@@ -78,7 +78,6 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
-
     private void MovePlayer()
     {
         //움직이는 방향을 계산
