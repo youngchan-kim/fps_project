@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Scope : MonoBehaviour
 {
@@ -15,14 +16,20 @@ public class Scope : MonoBehaviour
     public GameObject scopeOverlay;
     //public GameObject weaponcamera;
     public Camera mainCamera;
+    public Transform site;
+    private Transform Base;
+    public CinemachineVirtualCamera virtualcamera;
 
-    
     //public GunSystem checkparts;
 
     public float scopedFOV;
     private float normalFOV;
     private bool isScoped = false;
-    private int PartsNum = -1;
+    /*private int PartsNum = -1;*/
+    private void Start()
+    {
+        Base = virtualcamera.Follow;
+    }
     void Update()
     {
         
@@ -42,6 +49,7 @@ public class Scope : MonoBehaviour
 
     void OnUnScoped()
     {
+        virtualcamera.Follow = Base;
         scopeOverlay.SetActive(false);
        // weaponcamera.SetActive(true);
 
@@ -52,26 +60,28 @@ public class Scope : MonoBehaviour
     {
         yield return new WaitForSeconds(.15f);
         normalFOV = mainCamera.fieldOfView;
-
-        switch (PartsNum)
+        scopedFOV = 15f;
+        //scopeOverlay.SetActive(true);
+        /*switch (PartsNum)
         {
             case 0:
                 scopedFOV = 15f;
+                virtualcamera.Follow = site;
                 scopeOverlay.SetActive(true);
                 break;
-           /* case (int)Scopes.holo:
+           *//* case (int)Scopes.holo:
                 scopedFOV = 10;
                 break;
             case (int)Scopes.reddot:
                 scopedFOV = 10;
-                break;*/
+                break;*//*
 
             default:
                 scopedFOV = 10;
                 scopeOverlay.SetActive(false);
                 break;
 
-        }
+        }*/
 
         //weaponcamera.SetActive(true);
 

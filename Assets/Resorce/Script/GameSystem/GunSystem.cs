@@ -24,7 +24,7 @@ public class GunSystem : MonoBehaviour
     bool shooting, readyToShoot, reloading;
     bool shoot = true;
     //Reference
-    public Camera fpsCam;
+    //public Transform fpsCam;
     //공격할지점
     /*public Transform attackPoint;*/
     public AimShaker attackPoint; 
@@ -44,6 +44,7 @@ public class GunSystem : MonoBehaviour
     //private bool Equipped_parts_RedDot;
     private void Awake()
     {
+
         //탄창사이즈 만큼 남은 탄을 채워준다.
         bulletsLeft = magazineSize;
         //쏠 수 있는 상태
@@ -128,8 +129,8 @@ public class GunSystem : MonoBehaviour
 
         if (Physics.Raycast(attackPoint.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
-            /*Debug.Log(rayHit.collider.name)*/;
-            if (rayHit.collider.CompareTag("whatisWall"))
+            //Debug.Log(rayHit.collider.name);
+            if (rayHit.collider.CompareTag("Cube"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
 
