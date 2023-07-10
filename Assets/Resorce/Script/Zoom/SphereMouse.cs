@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SphereMouse : MonoBehaviour
 {
-    public GameObject point;
     private Vector3 pointposition;
+
     // Update is called once per frame
     void Update()
     {
@@ -14,7 +14,11 @@ public class SphereMouse : MonoBehaviour
 
     private void FollowMouse()
     {
-        pointposition = point.transform.localPosition;
+
+        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime;
+        pointposition.x = mouseX;
+        pointposition.y = mouseY;
         pointposition.z  =  3f;
         this.transform.localPosition = pointposition;
     }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
-    public AimShaker aim; 
-    public float sensX;
-    public float sensY;
+    public AimShaker aim;
+    private float sensX = 400;
+    private float sensY = 400;
 
     public Transform orientation;
 
