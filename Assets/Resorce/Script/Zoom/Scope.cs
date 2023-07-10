@@ -69,5 +69,4 @@ public class Scope : MonoBehaviour
 
         mainCamera.fieldOfView = scopedFOV;
     }
-
 }
