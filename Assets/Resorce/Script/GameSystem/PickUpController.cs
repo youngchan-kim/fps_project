@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class PickUpController : MonoBehaviour
 {
+    public GameObject Equit_icon;
     public GunSystem gunScript;
     public Scope scopeScript;
     public Transform player, gunContainer, fpsCam, ItemObject;
@@ -73,6 +75,7 @@ public class PickUpController : MonoBehaviour
         //총의 스크립스 활성화
         gunScript.enabled = true;
         scopeScript.enabled = true;
+
     }
 
     private void Drop()
