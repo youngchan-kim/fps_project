@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
-
     public PickUpController pickup;
     //GunSystem의 속성
     public int damage;
@@ -42,6 +42,8 @@ public class GunSystem : MonoBehaviour
     public int Equipped_parts_Scopes;
     //private bool Equipped_parts_Holo;
     //private bool Equipped_parts_RedDot;
+
+    public Sprite sprites;
     private void Awake()
     {
 
@@ -177,5 +179,10 @@ public class GunSystem : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         reloading = false;
+    }
+
+    public Sprite GetSprite()
+    {
+        return sprites;
     }
 }

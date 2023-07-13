@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+enum Gun
+{
+    Empty,
+    AK,
+    Sniper
+};
 
 public class PickUpController : MonoBehaviour
 {
-    public GameObject Equit_icon;
     public GunSystem gunScript;
     public Scope scopeScript;
     public Transform player, gunContainer, fpsCam, ItemObject;
@@ -23,6 +28,11 @@ public class PickUpController : MonoBehaviour
     public static bool slotFull;
     
     private Vector3 hitPos;
+
+
+    public Image Equit_icon;
+    public Sprite nomal_icon;
+    Sprite after_object;
 
     public bool GetEquipped()
     {
@@ -47,9 +57,7 @@ public class PickUpController : MonoBehaviour
     }
 
     private void Update()
-    {
-        
-       
+    {       
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
         Vector3 distanceToPlayer = player.position - transform.position;
         if (!equipped && distanceToPlayer.magnitude <= pickUpRange && Input.GetKeyDown(KeyCode.E) && !slotFull) PickUp();
@@ -59,7 +67,6 @@ public class PickUpController : MonoBehaviour
         {
             Drop();
         }
-        
     }
 
     private void PickUp()
@@ -68,6 +75,7 @@ public class PickUpController : MonoBehaviour
         slotFull = true;
 
         //무기transform을 초기화 한뒤   건컨데이터의 자식으로 만든다
+ 
         transform.SetParent(gunContainer);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -75,7 +83,7 @@ public class PickUpController : MonoBehaviour
         //총의 스크립스 활성화
         gunScript.enabled = true;
         scopeScript.enabled = true;
-
+        Equit_icon.sprite = gunScript.GetSprite();
     }
 
     private void Drop()
@@ -96,5 +104,20 @@ public class PickUpController : MonoBehaviour
         gunScript.enabled = false;
         scopeScript.OnUnScoped();
         scopeScript.enabled = false;
+        Equit_icon.sprite = nomal_icon;
+    }
+
+    void name()
+    {
+        if (this.gameObject.name == "AK")
+        {
+            Gun.AK;
+        }
+        else if (this.gameObject.name == "AK")
+        {
+            Gun.Sniper;
+        }
+        else
+            Gun.Empty;
     }
 }
