@@ -212,6 +212,7 @@ MonoBehaviour:
   text: {fileID: 0}
   muzzleFlashparticle: {fileID: 1916259554539537725}
   Equipped_parts_Scopes: 0
+  sprites: []
 --- !u!114 &1916259553796253525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +231,9 @@ MonoBehaviour:
   gunContainer: {fileID: 0}
   fpsCam: {fileID: 0}
   ItemObject: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   pickUpRange: 4
   equipped: 1
 --- !u!1 &1916259554129137358
