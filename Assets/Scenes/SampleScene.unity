@@ -294,6 +294,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 416767d6cf6a8e844a80b29428d23d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &183606799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2596365338653852104, guid: d6876e02ed1ad55488697a0ff1c8a6a9, type: 3}
+  m_PrefabInstance: {fileID: 7398158605816705355}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &211121611
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,10 +2434,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1321264050}
   - {fileID: 1023987745}
   m_Father: {fileID: 2121583912}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &815059495
 GameObject:
@@ -3124,7 +3128,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 805470803}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1028102977
 GameObject:
@@ -4404,7 +4408,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 805470803}
+  m_Father: {fileID: 2121583912}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1321264051
@@ -4747,7 +4751,7 @@ Transform:
   m_Children:
   - {fileID: 1165674815}
   m_Father: {fileID: 2121583912}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1440397681
 MonoBehaviour:
@@ -5538,6 +5542,11 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!198 &1683515439 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8952137804385281877, guid: d6876e02ed1ad55488697a0ff1c8a6a9, type: 3}
+  m_PrefabInstance: {fileID: 7398158605816705355}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1713278885
 GameObject:
   m_ObjectHideFlags: 3
@@ -6670,7 +6679,7 @@ GameObject:
   - component: {fileID: 2121583914}
   - component: {fileID: 2121583913}
   m_Layer: 0
-  m_Name: PlayerControl
+  m_Name: PlayerRotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6688,6 +6697,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1321264050}
   - {fileID: 1440397679}
   - {fileID: 805470803}
   m_Father: {fileID: 596565476}
@@ -6849,6 +6859,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1432440327}
     m_Modifications:
     - target: {fileID: 1019279149738376143, guid: d6876e02ed1ad55488697a0ff1c8a6a9, type: 3}
+      propertyPath: site
+      value: 
+      objectReference: {fileID: 183606799}
+    - target: {fileID: 1019279149738376143, guid: d6876e02ed1ad55488697a0ff1c8a6a9, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1135884630}
@@ -6920,6 +6934,10 @@ PrefabInstance:
       propertyPath: attackPoint
       value: 
       objectReference: {fileID: 1321264051}
+    - target: {fileID: 8952137805111526706, guid: d6876e02ed1ad55488697a0ff1c8a6a9, type: 3}
+      propertyPath: muzzleFlashparticle
+      value: 
+      objectReference: {fileID: 1683515439}
     - target: {fileID: 8952137805111526712, guid: d6876e02ed1ad55488697a0ff1c8a6a9, type: 3}
       propertyPath: m_Name
       value: AK
