@@ -7,7 +7,7 @@ using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
-    public PickUpController pickup;
+    GunPickUp pickup = null;
     //GunSystem의 속성
     public int damage;
     //총의 제어권, 확산, 범위, 재장전 시간, 연사속도
@@ -27,7 +27,7 @@ public class GunSystem : MonoBehaviour
     //public Transform fpsCam;
     //공격할지점
     /*public Transform attackPoint;*/
-    public AimShaker attackPoint; 
+    public AimShaker attackPoint;
     //공격한 곳
     public RaycastHit rayHit;
     //언떤 것을 공격했는지
@@ -46,7 +46,7 @@ public class GunSystem : MonoBehaviour
     public Sprite sprites;
     private void Awake()
     {
-
+        pickup = GetComponent<GunPickUp>();
         //탄창사이즈 만큼 남은 탄을 채워준다.
         bulletsLeft = magazineSize;
         //쏠 수 있는 상태
@@ -61,7 +61,7 @@ public class GunSystem : MonoBehaviour
     {
         if (pickup.GetEquipped())
         {
-            
+
             MyInput();
             //SetText
             text.SetText(bulletsLeft + "/" + magazineSize);
@@ -78,12 +78,12 @@ public class GunSystem : MonoBehaviour
                 allowButtonHold = false;
             else allowButtonHold = true;
         /*if (!Input.GetKeyUp(KeyCode.Mouse0))*/
-                //버튼 눌림 체크가 false이면 shooting은 눌렸을 때 ture;
-                //연사 가능 일때
-        if (allowButtonHold) 
-        { 
+        //버튼 눌림 체크가 false이면 shooting은 눌렸을 때 ture;
+        //연사 가능 일때
+        if (allowButtonHold)
+        {
             shooting = Input.GetKey(KeyCode.Mouse0);
-            if (Input.GetKey(KeyCode.Mouse0) && shoot) 
+            if (Input.GetKey(KeyCode.Mouse0) && shoot)
             {
                 StartCoroutine(attackPoint.AimShake(spread));
                 muzzleFlashparticle.Play();
@@ -100,7 +100,7 @@ public class GunSystem : MonoBehaviour
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
-            
+
         }
 
         //R키가 눌렸고 남은 탄이 탄창보다 작고 리로드 중이 아닐때 호출한다.
@@ -115,7 +115,17 @@ public class GunSystem : MonoBehaviour
         }
     }
 
-
+    /*    IEnumerator ShotEffect(Vector3 start, Vector3 end)
+        {
+            if (bulletLineRenderer)
+            {
+                bulletLineRenderer.SetPosition(0, start); // 총알의 발사 지점에서,
+                bulletLineRenderer.SetPosition(1, end); // 총알이 맞은 위치까지 선을 그린다.
+                bulletLineRenderer.enabled = true; // 그림을 그리기 위해 LineRenderer를 활성화 시킨다.
+                yield return new WaitForSeconds(0.03f); // 0.03초 동안 선 그리기를 유지.
+                bulletLineRenderer.enabled = false; // LineRenderer를 비활성화하여 총알 궤적을 지운다.
+            }
+        }*/
     private void Shoot()
     {
         readyToShoot = false;
@@ -132,7 +142,7 @@ public class GunSystem : MonoBehaviour
         if (Physics.Raycast(attackPoint.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
             //Debug.Log(rayHit.collider.name);
-            if (rayHit.collider.CompareTag("Cube"))
+            if (rayHit.collider.GetComponent<ShootingAi>())
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
 
@@ -154,7 +164,7 @@ public class GunSystem : MonoBehaviour
 
         //총을 쏠때 연사시간
         if (bulletsShot > 0 && bulletsLeft > 0)
-        { 
+        {
             Invoke("Shoot", timeBetweenShots);
         }
         shoot = false;
