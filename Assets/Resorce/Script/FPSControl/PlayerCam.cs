@@ -16,9 +16,7 @@ public class PlayerCam : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        //커서를 움직이지 않도록 하고 보이지 않도록 해야함.
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+
     }
 
     // Update is called once per frame
