@@ -115,17 +115,6 @@ public class GunSystem : MonoBehaviour
         }
     }
 
-    /*    IEnumerator ShotEffect(Vector3 start, Vector3 end)
-        {
-            if (bulletLineRenderer)
-            {
-                bulletLineRenderer.SetPosition(0, start); // 총알의 발사 지점에서,
-                bulletLineRenderer.SetPosition(1, end); // 총알이 맞은 위치까지 선을 그린다.
-                bulletLineRenderer.enabled = true; // 그림을 그리기 위해 LineRenderer를 활성화 시킨다.
-                yield return new WaitForSeconds(0.03f); // 0.03초 동안 선 그리기를 유지.
-                bulletLineRenderer.enabled = false; // LineRenderer를 비활성화하여 총알 궤적을 지운다.
-            }
-        }*/
     private void Shoot()
     {
         readyToShoot = false;

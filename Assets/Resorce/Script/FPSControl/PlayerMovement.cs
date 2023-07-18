@@ -49,10 +49,12 @@ public class PlayerMovement : MonoBehaviour
         //드래그 핸들
         if (grounded)
         {
+            Debug.Log("땅이 입니다.");
             rb.drag = groundDrag;
         }
         else
         {
+            Debug.Log("땅이 아닙니다.");
             rb.drag = 0;
         }
     }

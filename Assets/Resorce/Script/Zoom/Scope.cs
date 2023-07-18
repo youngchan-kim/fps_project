@@ -16,7 +16,7 @@ public class Scope : MonoBehaviour
     public GameObject scopeOverlay;
     //public GameObject weaponcamera;
     public Camera mainCamera;
-    public GameObject site;
+    public GameObject scope_parts;
     private CinemachineVirtualCamera Cam;
 
     //public GunSystem checkparts;
@@ -24,7 +24,6 @@ public class Scope : MonoBehaviour
     public float scopedFOV;
     private float normalFOV;
     private bool isScoped = false;
-    /*private int PartsNum = -1;*/
     private void Start()
     {
         Cam = GetComponent<CinemachineVirtualCamera>();
@@ -48,7 +47,7 @@ public class Scope : MonoBehaviour
     }
     public void OnUnScoped()
     {
-        site.SetActive(false);
+        scope_parts.SetActive(false);
         scopeOverlay.SetActive(false);
 
         mainCamera.fieldOfView = normalFOV;
@@ -58,10 +57,10 @@ public class Scope : MonoBehaviour
     {
         
         yield return new WaitForSeconds(.25f);
-        site.SetActive(true);
+        scope_parts.SetActive(true);
         normalFOV = mainCamera.fieldOfView;
         scopedFOV = 15f;
-        if (site.GetComponentInChildren<Transform>().Find("scope"))
+        if (scope_parts.GetComponentInChildren<Transform>().Find("scope"))
             scopeOverlay.SetActive(true); 
         else
             scopeOverlay.SetActive(false);

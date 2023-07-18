@@ -17,9 +17,9 @@ public class GunPickUp : PickUpController
     //모든 스크립트에서 변경하기 위함
     public static bool slotFull;
 
-    //public Image Equit_icon;
-    //public Sprite nomal_icon;
-    //Sprite after_object;
+    public Image Equit_icon;
+    public Sprite nomal_icon;
+    Sprite after_object;
 
 
     public bool GetEquipped()
@@ -79,7 +79,7 @@ public class GunPickUp : PickUpController
         //총의 스크립스 활성화
         gunScript.enabled = true;
         scopeScript.enabled = true;
-        // Equit_icon.sprite = gunScript.GetSprite();
+        Equit_icon.sprite = gunScript.GetSprite();
     }
 
     private void DropGun()
@@ -97,6 +97,6 @@ public class GunPickUp : PickUpController
         scopeScript.OnUnScoped();
         scopeScript.enabled = false;
 
-        // Equit_icon.sprite = nomal_icon;
+        Equit_icon.sprite = nomal_icon;
     }
 }
