@@ -152,15 +152,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5269449658642839599}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.517, y: 0.0836, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.55, y: 0.035, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8952137804385281866}
   m_Father: {fileID: 8952137804468313976}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &6820929920400097881
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,15 +352,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8952137804241775782}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.0271, y: -0.0512, z: -0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 2.4999998, y: 2.5, z: 2.4999995}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1591300570552439214}
   m_Father: {fileID: 660520601349037545}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!198 &8952137804385281877
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5226,7 +5226,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   scopeOverlay: {fileID: 0}
   mainCamera: {fileID: 0}
-  site: {fileID: 0}
+  scope_parts: {fileID: 0}
   scopedFOV: 15
 --- !u!114 &8115506437418062460
 MonoBehaviour:
@@ -5249,3 +5249,5 @@ MonoBehaviour:
   scopeScript: {fileID: 1019279149738376143}
   gunContainer: {fileID: 0}
   equipped: 0
+  Equit_icon: {fileID: 0}
+  nomal_icon: {fileID: 0}
