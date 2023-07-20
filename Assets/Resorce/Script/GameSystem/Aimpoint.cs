@@ -7,6 +7,6 @@ public class Aimpoint : Cam_ScreenCenter
     // Update is called once per frame
     void Update()
     {
-        transform.position = GetAimPoint().point;
+        transform.position = Aimrayhit.point;
     }
 }

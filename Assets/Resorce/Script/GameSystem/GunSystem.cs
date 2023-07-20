@@ -61,7 +61,7 @@ public class GunSystem : MonoBehaviour
     {
         if (pickup.GetEquipped())
         {
-            Debug.DrawRay(attackPoint.transform.position, attackPoint.transform.forward * 100f, Color.red);
+            //Debug.DrawRay(attackPoint.transform.position, attackPoint.transform.forward * 100f, Color.red);
             MyInput();
             //SetText
             text.SetText(bulletsLeft + "/" + magazineSize);
