@@ -27,7 +27,9 @@ public class GunSystem : MonoBehaviour
     //public Transform fpsCam;
     //공격할지점
     /*public Transform attackPoint;*/
-    public AimShaker attackPoint;
+    public AimShaker firePosition;
+    public Transform attackPoint;
+
     //공격한 곳
     public RaycastHit rayHit;
     //언떤 것을 공격했는지
@@ -43,6 +45,10 @@ public class GunSystem : MonoBehaviour
     //private bool Equipped_parts_Holo;
     //private bool Equipped_parts_RedDot;
 
+    //총구가 가리키는 포지션
+    Vector3 target_position;
+    //촐구가 바라보는 방향
+    Vector3 direction;
     public Sprite sprites;
     private void Awake()
     {
@@ -59,21 +65,30 @@ public class GunSystem : MonoBehaviour
 
     private void Update()
     {
+        
+        Debug.DrawRay(firePosition.transform.position, firePosition.transform.forward * range, Color.red);
         if (pickup.GetEquipped())
         {
-            //Debug.DrawRay(attackPoint.transform.position, attackPoint.transform.forward * 100f, Color.red);
+            direction = firePosition.transform.forward;
+
             MyInput();
             //SetText
             text.SetText(bulletsLeft + "/" + magazineSize);
         }
-    }
+        Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
+        Target();
+        }
 
 
     private void MyInput()
     {
+        if (Physics.Raycast(firePosition.transform.position, direction, out rayHit, range))
+        { 
 
-        //연사와 단발을 B키를 통해 조작할 수 있다.
-        if (Input.GetKeyDown(KeyCode.B))
+        }
+
+            //연사와 단발을 B키를 통해 조작할 수 있다.
+            if (Input.GetKeyDown(KeyCode.B))
             if (allowButtonHold)
                 allowButtonHold = false;
             else allowButtonHold = true;
@@ -85,7 +100,7 @@ public class GunSystem : MonoBehaviour
             shooting = Input.GetKey(KeyCode.Mouse0);
             if (Input.GetKey(KeyCode.Mouse0) && shoot)
             {
-                StartCoroutine(attackPoint.AimShake(spread));
+                StartCoroutine(firePosition.AimShake(spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -96,7 +111,7 @@ public class GunSystem : MonoBehaviour
             shooting = Input.GetKeyDown(KeyCode.Mouse0);
             if (Input.GetKeyDown(KeyCode.Mouse0) && shoot)
             {
-                StartCoroutine(attackPoint.AimShake(spread));
+                StartCoroutine(firePosition.AimShake(spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -119,21 +134,18 @@ public class GunSystem : MonoBehaviour
     {
         readyToShoot = false;
 
-        //AimShake에서 Spread를 통제
-
-        Vector3 direction = attackPoint.transform.forward/* + new Vector3(x, y, 0)*/;
-
         //RayCast
         //1인칭 기준으로 만들기 때문
         //접촉한 단일 개체의 정보를 얻어오기 위함
         //특정 위치에서 일정한 방향으로 광선을 발사
 
-        if (Physics.Raycast(attackPoint.transform.position, direction, out rayHit, range, whatIsEnemy))
+        if (Physics.Raycast(firePosition.transform.position, direction, out rayHit, range))
         {
             //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<ShootingAi>())
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
+        //Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
 
         //Graphics
         //프리펩혹은 Hierarchy에 있는 GameObject를 복제(생성)및 삭제 할 수 있다.
@@ -159,6 +171,10 @@ public class GunSystem : MonoBehaviour
         shoot = false;
     }
 
+    private void Target()
+    {
+        attackPoint.transform.position = rayHit.point;
+    }
 
     private void ResetShot()
     {

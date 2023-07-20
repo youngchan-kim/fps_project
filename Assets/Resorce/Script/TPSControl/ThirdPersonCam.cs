@@ -91,10 +91,7 @@ public class ThirdPersonCam : MonoBehaviour
         {
             Vector3 dirToRightWaveLookAt = RightLookAt.position - new Vector3(transform.position.x, RightLookAt.position.y, transform.position.z);
             orientation.forward = dirToRightWaveLookAt.normalized;
-            playerObj.forward = dirToRightWaveLookAt.normalized;
-
-           
-           
+            playerObj.forward = dirToRightWaveLookAt.normalized;          
         }
         else if (curentStyle == CameraStyle.LeftWave)
         {

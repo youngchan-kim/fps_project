@@ -6,12 +6,17 @@ public class Cam_ScreenCenter : MonoBehaviour
 {
     private Vector3 ScreenCenter;
     public RaycastHit Aimrayhit;
+
     Ray ray;
 
     private Vector3 aimpoint;
     [Header("Aim")]
     [SerializeField]
     private GameObject aim;
+
+    [Header("Player Eyes Sight")]
+    [SerializeField]
+    private GameObject Player_Eyes;
 
     private void Start()
     {
@@ -21,11 +26,13 @@ public class Cam_ScreenCenter : MonoBehaviour
     {
         ray = Camera.main.ScreenPointToRay(ScreenCenter);
         //화면상의 중심값
-        if (Physics.Raycast(ray.origin, Camera.main.transform.forward, out RaycastHit Aimrayhit))
+/*        if (Physics.Raycast(ray.origin, Camera.main.transform.forward, out RaycastHit Aimrayhit))
         {
             Debug.DrawLine(ray.origin, Aimrayhit.point, Color.red);
         }
         aimpoint = Aimrayhit.point;
         aim.transform.position = aimpoint;
+*/
+        Player_Eyes.transform.rotation = Camera.main.transform.rotation;
     }
 }
