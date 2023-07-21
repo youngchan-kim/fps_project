@@ -76,17 +76,12 @@ public class GunSystem : MonoBehaviour
             text.SetText(bulletsLeft + "/" + magazineSize);
         }
         Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
-        Target();
+        //Target();
         }
 
 
     private void MyInput()
     {
-        if (Physics.Raycast(firePosition.transform.position, direction, out rayHit, range))
-        { 
-
-        }
-
             //연사와 단발을 B키를 통해 조작할 수 있다.
             if (Input.GetKeyDown(KeyCode.B))
             if (allowButtonHold)

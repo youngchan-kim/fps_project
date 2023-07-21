@@ -9,12 +9,10 @@ public class PlayerInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         for( int i = 0; i < slots.Length; i++)
         {
             slots[i].slotID = i;
             slots[i].GetComponentInChildren<GrabManager>().dragHandler = gameUI;
         }
-        
     }
 }
