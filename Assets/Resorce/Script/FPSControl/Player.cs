@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public InventoryObject inventory;
     public float maxHealth = 100f;
     public float currentHealth;
 
@@ -72,4 +73,20 @@ public class Player : MonoBehaviour
     {
         return life;
     }
+
+    //추가 코드
+    public void OnTriggerEnter(Collider other)
+    {
+        var item = other.GetComponent<Item>();
+        if(item)
+        {
+            inventory.AddItem(item.item, 1);
+            Destroy(other.gameObject);
+        }
+    }
+    public void OnApplicationQuit()
+    {
+        inventory.Container.Clear();
+    }
+
 }

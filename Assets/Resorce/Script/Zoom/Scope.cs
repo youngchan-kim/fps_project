@@ -14,12 +14,9 @@ public class Scope : MonoBehaviour
     public Animator animator;
 
     public GameObject scopeOverlay;
-    //public GameObject weaponcamera;
     public Camera mainCamera;
     public GameObject scope_parts;
     private CinemachineVirtualCamera Cam;
-
-    //public GunSystem checkparts;
 
     public float scopedFOV;
     private float normalFOV;
