@@ -65,25 +65,27 @@ public class GunSystem : MonoBehaviour
 
     private void Update()
     {
-        
-        Debug.DrawRay(firePosition.transform.position, firePosition.transform.forward * range, Color.red);
+
+
         if (pickup.GetEquipped())
         {
-            direction = firePosition.transform.forward;
+            transform.LookAt(attackPoint.transform.position);
+            Debug.DrawLine(firePosition.transform.position, attackPoint.transform.position, Color.red);
+            direction = transform.forward;
+            firePosition.transform.forward = direction;
 
             MyInput();
             //SetText
             text.SetText(bulletsLeft + "/" + magazineSize);
         }
-        Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
         //Target();
-        }
+    }
 
 
     private void MyInput()
     {
-            //연사와 단발을 B키를 통해 조작할 수 있다.
-            if (Input.GetKeyDown(KeyCode.B))
+        //연사와 단발을 B키를 통해 조작할 수 있다.
+        if (Input.GetKeyDown(KeyCode.B))
             if (allowButtonHold)
                 allowButtonHold = false;
             else allowButtonHold = true;
@@ -134,7 +136,7 @@ public class GunSystem : MonoBehaviour
         //접촉한 단일 개체의 정보를 얻어오기 위함
         //특정 위치에서 일정한 방향으로 광선을 발사
 
-        if (Physics.Raycast(firePosition.transform.position, direction, out rayHit, range))
+        if (Physics.Raycast(firePosition.transform.position, attackPoint.transform.position, out rayHit, range))
         {
             //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<ShootingAi>())
@@ -166,10 +168,6 @@ public class GunSystem : MonoBehaviour
         shoot = false;
     }
 
-    private void Target()
-    {
-        attackPoint.transform.position = rayHit.point;
-    }
 
     private void ResetShot()
     {
