@@ -48,6 +48,15 @@ public class Player : MonoBehaviour
         }
 
         CuserControl(mode_chage);
+        //itemDatabase save & load test code
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            inventory.Save();
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            inventory.Load();
+        }
     }
     void CuserControl(bool mode_chage)
     {
@@ -75,6 +84,7 @@ public class Player : MonoBehaviour
     }
 
     //추가 코드
+    // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void OnTriggerEnter(Collider other)
     {
         var item = other.GetComponent<Item>();
@@ -84,6 +94,7 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
+    //데이터 관리 클래스
     public void OnApplicationQuit()
     {
         inventory.Container.Clear();
