@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     public HealthBar healthBar;
 
     public GameObject playercam;
-    public GameObject Inventory;
-    private bool mode_chage;
+    //public GameObject Inventory;
+    //private bool mode_chage;
 
 
     private bool life;
@@ -22,18 +22,30 @@ public class Player : MonoBehaviour
         life = true;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    private void Update()
+    { 
+        //itemDatabase save & load test code
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            inventory.Save();
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            inventory.Load();
+        }
+
+/*
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playercam.gameObject.SetActive(mode_chage);
             Inventory.SetActive(!mode_chage);
             mode_chage = !mode_chage;  
         }
-
+*/
         if (Getlife())
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -47,16 +59,8 @@ public class Player : MonoBehaviour
             }
         }
 
-        CuserControl(mode_chage);
-        //itemDatabase save & load test code
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            inventory.Save();
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            inventory.Load();
-        }
+        //CuserControl(mode_chage);
+        
     }
     void CuserControl(bool mode_chage)
     {
@@ -87,17 +91,17 @@ public class Player : MonoBehaviour
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void OnTriggerEnter(Collider other)
     {
-        var item = other.GetComponent<Item>();
+        var item = other.GetComponent<GroundItem>();
         if(item)
         {
-            inventory.AddItem(item.item, 1);
+            inventory.AddItem(new Item(item.item), 1);
             Destroy(other.gameObject);
         }
     }
     //데이터 관리 클래스
     public void OnApplicationQuit()
     {
-        inventory.Container.Clear();
+        //inventory.Container.Clear();
     }
 
 }

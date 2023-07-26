@@ -39,7 +39,7 @@ public class Cam_ScreenCenter : MonoBehaviour
     private void Update()
     {
         //Player Diraction Camera
-        //Vector3 PDC = Player_Eyes.transform.position - Camera.main.transform.position;
+        Vector3 PDC = Player_Eyes.transform.position - Camera.main.transform.position;
 
         //뷰포인트 상에서의 가로세로는 0~1로 정할 수 있는 UV 좌표계를 사용한다.
         //중간 값인 0.5f를 사용했고 월드좌표상으로 카메라와 떨어져있을 거리를 입력하면 
@@ -47,7 +47,10 @@ public class Cam_ScreenCenter : MonoBehaviour
         //ScreenMin = new Vector3(0.5f, 0.5f, 7f);의 Z값은 3인칭 캠의 가장 멀리서 플레이어를 봤을때
         //ScreenMin의 z값이 카메라와 플레이어사이의 값보다 큰값을 써야한다.
         //그래야 항상 aim이 플레이보다 앞에 있을 수 있다.
+
+        //플레이어 앞에 고정 시킬것
         ScreenMin = new Vector3(0.5f, 0.5f, 7f);
+        //
         ScreenMax = new Vector3(0.5f, 0.5f, range);
 
 

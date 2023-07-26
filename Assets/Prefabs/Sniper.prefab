@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6259606274549289223}
+  - component: {fileID: 250038281017577412}
   m_Layer: 9
   m_Name: muzzle
   m_TagString: Untagged
@@ -32,6 +33,18 @@ Transform:
   m_Father: {fileID: 6232880554550845730}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &250038281017577412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264127920865280878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17f9c8c0756ea6c4a991711c01c71591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &936386953323720599
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,6 +352,7 @@ MonoBehaviour:
   magazineSize: 30
   bulletsPerTap: 1
   allowButtonHold: 0
+  firePosition: {fileID: 0}
   attackPoint: {fileID: 0}
   whatIsEnemy:
     serializedVersion: 2
@@ -363,7 +377,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   scopeOverlay: {fileID: 0}
   mainCamera: {fileID: 0}
-  site: {fileID: 936386953323720599}
+  scope_parts: {fileID: 0}
   scopedFOV: 15
 --- !u!114 &6959160163399515301
 MonoBehaviour:
@@ -386,6 +400,8 @@ MonoBehaviour:
   scopeScript: {fileID: 5314579934452381278}
   gunContainer: {fileID: 0}
   equipped: 0
+  Equit_icon: {fileID: 0}
+  nomal_icon: {fileID: 0}
 --- !u!1 &9093539544174387942
 GameObject:
   m_ObjectHideFlags: 0

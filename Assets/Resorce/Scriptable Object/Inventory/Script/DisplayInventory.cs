@@ -7,6 +7,7 @@ using TMPro;
 //인벤토리네에 오브젝트의 이미지를 넣어주고 갯수를 중첩해주는 코드이다.
 public class DisplayInventory : MonoBehaviour
 {
+    public GameObject inventoryPrefab;
     public InventoryObject inventory;
 
     public int X_START;
@@ -20,7 +21,7 @@ public class DisplayInventory : MonoBehaviour
     Dictionary<InventorySlot, GameObject> itemsDisplayed = new Dictionary<InventorySlot, GameObject>();
 
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         CreateDisplay();
     }
@@ -41,7 +42,8 @@ public class DisplayInventory : MonoBehaviour
             }
             else
             {
-                var obj = Instantiate(inventory.Container[i].item.prefab, Vector3.zero, Quaternion.identity, transform);
+                var obj = Instantiate(inventoryPrefab, Vector3.zero, Quaternion.identity, transform);
+                obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite =
                 obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
                 obj.GetComponentInChildren<TextMeshProUGUI>().text = inventory.Container[i].amount.ToString("n0");
                 itemsDisplayed.Add(inventory.Container[i], obj);
@@ -56,7 +58,7 @@ public class DisplayInventory : MonoBehaviour
         for(int i = 0; i < inventory.Container.Count; i++)
         {
             //아이템의 프리펩을 생성
-            var obj = Instantiate(inventory.Container[i].item.prefab, Vector3.zero, Quaternion.identity, transform);
+            var obj = Instantiate(inventoryPrefab, Vector3.zero, Quaternion.identity, transform);
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
             obj.GetComponentInChildren<TextMeshProUGUI>().text = inventory.Container[i].amount.ToString("n0");
 
@@ -66,5 +68,5 @@ public class DisplayInventory : MonoBehaviour
     {
         //이미지의 위치를 잡아주는 코드
         return new Vector3(X_START+(X_SPACE_BETWEEN_ITEM * (i %NUMBER_OF_COLUMN)), Y_START + ( - Y_SPACE_BETWEEN_ITEM *(i/NUMBER_OF_COLUMN)), 0f);
-    }
+    }*/
 }
