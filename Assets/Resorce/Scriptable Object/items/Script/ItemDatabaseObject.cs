@@ -30,7 +30,7 @@ public class ItemDatabaseObject : ScriptableObject,ISerializationCallbackReceive
 
     public void OnAfterDeserialize()
     {
-        
+
         for (int i =0; i < Items.Length; i++)
         {
             Items[i].Id = i;

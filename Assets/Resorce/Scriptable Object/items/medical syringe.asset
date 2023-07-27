@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21bc9c27d15ba2b4d80c1a24872dd239, type: 3}
-  m_Name: Sword
+  m_Script: {fileID: 11500000, guid: a64c627cfded1dc48a4f4c1b3d8df10d, type: 3}
+  m_Name: medical syringe
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5262685441828440113, guid: 81ac7461099638d45870cea24f1ede96, type: 3}
-  type: 1
-  description: A sword for slashing and stabbing
-  atkBonus: 10
-  defenceBonus: 0
+  Id: 2
+  uiDisplay: {fileID: 21300050, guid: 5163ae49a0de665458bba61cd20c99b1, type: 3}
+  type: 4
+  description: medical syringe Heal Item!
+  restoreHealthValue: 80

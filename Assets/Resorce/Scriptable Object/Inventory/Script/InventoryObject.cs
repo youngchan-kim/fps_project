@@ -13,7 +13,10 @@ public class InventoryObject : ScriptableObject
 {
     public string savePath;
     //public List<ItemObject> Container = new List<ItemObject>(); 에서로 변경
-    private ItemDatabaseObject database;
+    //private ItemDatabaseObject database;
+    public ItemDatabaseObject database;
+    //Inventory클래스의 명은 Container
+    //Container를 사용하면 List Items를 사용하기위함
     public Inventory Container;
     private void OnEnable()
     {
@@ -29,7 +32,9 @@ public class InventoryObject : ScriptableObject
     {
         for (int i = 0; i < Container.Items.Count; i++)
         {
-            if (Container.Items[i].item == _item)
+            //Container.Items[i].item의 구조체의 값들과_item의 값이 같은데 오류가 남 값이 같지 않다고 뜸
+            //원래 코드 if(Container.Items[i].item. == _item)
+            if (Container.Items[i].item.Id == _item.Id)
             {
                 Container.Items[i].AddAmount(_amount);
                 return;
@@ -39,6 +44,7 @@ public class InventoryObject : ScriptableObject
         Container.Items.Add(new InventorySlot(_item.Id, _item, _amount));
     }
 
+    //인벤토리 인스펙터 창에서 저장하기위해 ContextMenu에 노출
     [ContextMenu("Save")]
     public void Save()
     {
@@ -55,6 +61,7 @@ public class InventoryObject : ScriptableObject
         stream.Close();
 
     }
+    //
     [ContextMenu("Load")]
     public void Load()
     {
@@ -76,6 +83,7 @@ public class InventoryObject : ScriptableObject
 [System.Serializable]
 public class Inventory
 {
+    //Items명의 List생성 타입은 InventorySlot
     public List<InventorySlot> Items = new List<InventorySlot>();
 }
 

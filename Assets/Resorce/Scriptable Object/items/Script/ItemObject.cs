@@ -3,9 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ItemType
 {
+    //itemtest용
     Food,
+    //장착아이템 test용
     Equipment,
+    //방탄복
+    Armor,
+    //가방
+    Bag,
+    //치료아이템
+    Medical,
+    //총
+    Weapon,
+    //총알
+    Bullet,
+    //기타
     Default
+}
+
+//당장은 쓰지 않는 버프 종류
+//도핑시스템에 사용됨
+//스피드업
+//도핑치유
+public enum Attributes
+{ 
+    Dopping
 }
 public abstract class ItemObject : ScriptableObject
 {
