@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public MouseItem mouseItem = new MouseItem();
     public InventoryObject inventory;
+
     public float maxHealth = 100f;
     public float currentHealth;
 
@@ -101,7 +103,7 @@ public class Player : MonoBehaviour
     //데이터 관리 클래스
     public void OnApplicationQuit()
     {
-        inventory.Container.Items = new InventorySlot[3];
+        inventory.Container.Items = new InventorySlot[28];
     }
 
 }

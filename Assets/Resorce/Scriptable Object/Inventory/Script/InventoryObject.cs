@@ -32,13 +32,10 @@ public class InventoryObject : ScriptableObject
     //아이템 항목 추가 기능
     public void AddItem(Item _item, int _amount)
     {
-        Debug.Log(_item.Id + " adding item");
         for (int i = 0; i < Container.Items.Length; i++)
         {
-            Debug.Log(Container.Items[i].item.Id + " checking id");
             if (Container.Items[i].ID == _item.Id)
             {
-                Debug.Log(_item.Id + " adding amount");
                 Container.Items[i].AddAmount(_amount);
                 return;
             }
@@ -65,7 +62,7 @@ public class InventoryObject : ScriptableObject
     {
         InventorySlot temp = new InventorySlot(item2.ID, item2.item, item2.amount);
         item2.UpdateSlot(item1.ID, item1.item, item1.amount);
-        item2.UpdateSlot(temp.ID, temp.item, temp.amount);
+        item1.UpdateSlot(temp.ID, temp.item, temp.amount);
     }
 
     public void RemoveItem(Item _item)
@@ -88,7 +85,7 @@ public class InventoryObject : ScriptableObject
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
         formatter.Serialize(stream, Container);
         stream.Close();
-
+        Debug.Log("인벤토리 저장");
     }
     //
     [ContextMenu("Load")]
@@ -104,6 +101,7 @@ public class InventoryObject : ScriptableObject
                 Container.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].item, newContainer.Items[i].amount);
             }
             stream.Close();
+            Debug.Log("인벤토리 로드");
         }
     }
     [ContextMenu("Clear")]
@@ -122,12 +120,14 @@ public class Inventory
     //배열은 크기를 알아야 해당기능이 가능하다.
     //배열을 사용하려면 초기화때 배열의 크기를 설정해줘야한다.
     //처음에 배열의 크기를 8로 하지만 변경이 가능하다.
-    public InventorySlot[] Items = new InventorySlot[3];
+    public InventorySlot[] Items = new InventorySlot[28];
 }
 
 [System.Serializable]
 public class InventorySlot
 {
+    public ItemType[] AllowedItem = new ItemType[0];
+    public UserInterface parent;
     public int ID = -1;
     public Item item;
     public int amount;
@@ -139,9 +139,9 @@ public class InventorySlot
     }
     public InventorySlot(int _id, Item _item, int _amount)
     {
-        ID = -1;
-        item = null;
-        amount = 0;
+        ID = _id;
+        item = _item;
+        amount = _amount;
     }
     //생성자와 같은 작업을 수행하는 업데이트 함수
     public void UpdateSlot(int _id, Item _item, int _amount)
@@ -154,4 +154,6 @@ public class InventorySlot
     {
         amount += value;
     }
+
+//    public
 }

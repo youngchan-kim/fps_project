@@ -8,19 +8,11 @@ using UnityEngine.Events;
 
 //오브젝트를 습득한 경우
 //인벤토리네에 오브젝트의 이미지를 넣어주고 갯수를 중첩해주는 코드이다.
-public class DisplayInventory : MonoBehaviour
+public abstract class UserInterface : MonoBehaviour
 {
-    public MouseItem mouseItem = new MouseItem();
+    public Player player;
 
-    public GameObject inventoryPrefab;
     public InventoryObject inventory;
-
-    public int X_START;
-    public int Y_START;
-
-    public int X_SPACE_BETWEEN_ITEM;
-    public int NUMBER_OF_COLUMN;
-    public int Y_SPACE_BETWEEN_ITEM;
 
     //아이템 슬롯 값과 게임 오브젝트의 값을 가지는 Dictionary
     //슬롯을 키로 사용하고 게임 오브젝트의 개체를 값으로 사용했지만 
@@ -35,11 +27,15 @@ public class DisplayInventory : MonoBehaviour
     /// 디스플레이 코드와 인벤토리 코드를 완전히 분리하기 위함
 
     //디스플레이 코드는 백엔드에서 일어나는 일을 시각적으로 보여만 주기 위함
-    Dictionary<GameObject, InventorySlot> itemsDisplayed = new Dictionary<GameObject, InventorySlot>();
+    public Dictionary<GameObject, InventorySlot> itemsDisplayed = new Dictionary<GameObject, InventorySlot>();
 
     // Start is called before the first frame update
     void Start()
     {
+        for(int i = 0; i < inventory.Container.Items.Length; i++)
+        {
+            inventory.Container.Items[i].parent = this;
+        }
         CreateSlots();
     }
     // Update is called once per frame
@@ -47,11 +43,13 @@ public class DisplayInventory : MonoBehaviour
     {
         UpdateSlots();
     }
+    //이미지가 인벤토리에 없는 경우 생성해주는 코드
+    public abstract void CreateSlots();
     public void UpdateSlots()
     {
         foreach (KeyValuePair<GameObject, InventorySlot> _slot in itemsDisplayed)
         {
-            
+
             //항목이 있는 경우
             if (_slot.Value.ID >= 0)
             {
@@ -70,28 +68,9 @@ public class DisplayInventory : MonoBehaviour
             }
         }
     }
-    //이미지가 인벤토리에 없는 경우 생성해주는 코드
-    public void CreateSlots()
-    {
-        //
-        itemsDisplayed = new Dictionary<GameObject, InventorySlot>();
 
-        for (int i = 0; i < inventory.Container.Items.Length; i++)
-        {
-            var obj = Instantiate(inventoryPrefab, Vector3.zero, Quaternion.identity, transform);
-            obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
 
-            AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnEnter(obj); });
-            AddEvent(obj, EventTriggerType.PointerExit, delegate { OnExit(obj); });
-            AddEvent(obj, EventTriggerType.BeginDrag, delegate { OnDragStart(obj); });
-            AddEvent(obj, EventTriggerType.EndDrag, delegate { OnDragEnd(obj); });
-            AddEvent(obj, EventTriggerType.Drag, delegate { OnDrag(obj); });
-
-            itemsDisplayed.Add(obj, inventory.Container.Items[i]);
-        }
-    }
-
-    private void AddEvent(GameObject obj, EventTriggerType type, UnityAction<BaseEventData> action)
+    protected void AddEvent(GameObject obj, EventTriggerType type, UnityAction<BaseEventData> action)
     {
         EventTrigger trigger = obj.GetComponent<EventTrigger>();
         var eventTrigger = new EventTrigger.Entry();
@@ -102,18 +81,18 @@ public class DisplayInventory : MonoBehaviour
 
     public void OnEnter(GameObject obj)
     {
-        mouseItem.hoverobj = obj;
+        player.mouseItem.hoverobj = obj;
 
         if (itemsDisplayed.ContainsKey(obj))
         {
-            mouseItem.hoverItem = itemsDisplayed[obj];
+            player.mouseItem.hoverItem = itemsDisplayed[obj];
         }
 
     }
     public void OnExit(GameObject obj)
     {
-        mouseItem.hoverobj = null;
-        mouseItem.hoverItem = null;
+        player.mouseItem.hoverobj = null;
+        player.mouseItem.hoverItem = null;
     }
     public void OnDragStart(GameObject obj)
     {
@@ -122,10 +101,10 @@ public class DisplayInventory : MonoBehaviour
         //마우스 오브젝트의 Transform
         var rt = mouseObject.AddComponent<RectTransform>();
         //마우스 오브젝트로 잡은 이미지의 크기
-        rt.sizeDelta = new Vector2(200,100);
+        rt.sizeDelta = new Vector2(200, 100);
         mouseObject.transform.SetParent(transform.parent);
         //클릭한 오브젝트의 슬롯의 아이디가 0이 아니면
-        if (itemsDisplayed[obj].ID >= 0) 
+        if (itemsDisplayed[obj].ID >= 0)
         {
             var img = mouseObject.AddComponent<Image>();
             img.sprite = inventory.database.GetItem[itemsDisplayed[obj].ID].uiDisplay;
@@ -133,34 +112,47 @@ public class DisplayInventory : MonoBehaviour
         }
         //마우스가 선택한 오브젝트
         //mouseObject는 마우스아이템의 오브젝트
-        mouseItem.obj = mouseObject;
+        player.mouseItem.obj = mouseObject;
         //마우스가 선택한 오브젝트의 아이템
-        mouseItem.item = itemsDisplayed[obj];
+        player.mouseItem.item = itemsDisplayed[obj];
     }
     public void OnDragEnd(GameObject obj)
     {
+        var itemOnMouse = player.mouseItem;
+        var mouseHoverItem = itemOnMouse.hoverItem;
+        var mouseHoverObj = itemOnMouse.hoverobj;
+        var GetItemObject = inventory.database.GetItem;
+
         //아이템끼리의 위치를 교환
-        if(mouseItem.hoverobj)
+        if (player.mouseItem.hoverobj)
         {
-            inventory.MoveItem(itemsDisplayed[obj], itemsDisplayed[mouseItem.hoverobj]);
+            inventory.MoveItem(itemsDisplayed[obj], mouseHoverItem.parent.itemsDisplayed[itemOnMouse.hoverobj]);
         }
         else
         {
-            inventory.RemoveItem(itemsDisplayed[obj].item);
+            //inventory.RemoveItem(itemsDisplayed[obj].item);
         }
-        Debug.Log(mouseItem.item.ID + "마우스가 놓은 곳의 아이디");
-        Destroy(mouseItem.obj);
-        mouseItem.item = null;
+        Debug.Log(player.mouseItem.item.ID + "마우스가 놓은 곳의 아이디");
+        Destroy(itemOnMouse.obj);
+        itemOnMouse.item = null;
     }
     public void OnDrag(GameObject obj)
     {
-        if (mouseItem.obj != null)
-            mouseItem.obj.GetComponent<RectTransform>().position = Input.mousePosition;
+        if (player.mouseItem.obj != null)
+            player.mouseItem.obj.GetComponent<RectTransform>().position = Input.mousePosition;
     }
 
-    public Vector3 GetPosition(int i)
-    {
-        //이미지의 위치를 잡아주는 코드
-        return new Vector3(X_START + (X_SPACE_BETWEEN_ITEM * (i % NUMBER_OF_COLUMN)), Y_START + (-Y_SPACE_BETWEEN_ITEM * (i / NUMBER_OF_COLUMN)), 0f);
-    }
+   
+}
+
+public class MouseItem
+{
+    //오브젝트
+    public GameObject obj;
+    //아이템
+    public InventorySlot item;
+    //마우스가 위에 있는  아이템
+    public InventorySlot hoverItem;
+    //마우스가 위에 있는 오브젝트
+    public GameObject hoverobj;
 }
