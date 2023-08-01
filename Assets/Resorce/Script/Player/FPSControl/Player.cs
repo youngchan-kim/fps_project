@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     public GameObject playercam;
     //public GameObject Inventory;
-    //private bool mode_chage;
+    private bool mode_chage;
 
 
     private bool life;
@@ -38,14 +38,14 @@ public class Player : MonoBehaviour
             inventory.Load();
         }
 
-/*
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playercam.gameObject.SetActive(mode_chage);
-            Inventory.SetActive(!mode_chage);
+            //Inventory.SetActive(!mode_chage);
             mode_chage = !mode_chage;  
         }
-*/
+
         if (Getlife())
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        //CuserControl(mode_chage);
+        CuserControl(mode_chage);
         
     }
     void CuserControl(bool mode_chage)
