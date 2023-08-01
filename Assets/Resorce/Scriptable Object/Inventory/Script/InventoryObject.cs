@@ -28,35 +28,64 @@ public class InventoryObject : ScriptableObject
                 database = Resources.Load<ItemDatabaseObject>("Database");
         #endif*/
     }
+
+    //아이템 항목 추가 기능
     public void AddItem(Item _item, int _amount)
     {
-        for (int i = 0; i < Container.Items.Count; i++)
+        Debug.Log(_item.Id + " adding item");
+        for (int i = 0; i < Container.Items.Length; i++)
         {
-            //Container.Items[i].item의 구조체의 값들과_item의 값이 같은데 오류가 남 값이 같지 않다고 뜸
-            //원래 코드 if(Container.Items[i].item. == _item)
-            if (Container.Items[i].item.Id == _item.Id)
+            Debug.Log(Container.Items[i].item.Id + " checking id");
+            if (Container.Items[i].ID == _item.Id)
             {
+                Debug.Log(_item.Id + " adding amount");
                 Container.Items[i].AddAmount(_amount);
                 return;
             }
         }
+        //넣고 싶은 아이템과 수량
+        SetEmptySlot(_item, _amount);
+    }
+    //내부의 첫 번째 빈 슬롯을 찾는함수
+    public InventorySlot SetEmptySlot(Item _item, int _amount)
+    {
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].ID <= -1)
+            {
+                Container.Items[i].UpdateSlot(_item.Id, _item, _amount);
+                return Container.Items[i];
+            }
+        }
+        //인벤토리가 가득 차면 null 리턴
+        return null;
+    }
 
-        Container.Items.Add(new InventorySlot(_item.Id, _item, _amount));
+    public void MoveItem(InventorySlot item1, InventorySlot item2)
+    {
+        InventorySlot temp = new InventorySlot(item2.ID, item2.item, item2.amount);
+        item2.UpdateSlot(item1.ID, item1.item, item1.amount);
+        item2.UpdateSlot(temp.ID, temp.item, temp.amount);
+    }
+
+    public void RemoveItem(Item _item)
+    {
+        for(int i =0; i<Container.Items.Length; i++)
+        {
+            if(Container.Items[i].item == _item)
+            {
+                Container.Items[i].UpdateSlot(-1, null, 0);
+            }
+        }
     }
 
     //인벤토리 인스펙터 창에서 저장하기위해 ContextMenu에 노출
     [ContextMenu("Save")]
     public void Save()
     {
-        /*string saveData = JsonUtility.ToJson(this, true);
-        //설명
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(string.Concat(Application.persistentDataPath, savePath));
-        bf.Serialize(file, saveData);
-        file.Close();*/
         //설명
         IFormatter formatter = new BinaryFormatter();
-        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create,FileAccess.Write);
+        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
         formatter.Serialize(stream, Container);
         stream.Close();
 
@@ -69,7 +98,11 @@ public class InventoryObject : ScriptableObject
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Open, FileAccess.Read);
-            Container = (Inventory)formatter.Deserialize(stream);
+            Inventory newContainer = (Inventory)formatter.Deserialize(stream);
+            for(int i =0; i<Container.Items.Length; i++)
+            {
+                Container.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].item, newContainer.Items[i].amount);
+            }
             stream.Close();
         }
     }
@@ -84,22 +117,39 @@ public class InventoryObject : ScriptableObject
 public class Inventory
 {
     //Items명의 List생성 타입은 InventorySlot
-    public List<InventorySlot> Items = new List<InventorySlot>();
+    //List의 경우 게임 실행 중에 쉽게 추가와 제거가 가능하다는것 하지만 
+    //public List<InventorySlot> Items = new List<InventorySlot>();
+    //배열은 크기를 알아야 해당기능이 가능하다.
+    //배열을 사용하려면 초기화때 배열의 크기를 설정해줘야한다.
+    //처음에 배열의 크기를 8로 하지만 변경이 가능하다.
+    public InventorySlot[] Items = new InventorySlot[3];
 }
 
 [System.Serializable]
 public class InventorySlot
 {
-    public int ID;
+    public int ID = -1;
     public Item item;
     public int amount;
+    public InventorySlot()
+    {
+        ID = -1;
+        item = null;
+        amount = 0;
+    }
     public InventorySlot(int _id, Item _item, int _amount)
+    {
+        ID = -1;
+        item = null;
+        amount = 0;
+    }
+    //생성자와 같은 작업을 수행하는 업데이트 함수
+    public void UpdateSlot(int _id, Item _item, int _amount)
     {
         ID = _id;
         item = _item;
         amount = _amount;
     }
-
     public void AddAmount(int value)
     {
         amount += value;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64c627cfded1dc48a4f4c1b3d8df10d, type: 3}
   m_Name: medical syringe
   m_EditorClassIdentifier: 
-  Id: 2
+  Id: -1
   uiDisplay: {fileID: 21300050, guid: 5163ae49a0de665458bba61cd20c99b1, type: 3}
   type: 4
   description: medical syringe Heal Item!

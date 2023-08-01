@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb4b08048e74a1e419c9120c614410c0, type: 3}
   m_Name: AK
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: -1
   uiDisplay: {fileID: 21300044, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
   type: 5
   description: 'a Weapon is Gun

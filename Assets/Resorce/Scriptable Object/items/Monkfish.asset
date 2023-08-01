@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb76abf68a304a049bea17e5311b8be6, type: 3}
   m_Name: Monkfish
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: -1
   uiDisplay: {fileID: 21300024, guid: 5163ae49a0de665458bba61cd20c99b1, type: 3}
   type: 0
   description: Can be fished in Piscatoris by who have a fishing level of 62 or higher,
