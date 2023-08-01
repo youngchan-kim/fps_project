@@ -37,6 +37,8 @@ public abstract class UserInterface : MonoBehaviour
             inventory.Container.Items[i].parent = this;
         }
         CreateSlots();
+        AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
+        AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnExitInterface(gameObject); });
     }
     // Update is called once per frame
     void Update()
@@ -94,6 +96,16 @@ public abstract class UserInterface : MonoBehaviour
         player.mouseItem.hoverobj = null;
         player.mouseItem.hoverItem = null;
     }
+
+    public void OnEnterInterface(GameObject obj)
+    {
+        player.mouseItem.ui = obj.GetComponent<UserInterface>();
+    }
+    public void OnExitInterface(GameObject obj)
+    {
+        player.mouseItem.ui = null;
+    }
+
     public void OnDragStart(GameObject obj)
     {
         //
@@ -123,10 +135,13 @@ public abstract class UserInterface : MonoBehaviour
         var mouseHoverObj = itemOnMouse.hoverobj;
         var GetItemObject = inventory.database.GetItem;
 
-        //아이템끼리의 위치를 교환
-        if (player.mouseItem.hoverobj)
-        {
-            inventory.MoveItem(itemsDisplayed[obj], mouseHoverItem.parent.itemsDisplayed[itemOnMouse.hoverobj]);
+
+
+        if (itemOnMouse.ui != null)
+        {    //아이템끼리의 위치를 교환
+            if (mouseHoverObj)
+                if (mouseHoverItem.CanPlaceInSlot(GetItemObject[itemsDisplayed[obj].ID]) && (mouseHoverItem.item.Id <= -1 || (mouseHoverItem.item.Id >= 0 && itemsDisplayed[obj].CanPlaceInSlot(GetItemObject[mouseHoverItem.item.Id]))))
+                    inventory.MoveItem(itemsDisplayed[obj], mouseHoverItem.parent.itemsDisplayed[itemOnMouse.hoverobj]);
         }
         else
         {
@@ -147,6 +162,7 @@ public abstract class UserInterface : MonoBehaviour
 
 public class MouseItem
 {
+    public UserInterface ui;
     //오브젝트
     public GameObject obj;
     //아이템

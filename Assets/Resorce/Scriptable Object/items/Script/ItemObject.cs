@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ItemType
 {
-    //itemtest용
-    Food,
+
     //장착아이템 test용
     Equipment,
     //방탄복
@@ -12,11 +11,16 @@ public enum ItemType
     //가방
     Bag,
     //치료아이템
-    Medical,
-    //총
-    Weapon,
+    Medical,    
     //총알
     Bullet,
+    //itemtest용
+    Food,
+    Helmet,
+    Weapon,
+    Shield,
+    Boots,
+    Chest,
     //기타
     Default
 }
@@ -47,9 +51,25 @@ public class Item
 {
     public string Name;
     public int Id;
+    //public ItemBuff[] buffs;
+    public Item()
+    {
+        Name = "";
+        Id = -1;
+    }
     public Item(ItemObject item)
     {
         Name = item.name;
         Id = item.Id;
+
+/*        buffs = new ItemBuff[item.buffs.Length];
+        for(int i =0; i < buffs.Length; i++)
+        {
+            buffs[i] = new ItemBuff(item.buffs[i].min, item.buffs[i].max)
+            {
+                Attribute = item.buffs[i].attribute
+            };
+        }
+*/
     }
 }

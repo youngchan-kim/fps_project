@@ -16,17 +16,23 @@ MonoBehaviour:
   database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
   Container:
     Items:
-    - ID: -1
+    - AllowedItems: 
+      parent: {fileID: 0}
+      ID: -1
       item:
         Name: 
         Id: 0
       amount: 0
-    - ID: -1
+    - AllowedItems: 
+      parent: {fileID: 0}
+      ID: -1
       item:
         Name: 
         Id: 0
       amount: 0
-    - ID: -1
+    - AllowedItems: 
+      parent: {fileID: 0}
+      ID: -1
       item:
         Name: 
         Id: 0

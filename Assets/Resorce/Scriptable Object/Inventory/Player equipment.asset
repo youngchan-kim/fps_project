@@ -16,28 +16,38 @@ MonoBehaviour:
   database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
   Container:
     Items:
-    - ID: -1
+    - AllowedItems: 08000000
+      parent: {fileID: 0}
+      ID: -1
       item:
         Name: 
         Id: 0
       amount: 0
-    - ID: -1
+    - AllowedItems: 07000000
+      parent: {fileID: 0}
+      ID: 2
+      item:
+        Name: Monkfish
+        Id: 2
+      amount: 1
+    - AllowedItems: 03000000
+      parent: {fileID: 0}
+      ID: -1
       item:
         Name: 
         Id: 0
       amount: 0
-    - ID: -1
+    - AllowedItems: 
+      parent: {fileID: 0}
+      ID: 1
       item:
-        Name: 
-        Id: 0
-      amount: 0
-    - ID: -1
+        Name: medical syringe
+        Id: 1
+      amount: 1
+    - AllowedItems: 
+      parent: {fileID: 0}
+      ID: 0
       item:
-        Name: 
+        Name: AK
         Id: 0
-      amount: 0
-    - ID: -1
-      item:
-        Name: 
-        Id: 0
-      amount: 0
+      amount: 1

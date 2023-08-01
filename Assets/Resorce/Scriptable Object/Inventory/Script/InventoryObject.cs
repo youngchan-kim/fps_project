@@ -107,7 +107,7 @@ public class InventoryObject : ScriptableObject
     [ContextMenu("Clear")]
     public void Clear()
     {
-        Container = new Inventory();
+        Container.Clear();
     }
 }
 
@@ -121,12 +121,19 @@ public class Inventory
     //배열을 사용하려면 초기화때 배열의 크기를 설정해줘야한다.
     //처음에 배열의 크기를 8로 하지만 변경이 가능하다.
     public InventorySlot[] Items = new InventorySlot[28];
+    public void Clear()
+    {
+        for(int i =0; i<Items.Length; i ++)
+        {
+            Items[i].UpdateSlot(-1, new Item(), 0);
+        }
+    }
 }
 
 [System.Serializable]
 public class InventorySlot
 {
-    public ItemType[] AllowedItem = new ItemType[0];
+    public ItemType[] AllowedItems = new ItemType[0];
     public UserInterface parent;
     public int ID = -1;
     public Item item;
@@ -155,5 +162,17 @@ public class InventorySlot
         amount += value;
     }
 
-//    public
+    //허용된 슬롯만 가능
+    public bool CanPlaceInSlot(ItemObject _item)
+    {
+        if (AllowedItems.Length <= 0)
+            return true;
+
+        for(int i =0; i < AllowedItems.Length; i++)
+        {
+            if (_item.type == AllowedItems[i])
+                return true;
+        }
+        return false;
+    }
 }
