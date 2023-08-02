@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
     //데이터 관리 클래스
     public void OnApplicationQuit()
     {
-        inventory.Container.Items = new InventorySlot[28];
+        inventory.Container.Items = new InventorySlot[6];
     }
 
 }
