@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -249,6 +249,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: df1129233f55a224c8e5ce5542521c42, type: 2}
 --- !u!4 &39998450
 Transform:
@@ -801,6 +806,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: aa075dcf8bb7d4840a0b60a1b5294bd0, type: 2}
 --- !u!4 &115896836
 Transform:
@@ -1852,7 +1862,7 @@ MonoBehaviour:
   m_Content: {fileID: 464979036}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 2
+  m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -3811,7 +3821,7 @@ GameObject:
   - component: {fileID: 636667682}
   - component: {fileID: 636667686}
   - component: {fileID: 636667685}
-  - component: {fileID: 636667684}
+  - component: {fileID: 636667687}
   - component: {fileID: 636667683}
   m_Layer: 5
   m_Name: Content
@@ -3853,26 +3863,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
---- !u!114 &636667684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 636667681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a37c84f196056a7478b0393d2eb1250b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 596565479}
-  inventory: {fileID: 11400000, guid: 7a7e4e8f538c63349923a24782e0b3c5, type: 2}
-  inventoryPrefab: {fileID: 6633658965791083368, guid: c5e4825104857fb4ea6446e49782d5c5, type: 3}
-  X_START: 0
-  Y_START: 0
-  X_SPACE_BETWEEN_ITEM: 0
-  NUMBER_OF_COLUMN: 1
-  Y_SPACE_BETWEEN_ITEM: 50
 --- !u!114 &636667685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3913,6 +3903,26 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &636667687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636667681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 765ef8b196882034f8d1021d68a1f326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 596565479}
+  inventory: {fileID: 11400000, guid: b2fa299cc14767949aeeb80d970d62e9, type: 2}
+  inventoryPrefab: {fileID: 6633658965791083368, guid: c5e4825104857fb4ea6446e49782d5c5, type: 3}
+  X_START: 0
+  Y_START: 0
+  X_SPACE_BETWEEN_ITEM: 0
+  NUMBER_OF_COLUMN: 1
+  Y_SPACE_BETWEEN_ITEM: 50
 --- !u!1001 &660089897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5547,11 +5557,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0.78431374}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5588,7 +5598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.31132078, g: 0.29516736, b: 0.29516736, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5800,6 +5810,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: b61db33d079651f43ad8812657bead62, type: 2}
 --- !u!4 &907992790
 Transform:
@@ -5860,6 +5875,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 596565476}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: b61db33d079651f43ad8812657bead62, type: 2}
 --- !u!4 &909724620
 Transform:
@@ -6066,6 +6086,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 596565476}
+  pickUpRange: 5
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
   item: {fileID: 11400000, guid: aa075dcf8bb7d4840a0b60a1b5294bd0, type: 2}
 --- !u!4 &947998928
 Transform:
@@ -6139,6 +6164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: b61db33d079651f43ad8812657bead62, type: 2}
 --- !u!4 &958346586
 Transform:
@@ -6409,6 +6439,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: df1129233f55a224c8e5ce5542521c42, type: 2}
 --- !u!4 &1006659907
 Transform:
@@ -6958,6 +6993,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: aa075dcf8bb7d4840a0b60a1b5294bd0, type: 2}
 --- !u!4 &1108086649
 Transform:
@@ -8761,6 +8801,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 596565476}
+  pickUpRange: 5
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
   item: {fileID: 11400000, guid: df1129233f55a224c8e5ce5542521c42, type: 2}
 --- !u!4 &1435898719
 Transform:
@@ -9988,7 +10033,7 @@ MonoBehaviour:
   m_Content: {fileID: 636667682}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 2
+  m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -10016,7 +10061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10160,6 +10205,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: aa075dcf8bb7d4840a0b60a1b5294bd0, type: 2}
 --- !u!4 &1739133099
 Transform:
@@ -10961,6 +11011,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: df1129233f55a224c8e5ce5542521c42, type: 2}
 --- !u!4 &1862659739
 Transform:
@@ -11571,6 +11626,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628a9d1047845f54ea279a8e57975131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  pickUpRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   item: {fileID: 11400000, guid: b61db33d079651f43ad8812657bead62, type: 2}
 --- !u!4 &2049786881
 Transform:

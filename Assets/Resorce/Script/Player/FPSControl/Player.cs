@@ -16,7 +16,6 @@ public class Player : MonoBehaviour
     //public GameObject Inventory;
     private bool mode_chage;
 
-
     private bool life;
     // Start is called before the first frame update
     void Start()
@@ -91,10 +90,22 @@ public class Player : MonoBehaviour
 
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void OnTriggerEnter(Collider other)
+   /* public void OnTriggerEnter(Collider other)
     {
         var item = other.GetComponent<GroundItem>();
-        if(item)
+        if (item)
+        {
+            inventory.AddItem(new Item(item.item), 1);
+            Destroy(other.gameObject);
+        }
+    }*/
+
+    //추가 코드
+    // 플레이어 일정 반경에 들어오면 호출
+    public void Recognize(Collider other)
+    {
+        var item = other.GetComponent<GroundItem>();
+        if (item)
         {
             inventory.AddItem(new Item(item.item), 1);
             Destroy(other.gameObject);
@@ -103,7 +114,8 @@ public class Player : MonoBehaviour
     //데이터 관리 클래스
     public void OnApplicationQuit()
     {
-        inventory.Container.Items = new InventorySlot[28];
+        //@슬롯
+        inventory.Container.Items = new InventorySlot[6];
     }
 
 }

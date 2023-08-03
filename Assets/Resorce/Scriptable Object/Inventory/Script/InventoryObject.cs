@@ -120,7 +120,8 @@ public class Inventory
     //배열은 크기를 알아야 해당기능이 가능하다.
     //배열을 사용하려면 초기화때 배열의 크기를 설정해줘야한다.
     //처음에 배열의 크기를 8로 하지만 변경이 가능하다.
-    public InventorySlot[] Items = new InventorySlot[28];
+    //@슬롯
+    public InventorySlot[] Items = new InventorySlot[6];
     public void Clear()
     {
         for(int i =0; i<Items.Length; i ++)

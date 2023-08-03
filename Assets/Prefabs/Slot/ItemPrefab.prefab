@@ -135,7 +135,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &407436181832548659
+--- !u!1 &3549705830724607441
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,8 +144,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 407436181832548658}
-  - component: {fileID: 407436181832548656}
-  - component: {fileID: 407436181832548657}
+  - component: {fileID: 1906938432703620669}
+  - component: {fileID: 7250112586290968518}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -159,7 +159,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407436181832548659}
+  m_GameObject: {fileID: 3549705830724607441}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -173,21 +173,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0, y: 0.5}
---- !u!222 &407436181832548656
+--- !u!222 &1906938432703620669
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407436181832548659}
+  m_GameObject: {fileID: 3549705830724607441}
   m_CullTransparentMesh: 1
---- !u!114 &407436181832548657
+--- !u!114 &7250112586290968518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407436181832548659}
+  m_GameObject: {fileID: 3549705830724607441}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -357,6 +357,7 @@ GameObject:
   - component: {fileID: 407436181611013749}
   - component: {fileID: 407436181611013755}
   - component: {fileID: 407436181611013748}
+  - component: {fileID: 4734549395137346170}
   - component: {fileID: -5600019514188933763}
   m_Layer: 5
   m_Name: ItemPrefab
@@ -426,6 +427,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4734549395137346170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6633658965791083368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c7b57edb6a83340b01a98e30631b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParentSR: {fileID: 0}
 --- !u!114 &-5600019514188933763
 MonoBehaviour:
   m_ObjectHideFlags: 0
