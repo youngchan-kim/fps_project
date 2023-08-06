@@ -128,7 +128,9 @@ public abstract class UserInterface : MonoBehaviour
         player.mouseItem.obj = mouseObject;
         //마우스가 선택한 오브젝트의 아이템
         player.mouseItem.item = itemsDisplayed[obj];
+        Debug.Log(player.mouseItem.item.ID + "마우스가 잡은 곳의 아이디");
     }
+
     public void OnDragEnd(GameObject obj)
     {
         var itemOnMouse = player.mouseItem;
@@ -136,19 +138,27 @@ public abstract class UserInterface : MonoBehaviour
         var mouseHoverObj = itemOnMouse.hoverobj;
         var GetItemObject = inventory.database.GetItem;
 
-
-
+        if(itemOnMouse.ui ==null)
+            Debug.Log("마우스아이템의 ui 가 없다.");
+        /*
         if (itemOnMouse.ui != null)
         {    //아이템끼리의 위치를 교환
             if (mouseHoverObj)
                 if (mouseHoverItem.CanPlaceInSlot(GetItemObject[itemsDisplayed[obj].ID]) && (mouseHoverItem.item.Id <= -1 || (mouseHoverItem.item.Id >= 0 && itemsDisplayed[obj].CanPlaceInSlot(GetItemObject[mouseHoverItem.item.Id]))))
                     inventory.MoveItem(itemsDisplayed[obj], mouseHoverItem.parent.itemsDisplayed[itemOnMouse.hoverobj]);
         }
+        */
+        if (mouseHoverObj)
+        {
+            if (mouseHoverItem.CanPlaceInSlot(GetItemObject[itemsDisplayed[obj].ID]) && (mouseHoverItem.item.Id <= -1 || (mouseHoverItem.item.Id >= 0 && itemsDisplayed[obj].CanPlaceInSlot(GetItemObject[mouseHoverItem.item.Id]))))
+                inventory.MoveItem(itemsDisplayed[obj], mouseHoverItem.parent.itemsDisplayed[itemOnMouse.hoverobj]); 
+        }
         else
         {
-            //inventory.RemoveItem(itemsDisplayed[obj].item);
+            //비활성화
+            inventory.RemoveItem(itemsDisplayed[obj].item);
         }
-        Debug.Log(player.mouseItem.item.ID + "마우스가 놓은 곳의 아이디");
+        Debug.Log(mouseHoverItem.ID + "마우스가 놓은 곳의 아이디");
         Destroy(itemOnMouse.obj);
         itemOnMouse.item = null;
     }

@@ -2,14 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-enum Gun
-{
-    Empty,
-    AK,
-    Sniper
-};
-
 public class PickUpController : Player_recognizes_Item
 {
     // public GunSystem gunScript;

@@ -83,7 +83,7 @@ public class InventoryObject : ScriptableObject
         //설명
         IFormatter formatter = new BinaryFormatter();
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
-        formatter.Serialize(stream, Container);
+        formatter.Serialize(stream, Container); 
         stream.Close();
         Debug.Log("인벤토리 저장");
     }

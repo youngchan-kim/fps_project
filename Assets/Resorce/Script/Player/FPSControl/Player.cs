@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public MouseItem mouseItem = new MouseItem();
-    public InventoryObject inventory;
+    public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
 
     public float maxHealth = 100f;
     public float currentHealth;
@@ -90,15 +90,25 @@ public class Player : MonoBehaviour
 
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-   /* public void OnTriggerEnter(Collider other)
+    /* public void OnTriggerEnter(Collider other)
+     {
+         var item = other.GetComponent<GroundItem>();
+         if (item)
+         {
+             inventory.AddItem(new Item(item.item), 1);
+             Destroy(other.gameObject);
+         }
+     }*/
+
+    public void OnTriggerEnter(Collider other)
     {
         var item = other.GetComponent<GroundItem>();
         if (item)
         {
-            inventory.AddItem(new Item(item.item), 1);
-            Destroy(other.gameObject);
+            Groundinventory.AddItem(new Item(item.item), 1);
+           // Destroy(other.gameObject);
         }
-    }*/
+    }
 
     //추가 코드
     // 플레이어 일정 반경에 들어오면 호출
