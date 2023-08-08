@@ -4,14 +4,38 @@ using UnityEngine;
 
 public class Player_recognizes_Item : MonoBehaviour
 {
+    public GroundDynamicInterface Ground_item;
+    public DynamicInterface Inventory_item;
+    public StaticInterface Equip_item;
+    public StaticInterface Gun_item;
+    public InventoryObject Groundinventory, inventory;
     private bool player_recognizes = false;
+    Item crruntitem;
     private void Update()
     {
         Player_recognizes();
     }
+    //추가 코드
+    // 오브젝트 사이의 접촉이 일어난 순간 호출
+    public void OnTriggerEnter(Collider other)
+    {
+        var groundItem = other.GetComponent<GroundItem>();
+        if (groundItem)
+        {
+            Item _item = new Item(groundItem.item);
+            if (Groundinventory.AddItem(_item, 1))
+            {
+                crruntitem = _item;
+            }
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        Groundinventory.ClearItem(crruntitem);
+    }
 
-    //실행안됨
-   /* public void OnTriggerEnter(Collider other)
+    /*//실행안됨
+    public void OnTriggerEnter(Collider other)
     {
         var player = other.GetComponent<Player>();
         if (player)

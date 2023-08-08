@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9849a35b4563b4db1f660301810d5b, type: 3}
   m_Name: Player Gun
   m_EditorClassIdentifier: 
-  savePath: /GunEqoipment.Save
+  savePath: /Gun.Save
   database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
   Container:
     Items:

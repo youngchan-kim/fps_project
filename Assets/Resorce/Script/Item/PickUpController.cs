@@ -22,8 +22,6 @@ public class PickUpController : Player_recognizes_Item
     public virtual void PickUp()
     {
 
-        //무기transform을 초기화 한뒤 건컨데이터의 자식으로 만든다
-        //transform.SetParent(gunContainer);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
         transform.localScale = Vector3.one;

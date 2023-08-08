@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Player_recognizes_Item
 {
     //public MouseItem mouseItem = new MouseItem();
-    public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
+    public InventoryObject /*Groundinventory,*/ /*inventory,*/ Equipinventory, Guninventory;
     public float maxHealth = 100f;
     public float currentHealth;
 
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
 
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void OnTriggerEnter(Collider other)
+    /*public void OnTriggerEnter(Collider other)
     {
         var groundItem = other.GetComponent<GroundItem>();
         if (groundItem)
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
-    }
+    }*/
 
     //데이터 관리 클래스
     public void OnApplicationQuit()

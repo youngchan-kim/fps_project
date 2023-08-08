@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemPickUp : PickUpController
+public class GunPickUp : PickUpController
 {
     //총기 시스템을 가지고 있는 object를 연결
     public GunSystem gunScript;

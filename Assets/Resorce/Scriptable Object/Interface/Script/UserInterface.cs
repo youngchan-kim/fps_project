@@ -11,6 +11,9 @@ public abstract class UserInterface : MonoBehaviour
 
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
+
+    //임시 드레그가 끝났는지 안끝났는지 
+    bool DragEnd = false;
     void Start()
     {
         for (int i = 0; i < inventory.Container.Items.Length; i++)
@@ -81,12 +84,14 @@ public abstract class UserInterface : MonoBehaviour
         if (MouseData.interfaceMouseIsOver == null)
         {
             slotsOnInterface[obj].RemoveItem();
+            DragEnd = false;
             return;
         }
         if (MouseData.slotHoveredOver)
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
             inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+            DragEnd = true;
         }
     }
     public void OnDrag(GameObject obj)
@@ -95,8 +100,13 @@ public abstract class UserInterface : MonoBehaviour
             MouseData.tempItemBeingDragged.GetComponent<RectTransform>().position = Input.mousePosition;
     }
 
-
+    public bool OnDragEnd_End()
+    {
+        return DragEnd;
+    }
 }
+
+
 public static class MouseData
 {
     public static UserInterface interfaceMouseIsOver;

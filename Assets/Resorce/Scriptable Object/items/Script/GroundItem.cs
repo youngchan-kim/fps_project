@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class GroundItem : PickUpController, ISerializationCallbackReceiver
+public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 {
     public ItemObject item;
 

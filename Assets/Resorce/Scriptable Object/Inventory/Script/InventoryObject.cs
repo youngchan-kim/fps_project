@@ -89,11 +89,23 @@ public class InventoryObject : ScriptableObject
 
     public void RemoveItem(Item _item)
     {
-        for(int i =0; i<Container.Items.Length; i++)
+        for (int i = 0; i < Container.Items.Length; i++) 
         {
             if(Container.Items[i].item == _item)
             {
                 Container.Items[i].UpdateSlot(null, 0);
+            }
+        }
+    }
+    public void ClearItem(Item _item)
+    {
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].item == _item)
+            {
+                //Container.Items[i].UpdateSlot(null, 0);
+                Container.Items[i].item = new Item();
+                Container.Items[i].amount = 0;
             }
         }
     }
@@ -170,7 +182,6 @@ public class InventorySlot
         {
             if(item.Id >= 0)
             {
-
                 return parent.inventory.database.Items[item.Id];
             }
             return null;
