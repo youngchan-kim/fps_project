@@ -33,25 +33,31 @@ public enum Attributes
 { 
     Dopping
 }
-public abstract class ItemObject : ScriptableObject
-{
-    public int Id;
-    public Sprite uiDisplay;
-    //아이템의 오브젝트
-    //public GameObject prefab;
-    //아이템 타입
-    public ItemType type;
 
+[CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
+public class ItemObject : ScriptableObject
+{
+    public Sprite uiDisplay;
+    //public GameObject characterDisplay;
+    public bool stackable;
+    public ItemType type;
     [TextArea(15, 20)]
     public string description;
+    public Item data = new Item();
+
+    public Item CreateItem()
+    {
+        Item newItem = new Item(this);
+        return newItem;
+    }
 }
 
 [System.Serializable]
 public class Item
 {
     public string Name;
-    public int Id;
-    //public ItemBuff[] buffs;
+    public int Id = -1;
+    public ItemBuff[] buffs;
     public Item()
     {
         Name = "";
@@ -60,16 +66,33 @@ public class Item
     public Item(ItemObject item)
     {
         Name = item.name;
-        Id = item.Id;
-
-/*        buffs = new ItemBuff[item.buffs.Length];
-        for(int i =0; i < buffs.Length; i++)
+        Id = item.data.Id;
+        buffs = new ItemBuff[item.data.buffs.Length];
+        for (int i = 0; i < buffs.Length; i++)
         {
-            buffs[i] = new ItemBuff(item.buffs[i].min, item.buffs[i].max)
+            buffs[i] = new ItemBuff(item.data.buffs[i].min, item.data.buffs[i].max)
             {
-                Attribute = item.buffs[i].attribute
+                attribute = item.data.buffs[i].attribute
             };
         }
-*/
+    }
+}
+
+[System.Serializable]
+public class ItemBuff
+{
+    public Attributes attribute;
+    public int value;
+    public int min;
+    public int max;
+    public ItemBuff(int _min, int _max)
+    {
+        min = _min;
+        max = _max;
+        GenerateValue();
+    }
+    public void GenerateValue()
+    {
+        value = UnityEngine.Random.Range(min, max);
     }
 }

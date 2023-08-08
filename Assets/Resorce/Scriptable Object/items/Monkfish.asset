@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb76abf68a304a049bea17e5311b8be6, type: 3}
-  m_Name: Monkfish
+  m_Script: {fileID: 11500000, guid: d1da2f7437aa15c4699d893371c3729d, type: 3}
+  m_Name: monkfish
   m_EditorClassIdentifier: 
-  Id: -1
-  uiDisplay: {fileID: 21300024, guid: 5163ae49a0de665458bba61cd20c99b1, type: 3}
-  type: 0
-  description: Can be fished in Piscatoris by who have a fishing level of 62 or higher,
-    and have completed the Swan Song quest.
-  restoreHealthValue: 16
+  uiDisplay: {fileID: 21300000, guid: adf92f5459022124193e381473dbcce6, type: 3}
+  stackable: 1
+  type: 5
+  description: 
+  data:
+    Name: 
+    Id: -1
+    buffs: []

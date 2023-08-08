@@ -6,7 +6,7 @@ using System.IO;
 using UnityEditor;
 using System.Runtime.Serialization;
 
-[CreateAssetMenu(fileName = "New Inventory", menuName = " Inventory System/Inventory")]
+[CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 
 public class InventoryObject : ScriptableObject
 
@@ -18,51 +18,73 @@ public class InventoryObject : ScriptableObject
     //Inventory클래스의 명은 Container
     //Container를 사용하면 List Items를 사용하기위함
     public Inventory Container;
-    private void OnEnable()
-    {
-        //유니티 에디터를 사용하여 데이터 베이스에 접근려할 때 오류에 대한 해결책
-        //해당 데이터 베이스의 위치에 로드에셋 매뉴를 사용하고
-        /*#if UNITY_EDITOR
-                database = (ItemDatabaseObject)AssetDatabase.LoadAssetAtPath("Assets/Resources/Database.asset", typeof(ItemDatabaseObject));
-        #else
-                database = Resources.Load<ItemDatabaseObject>("Database");
-        #endif*/
-    }
 
     //아이템 항목 추가 기능
-    public void AddItem(Item _item, int _amount)
+    public bool AddItem(Item _item, int _amount)
+    {
+        if (EmptySlotCount <= 0)
+            return false;
+        InventorySlot slot = FindItemOnInventory(_item);
+        if (!database.Items[_item.Id].stackable || slot == null)
+        {
+            SetEmptySlot(_item, _amount);
+            return true;
+        }
+        slot.AddAmount(_amount);
+        return true;
+    }
+
+    //내부의 첫 번째 빈 슬롯을 찾는함수
+    public int EmptySlotCount
+    {
+        get
+        {
+            int counter = 0;
+            for (int i = 0; i < Container.Items.Length; i++)
+            {
+                if (Container.Items[i].item.Id <= -1)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+    }
+
+    public InventorySlot FindItemOnInventory(Item _item)
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
-            if (Container.Items[i].ID == _item.Id)
+            if (Container.Items[i].item.Id == _item.Id)
             {
-                Container.Items[i].AddAmount(_amount);
-                return;
+                return Container.Items[i];
             }
         }
-        //넣고 싶은 아이템과 수량
-        SetEmptySlot(_item, _amount);
+        return null;
     }
-    //내부의 첫 번째 빈 슬롯을 찾는함수
+
     public InventorySlot SetEmptySlot(Item _item, int _amount)
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
-            if (Container.Items[i].ID <= -1)
+            if (Container.Items[i].item.Id <= -1)
             {
-                Container.Items[i].UpdateSlot(_item.Id, _item, _amount);
+                Container.Items[i].UpdateSlot(_item, _amount);
                 return Container.Items[i];
             }
         }
-        //인벤토리가 가득 차면 null 리턴
+        //set up functionality for full inventory
         return null;
     }
 
-    public void MoveItem(InventorySlot item1, InventorySlot item2)
+    public void SwapItems(InventorySlot item1, InventorySlot item2)
     {
-        InventorySlot temp = new InventorySlot(item2.ID, item2.item, item2.amount);
-        item2.UpdateSlot(item1.ID, item1.item, item1.amount);
-        item1.UpdateSlot(temp.ID, temp.item, temp.amount);
+        if (item2.CanPlaceInSlot(item1.ItemObject)&& item1.CanPlaceInSlot(item2.ItemObject))
+        {
+            InventorySlot temp = new InventorySlot(item2.item, item2.amount);
+            item2.UpdateSlot(item1.item, item1.amount);
+            item1.UpdateSlot(temp.item, temp.amount);
+        }
     }
 
     public void RemoveItem(Item _item)
@@ -71,7 +93,7 @@ public class InventoryObject : ScriptableObject
         {
             if(Container.Items[i].item == _item)
             {
-                Container.Items[i].UpdateSlot(-1, null, 0);
+                Container.Items[i].UpdateSlot(null, 0);
             }
         }
     }
@@ -98,7 +120,7 @@ public class InventoryObject : ScriptableObject
             Inventory newContainer = (Inventory)formatter.Deserialize(stream);
             for(int i =0; i<Container.Items.Length; i++)
             {
-                Container.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].item, newContainer.Items[i].amount);
+                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].amount);
             }
             stream.Close();
             Debug.Log("인벤토리 로드");
@@ -121,12 +143,12 @@ public class Inventory
     //배열을 사용하려면 초기화때 배열의 크기를 설정해줘야한다.
     //처음에 배열의 크기를 8로 하지만 변경이 가능하다.
     //@슬롯
-    public InventorySlot[] Items = new InventorySlot[6];
+    public InventorySlot[] Items = new InventorySlot[28];
     public void Clear()
     {
         for(int i =0; i<Items.Length; i ++)
         {
-            Items[i].UpdateSlot(-1, new Item(), 0);
+            Items[i].RemoveItem();
         }
     }
 }
@@ -135,28 +157,46 @@ public class Inventory
 public class InventorySlot
 {
     public ItemType[] AllowedItems = new ItemType[0];
+
+    [System.NonSerialized]
     public UserInterface parent;
-    public int ID = -1;
-    public Item item;
+
+    public Item item = new Item();
     public int amount;
+
+    public ItemObject ItemObject
+    {
+        get
+        {
+            if(item.Id >= 0)
+            {
+
+                return parent.inventory.database.Items[item.Id];
+            }
+            return null;
+        }
+    }
+
     public InventorySlot()
     {
-        ID = -1;
-        item = null;
+        item = new Item();
         amount = 0;
     }
-    public InventorySlot(int _id, Item _item, int _amount)
+    public InventorySlot(Item _item, int _amount)
     {
-        ID = _id;
         item = _item;
         amount = _amount;
     }
     //생성자와 같은 작업을 수행하는 업데이트 함수
-    public void UpdateSlot(int _id, Item _item, int _amount)
-    {
-        ID = _id;
+    public void UpdateSlot(Item _item, int _amount)
+    { 
         item = _item;
         amount = _amount;
+    }
+    public void RemoveItem()
+    {
+        item = new Item();
+        amount = 0;
     }
     public void AddAmount(int value)
     {
@@ -164,14 +204,14 @@ public class InventorySlot
     }
 
     //허용된 슬롯만 가능
-    public bool CanPlaceInSlot(ItemObject _item)
+    public bool CanPlaceInSlot(ItemObject _itemObject)
     {
-        if (AllowedItems.Length <= 0)
+        if (AllowedItems.Length <= 0 || _itemObject == null ||_itemObject.data.Id < 0)
             return true;
 
         for(int i =0; i < AllowedItems.Length; i++)
         {
-            if (_item.type == AllowedItems[i])
+            if (_itemObject.type == AllowedItems[i])
                 return true;
         }
         return false;
