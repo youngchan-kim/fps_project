@@ -13,6 +13,8 @@ public class PickUpController : Player_recognizes_Item
     //월드 포지션을 가지기 위함
     private Vector3 hitPos;
 
+    string itemname;
+    GameObject haveitem;
     //오브젝트와 플레이어의 거리
     private void Update()
     {
@@ -21,22 +23,27 @@ public class PickUpController : Player_recognizes_Item
 
     public virtual void PickUp()
     {
-
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(Vector3.zero);
-        transform.localScale = Vector3.one;
+        Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).name); 
+        haveitem = GetPickupItem().gameObject;
+        itemname = haveitem.name.ToString();
+        
+        //아이템의 이름과 같은 이름의 자식을 찾아라
+        if(transform.GetChild(0).GetChild(0).GetChild(0).name == itemname)
+            transform.GetChild(0).GetChild(0).GetChild(0).Find(haveitem.transform.GetChild(0).name).gameObject.SetActive(true); 
+               
+        //충돌한 아이템을 비활성화한다.
+        haveitem.SetActive(false);
+       
     }
 
     protected Vector3 Drop()
     {
-
-        //무기의 부모를 초기화한다.
-        //transform.SetParent(ItemObject);
-        Physics.Raycast(transform.position, Vector3.down, out RaycastHit rayHit, 100f);
+        transform.Find(itemname).gameObject.SetActive(false);
+        haveitem.SetActive(true);
+        Physics.Raycast(haveitem.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.001f;
-        transform.localPosition = hitPos;
+        haveitem.transform.localPosition = hitPos;
         return hitPos;
-        //transform.localRotation = Quaternion.Euler(90,0,0);
     }
 }

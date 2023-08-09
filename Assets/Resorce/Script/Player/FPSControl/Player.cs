@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Player_recognizes_Item
+public class Player : PickUpController
 {
+    public GroundItem Item;
     //public MouseItem mouseItem = new MouseItem();
     public InventoryObject /*Groundinventory,*/ /*inventory,*/ Equipinventory, Guninventory;
     public float maxHealth = 100f;
@@ -19,15 +20,27 @@ public class Player : Player_recognizes_Item
     // Start is called before the first frame update
     void Start()
     {
-        life = true;
-        currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
+    public void Initialize()
+    {
+        life = true;
+        currentHealth = maxHealth;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     // Update is called once per frame
     private void Update()
-    { 
+    {
+        //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
+        if (Input.GetKeyDown(KeyCode.F))
+            PickUp();
+
+        //플레이어가 아이템을 가지고 있는지 체크와 G키를 통해 내려놓음
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Drop();
+        }
         //itemDatabase save & load test code
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -101,6 +114,7 @@ public class Player : Player_recognizes_Item
             }
         }
     }*/
+
 
     //데이터 관리 클래스
     public void OnApplicationQuit()

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public sealed class GameMgr : MonoBehaviour
 {
-    public Transform FPS_Cam;
+    public Player player;
+
     static GameMgr instance = null;
     public static GameMgr Instance
     {
@@ -24,9 +25,19 @@ public sealed class GameMgr : MonoBehaviour
     private void Awake() { if (this != Instance) Destroy(gameObject); }
     private void Start()
     {
-        //FPS_Cam.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Initialize();
     }
-    void Initialize() { }
-    void StartGame() { }
+    void Initialize() 
+    {
+        StartGame();
+    }
+    void StartGame() 
+    {
+        player.Initialize();
+    }
+    public Player GetCollierPlayer()
+    {
+        return player;
+    }
 }
 
