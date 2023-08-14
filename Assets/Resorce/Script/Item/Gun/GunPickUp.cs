@@ -9,8 +9,7 @@ public class GunPickUp : PickUpController
     public GunSystem gunScript;
     //스코프 시스템을 가지고 있는 object를 연결
     public Scope scopeScript;
-    //object가 있게 될 위치
-    public Transform gunContainer;
+
     //object의 장착 여부
     //public bool equipped;
     //이미 총을 들고 있는지 확인
@@ -29,8 +28,6 @@ public class GunPickUp : PickUpController
 
     void Start()
     {
-        transform.localPosition = Drop();
-
         //Setup
         switch (equipped)
         {
@@ -69,12 +66,6 @@ public class GunPickUp : PickUpController
         equipped = true;
         slotFull = true;
 
-        //무기transform을 초기화 한뒤 건컨데이터의 자식으로 만든다
-
-        transform.SetParent(gunContainer);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(Vector3.zero);
-        transform.localScale = Vector3.one;
         //총의 스크립스 활성화
         gunScript.enabled = true;
         scopeScript.enabled = true;
@@ -85,11 +76,6 @@ public class GunPickUp : PickUpController
     {
         equipped = false;
         slotFull = false;
-
-        //무기의 부모를 초기화한다.
-        transform.SetParent(null);
-        transform.localPosition = Drop();
-        transform.localRotation = Quaternion.Euler(90, 0, 0);
 
         //총의 스크립스 비활성화
         gunScript.enabled = false;

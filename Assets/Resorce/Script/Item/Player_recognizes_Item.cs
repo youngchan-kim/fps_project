@@ -8,7 +8,7 @@ public class Player_recognizes_Item : MonoBehaviour
     private DynamicInterface Inventory_item;
     private StaticInterface Equip_item;
     private StaticInterface Gun_item;
-    public InventoryObject Groundinventory, inventory;
+    public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
     private bool player_recognizes = false;
     Item crruntitem;
     GroundItem groundItem;
@@ -34,20 +34,37 @@ public class Player_recognizes_Item : MonoBehaviour
 
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void Inventory_Add_item(Item item)
+    public void On_The_Ground_Item(Item item)
     {
-        if (Groundinventory.AddItem(item, 1))
+        Add_Item(Groundinventory, item);
+        
+    }
+
+    public void On_The_Ground_Item_Removed(Item item)
+    {
+        Item_Removed(Groundinventory, item);
+    }
+
+    public void Add_Item(InventoryObject inven, Item item)
+    {
+        Debug.Log(item.);
+        if (inven.AddItem(item, 1))
         {
             crruntitem = item;
             pickup = true;
         }
     }
 
-    public void Inventory_Removed_item(Item item)
+    public void Item_Removed(InventoryObject inven, Item item)
     {
-        Groundinventory.ClearItem(item);
+        inven.ClearItem(item);
         pickup = false;
     }
+    public void item_move(InventoryObject inven1, InventoryObject inven2, Item item)
+    {
+        
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         groundItem = other.GetComponent<GroundItem>();

@@ -30,7 +30,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         if (PlayerObject.name == other.name)
         {
             Item thisitem = new Item(item);
-            GameMgr.Instance.GetCollierPlayer().Inventory_Add_item(thisitem);
+            GameMgr.Instance.GetCollierPlayer().On_The_Ground_Item(thisitem);
         }
     }
 
@@ -39,7 +39,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         if (PlayerObject.name == other.name) 
         {
             Item thisitem = new Item(item);
-            GameMgr.Instance.GetCollierPlayer().Inventory_Removed_item(thisitem);
+            GameMgr.Instance.GetCollierPlayer().On_The_Ground_Item_Removed(thisitem);
         }
     }
 }

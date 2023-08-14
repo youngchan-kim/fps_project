@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : PickUpController
 {
     //public MouseItem mouseItem = new MouseItem();
-    public InventoryObject /*Groundinventory,*/ /*inventory,*/ Equipinventory, Guninventory;
     public float maxHealth = 100f;
     public float currentHealth;
 
@@ -35,7 +34,6 @@ public class Player : PickUpController
         if (Input.GetKeyDown(KeyCode.F))
         {
             PickUp();
-
         }
 
         //플레이어가 아이템을 가지고 있는지 체크와 G키를 통해 내려놓음

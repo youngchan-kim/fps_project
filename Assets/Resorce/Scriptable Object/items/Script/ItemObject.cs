@@ -59,6 +59,7 @@ public class Item
     public string Name;
     public int Id = -1;
     public ItemBuff[] buffs;
+    //public ItemType itemType;
 
     public Item()
     {

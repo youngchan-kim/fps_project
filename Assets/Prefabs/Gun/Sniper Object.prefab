@@ -56,15 +56,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4534842977555734075}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.807, y: 0.1304, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -0.865, y: 0.065, z: -0.002}
   m_LocalScale: {x: 1.5, y: 1.4999996, z: 1.4999996}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5261214601986585837}
   m_Father: {fileID: 7726772402417515639}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &4484724472038757009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +102,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4793124554237137411}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0271, y: -0.04971, z: 0}
   m_LocalScale: {x: 2.4999998, y: 2.5, z: 2.4999995}
   m_ConstrainProportionsScale: 0
@@ -110,7 +110,7 @@ Transform:
   - {fileID: 7621118138975908927}
   m_Father: {fileID: 7753571166958341202}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &2897648099720367066
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4854,7 +4854,6 @@ GameObject:
   - component: {fileID: 7621118138975908927}
   - component: {fileID: 4292922892811891787}
   - component: {fileID: 6786740974632130958}
-  - component: {fileID: 2924252462201332838}
   m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
@@ -4927,19 +4926,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2924252462201332838
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4861107283471974323}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.0000001, y: 1.0000004, z: 1.0000005}
-  m_Center: {x: -0.00000023841858, y: 0.00000035762815, z: -0.00000071525636}
 --- !u!1 &4919082156224477547
 GameObject:
   m_ObjectHideFlags: 0
@@ -4949,6 +4935,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5527231738931648553}
+  - component: {fileID: 292549921053575056}
+  - component: {fileID: 5724646878594375502}
   m_Layer: 0
   m_Name: Sniper Object
   m_TagString: Untagged
@@ -4972,6 +4960,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &292549921053575056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4919082156224477547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bc7ba2087ded44e8f3a7ec179cf527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Gun_property: {fileID: 11400000, guid: 5f53e92c473688a4896d0094d2f5db76, type: 2}
+  firePosition: {fileID: 4484724472038757009}
+  attackPoint: {fileID: 0}
+  bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  text: {fileID: 0}
+  muzzleFlashparticle: {fileID: 2897648099720367066}
+  Equipped_parts_Scopes: 1
+--- !u!114 &5724646878594375502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4919082156224477547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e96dac9fab98fa4cbe9aa0020d0e97a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  scopeOverlay: {fileID: 0}
+  mainCamera: {fileID: 0}
+  scope_parts: {fileID: 8923578555014442941}
+  scopedFOV: 15
 --- !u!1 &7726772402853494615
 GameObject:
   m_ObjectHideFlags: 0
@@ -4983,8 +5007,6 @@ GameObject:
   - component: {fileID: 7726772402417515639}
   - component: {fileID: 7726772402417515633}
   - component: {fileID: 7726772402417515638}
-  - component: {fileID: 7726772402417515629}
-  - component: {fileID: 8396274389458463499}
   m_Layer: 9
   m_Name: Sniper
   m_TagString: Untagged
@@ -5059,42 +5081,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7726772402417515629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7726772402853494615}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22bc7ba2087ded44e8f3a7ec179cf527, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Gun_property: {fileID: 11400000, guid: 5f53e92c473688a4896d0094d2f5db76, type: 2}
-  firePosition: {fileID: 4484724472038757009}
-  attackPoint: {fileID: 0}
-  bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
-  text: {fileID: 0}
-  muzzleFlashparticle: {fileID: 2897648099720367066}
-  Equipped_parts_Scopes: 1
---- !u!114 &8396274389458463499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7726772402853494615}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e96dac9fab98fa4cbe9aa0020d0e97a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  scopeOverlay: {fileID: 0}
-  mainCamera: {fileID: 0}
-  scope_parts: {fileID: 8923578555014442941}
-  scopedFOV: 15
 --- !u!1 &8722899700643938984
 GameObject:
   m_ObjectHideFlags: 0

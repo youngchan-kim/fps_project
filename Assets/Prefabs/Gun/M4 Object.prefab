@@ -82,8 +82,6 @@ GameObject:
   - component: {fileID: 6938388623376091954}
   - component: {fileID: 1093089431147931199}
   - component: {fileID: 4375483145901200754}
-  - component: {fileID: 2343903746582680131}
-  - component: {fileID: 5970801030107496678}
   m_Layer: 0
   m_Name: M4
   m_TagString: Untagged
@@ -158,42 +156,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2343903746582680131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2908238790566577156}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22bc7ba2087ded44e8f3a7ec179cf527, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Gun_property: {fileID: 11400000, guid: 8e68749a7935ee748a80c3cfc77b9721, type: 2}
-  firePosition: {fileID: 7827292686131509265}
-  attackPoint: {fileID: 0}
-  bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
-  text: {fileID: 0}
-  muzzleFlashparticle: {fileID: 4643290474178646696}
-  Equipped_parts_Scopes: 0
---- !u!114 &5970801030107496678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2908238790566577156}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e96dac9fab98fa4cbe9aa0020d0e97a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  scopeOverlay: {fileID: 0}
-  mainCamera: {fileID: 0}
-  scope_parts: {fileID: 2718114699613439614}
-  scopedFOV: 15
 --- !u!1 &3790308264923500204
 GameObject:
   m_ObjectHideFlags: 0
@@ -5238,6 +5200,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2983556111257962557}
+  - component: {fileID: 2955068487087364673}
+  - component: {fileID: 6823976936530775459}
   m_Layer: 0
   m_Name: M4 Object
   m_TagString: Untagged
@@ -5261,3 +5225,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &2955068487087364673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058998865455413511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bc7ba2087ded44e8f3a7ec179cf527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Gun_property: {fileID: 11400000, guid: 8e68749a7935ee748a80c3cfc77b9721, type: 2}
+  firePosition: {fileID: 7827292686131509265}
+  attackPoint: {fileID: 0}
+  bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  text: {fileID: 0}
+  muzzleFlashparticle: {fileID: 4643290474178646696}
+  Equipped_parts_Scopes: 0
+--- !u!114 &6823976936530775459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058998865455413511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e96dac9fab98fa4cbe9aa0020d0e97a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  scopeOverlay: {fileID: 0}
+  mainCamera: {fileID: 0}
+  scope_parts: {fileID: 2718114699613439614}
+  scopedFOV: 10

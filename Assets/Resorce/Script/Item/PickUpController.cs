@@ -27,7 +27,7 @@ public class PickUpController : Player_recognizes_Item
     public virtual void PickUp()
     {
         Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
-            //문제 //아이디 값이 같은데 걍 넘어감
+        //문제 //아이디 값이 같은데 걍 넘어감
         haveitem = GetPickupItem().gameObject;
         itemname = haveitem.transform.GetChild(0).name;
         Activeitem = ListActiveCheck(haveitem.name);
@@ -73,6 +73,7 @@ public class PickUpController : Player_recognizes_Item
         }
         
 
+
         haveitem.SetActive(true);
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
@@ -115,10 +116,14 @@ public class PickUpController : Player_recognizes_Item
 
     public bool GetEquipped()
     {
+        Debug.Log("장착 : " + equipped);
         return equipped;
     }
+
     public bool GetGunslotFull()
     {
+        Debug.Log("장착 : " + GunslotFull);
         return GunslotFull;
     }
+
 }

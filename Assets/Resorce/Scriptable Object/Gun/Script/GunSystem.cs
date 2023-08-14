@@ -61,8 +61,9 @@ public class GunSystem : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(GameMgr.Instance.GetCollierPlayer());
-        if (GameMgr.Instance.GetCollierPlayer().GetEquipped())
+        Debug.Log(GameMgr.Instance.GetCollierPlayer().GetEquipped());
+        Debug.Log(GameMgr.Instance.GetCollierPlayer().GetGunslotFull());
+        if (GameMgr.Instance.GetCollierPlayer().GetGunslotFull())
         {
             transform.LookAt(attackPoint.transform.position);
             Debug.DrawLine(firePosition.transform.position, attackPoint.transform.position, Color.red);
@@ -73,7 +74,6 @@ public class GunSystem : MonoBehaviour
             //SetText
             text.SetText(bulletsLeft + "/" + Gun_property.magazineSize);
         }
-        //Target();
     }
 
 
@@ -130,22 +130,18 @@ public class GunSystem : MonoBehaviour
         //1인칭 기준으로 만들기 때문
         //접촉한 단일 개체의 정보를 얻어오기 위함
         //특정 위치에서 일정한 방향으로 광선을 발사
-
-        if (Physics.Raycast(firePosition.transform.position, attackPoint.transform.position, out rayHit, Gun_property.range))
+        Vector3 firedirection = attackPoint.transform.position - firePosition.transform.position;
+        if (Physics.Raycast(firePosition.transform.position, firedirection, out rayHit, Gun_property.range))
         {
             //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<ShootingAi>())
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(Gun_property.damage);
+
+            var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
+
         }
         //Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
 
-        //Graphics
-        //프리펩혹은 Hierarchy에 있는 GameObject를 복제(생성)및 삭제 할 수 있다.
-        //많은 비용이 들기 때문에 Update()에서 호출하지 않는 것이 좋다.
-        //복제하려는 오브젝트는 bulletHoleGraphic이고 만들 위치는 rayHit.point,
-        // 만들어진 오브젝트의 회전은 Quaternion.Euler(0, 180, 0)이다.
-        //Quaternion.LookRotation()
-        var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
 
         /*Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);*/
         Instantiate(muzzleFlashparticle, attackPoint.transform.position, Quaternion.identity);
@@ -188,4 +184,5 @@ public class GunSystem : MonoBehaviour
     {
         return Gun_property.sprites;
     }
+
 }
