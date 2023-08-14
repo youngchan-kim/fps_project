@@ -17,6 +17,6 @@ MonoBehaviour:
   type: 7
   description: 
   data:
-    Name: 
+    Name: gun
     Id: 6
     buffs: []

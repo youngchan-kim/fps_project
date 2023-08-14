@@ -17,6 +17,6 @@ MonoBehaviour:
   type: 7
   description: 
   data:
-    Name: 
+    Name: sword
     Id: 5
     buffs: []

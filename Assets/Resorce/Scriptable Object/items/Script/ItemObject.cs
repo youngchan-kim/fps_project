@@ -22,7 +22,8 @@ public enum ItemType
     Boots,
     Chest,
     //기타
-    Default
+    Default,
+    Gun
 }
 
 //당장은 쓰지 않는 버프 종류
@@ -58,11 +59,13 @@ public class Item
     public string Name;
     public int Id = -1;
     public ItemBuff[] buffs;
+
     public Item()
     {
         Name = "";
         Id = -1;
     }
+
     public Item(ItemObject item)
     {
         Name = item.name;

@@ -17,6 +17,6 @@ MonoBehaviour:
   type: 10
   description: 
   data:
-    Name: 
-    Id: -1
+    Name: chest
+    Id: 2
     buffs: []

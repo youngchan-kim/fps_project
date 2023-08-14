@@ -17,6 +17,6 @@ MonoBehaviour:
   type: 11
   description: 
   data:
-    Name: 
+    Name: bone
     Id: 0
     buffs: []

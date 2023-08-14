@@ -17,29 +17,46 @@ public class Player_recognizes_Item : MonoBehaviour
     {
         Player_recognizes();
     }
+    /*    public void OnTriggerEnter(Collider other)
+        {
+            groundItem = other.GetComponent<GroundItem>();
+            if (groundItem)
+            {
+                Item _item = new Item(groundItem.item);
+                if (Groundinventory.AddItem(_item, 1))
+                {
+                    crruntitem = _item;
+                    pickup = true;
+                }
+            }
+        }
+    */
+
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void OnTriggerEnter(Collider other)
+    public void Inventory_Add_item(Item item)
     {
-        groundItem = other.GetComponent<GroundItem>();
-        if (groundItem)
+        if (Groundinventory.AddItem(item, 1))
         {
-            Item _item = new Item(groundItem.item);
-            if (Groundinventory.AddItem(_item, 1))
-            {
-                crruntitem = _item;
-                pickup = true;
-            }
+            crruntitem = item;
+            pickup = true;
         }
     }
 
-
-    public void GetRemoveditem(/*item*/)
+    public void Inventory_Removed_item(Item item)
     {
-        Groundinventory.ClearItem(crruntitem);
+        Groundinventory.ClearItem(item);
         pickup = false;
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        groundItem = other.GetComponent<GroundItem>();
+    }
+    public void OnTriggerExit(Collider other)
+    {
         groundItem = null;
     }
+
     public GroundItem GetPickupItem()
     {
         return groundItem;

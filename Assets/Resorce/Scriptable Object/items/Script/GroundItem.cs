@@ -7,6 +7,11 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 {
     public ItemObject item;
 
+    Transform PlayerObject;
+    private void Start()
+    {
+        PlayerObject = GameMgr.Instance.GetCollierPlayer().transform.Find("PlayerObject");
+    }
     public void OnAfterDeserialize()
     {
     }
@@ -14,26 +19,27 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     public void OnBeforeSerialize()
     {
 #if UNITY_EDITOR
-       //GetComponentInChildren<SpriteRenderer>().sprite = item.uiDisplay;
-       //EditorUtility.SetDirty(GetComponentInChildren<SpriteRenderer>());
+        //GetComponentInChildren<SpriteRenderer>().sprite = item.uiDisplay;
+        //EditorUtility.SetDirty(GetComponentInChildren<SpriteRenderer>());
 #endif
     }
-    
+
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void OnTriggerEnter(Collider other)
     {
-/*       if( GameMgr.GetCollierPlayer()== other)
+        if (PlayerObject.name == other.name)
         {
-            GetCollierPlayer().
-        }*/
-
+            Item thisitem = new Item(item);
+            GameMgr.Instance.GetCollierPlayer().Inventory_Add_item(thisitem);
+        }
     }
 
     public void OnTriggerExit(Collider other)
     {
-       /* if (GetCollierPlayer() == other)
+        if (PlayerObject.name == other.name) 
         {
-            //manager.GetCollierPlayer().
-        }*/
+            Item thisitem = new Item(item);
+            GameMgr.Instance.GetCollierPlayer().Inventory_Removed_item(thisitem);
+        }
     }
 }

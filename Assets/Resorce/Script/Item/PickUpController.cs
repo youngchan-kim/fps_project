@@ -15,35 +15,110 @@ public class PickUpController : Player_recognizes_Item
 
     string itemname;
     GameObject haveitem;
-    //오브젝트와 플레이어의 거리
-    private void Update()
-    {
+    GameObject Activeitem;
 
-    }
+    //총
+
+    //object의 장착 여부
+    public bool equipped;
+    //모든 스크립트에서 변경하기 위함
+    public static bool GunslotFull;
 
     public virtual void PickUp()
     {
-        Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).name); 
+        Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
+            //문제 //아이디 값이 같은데 걍 넘어감
         haveitem = GetPickupItem().gameObject;
-        itemname = haveitem.name.ToString();
-        
-        //아이템의 이름과 같은 이름의 자식을 찾아라
-        if(transform.GetChild(0).GetChild(0).GetChild(0).name == itemname)
-            transform.GetChild(0).GetChild(0).GetChild(0).Find(haveitem.transform.GetChild(0).name).gameObject.SetActive(true); 
-               
+        itemname = haveitem.transform.GetChild(0).name;
+        Activeitem = ListActiveCheck(haveitem.name);
+        Debug.Log("지금 찾는것" + haveitem.name);
+        //총인경우 체크
+        if(haveitem.name == "Gun")
+        {
+            //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
+            if (!equipped && !GunslotFull)
+            { 
+                Activeitem.transform.Find(itemname).gameObject.SetActive(true);
+                equipped = true;
+                GunslotFull = true;
+            }
+        }
+        else
+        {
+            Activeitem.transform.Find(itemname).gameObject.SetActive(true);
+        }
+
+
         //충돌한 아이템을 비활성화한다.
         haveitem.SetActive(false);
-       
     }
 
     protected Vector3 Drop()
     {
-        transform.Find(itemname).gameObject.SetActive(false);
+        Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
+
+        if (haveitem.name == "Gun")
+        {
+            //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
+            if (equipped)
+            {
+                equipped = false;
+                GunslotFull = false;
+                ItemActiveCheck().SetActive(false); 
+            }
+        }
+        else
+        {
+            ItemActiveCheck().SetActive(false);
+        }
+        
+
         haveitem.SetActive(true);
-        Physics.Raycast(haveitem.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
+        Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
-        hitPos.y += 0.001f;
-        haveitem.transform.localPosition = hitPos;
+        hitPos.y += 0.01f;
+        haveitem.transform.position = hitPos;
         return hitPos;
+    }
+
+    //활성화된 오브젝트 리턴
+    GameObject ItemActiveCheck()
+    {
+        int ItemListcount = transform.GetChild(1).GetChild(0).GetChild(0).childCount;
+        Debug.Log(ItemListcount);
+
+        for(int i =0; i < ItemListcount; i++)
+        {
+            if (transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject.activeSelf == true)
+            {
+                return transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject;
+            }
+        }
+        return null;
+    }
+
+    //목록체크
+    GameObject ListActiveCheck(string name)
+    {
+        int ListListcount = transform.GetChild(1).GetChild(0).childCount;
+        Debug.Log(ListListcount);
+
+        for (int i = 0; i < ListListcount; i++)
+        {
+            if (transform.GetChild(1).GetChild(0).GetChild(i).gameObject.name == name)
+            {
+                return transform.GetChild(1).GetChild(0).GetChild(i).gameObject;
+            }
+        }
+        return null;
+    }
+
+    public bool GetEquipped()
+    {
+        return equipped;
+    }
+    public bool GetGunslotFull()
+    {
+        return GunslotFull;
     }
 }

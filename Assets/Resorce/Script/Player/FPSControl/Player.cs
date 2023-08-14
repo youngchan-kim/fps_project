@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : PickUpController
 {
-    public GroundItem Item;
     //public MouseItem mouseItem = new MouseItem();
     public InventoryObject /*Groundinventory,*/ /*inventory,*/ Equipinventory, Guninventory;
     public float maxHealth = 100f;
@@ -34,7 +33,10 @@ public class Player : PickUpController
     {
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
         if (Input.GetKeyDown(KeyCode.F))
+        {
             PickUp();
+
+        }
 
         //플레이어가 아이템을 가지고 있는지 체크와 G키를 통해 내려놓음
         if (Input.GetKeyDown(KeyCode.G))
@@ -99,22 +101,6 @@ public class Player : PickUpController
     {
         return life;
     }
-
-    //추가 코드
-    // 오브젝트 사이의 접촉이 일어난 순간 호출
-    /*public void OnTriggerEnter(Collider other)
-    {
-        var groundItem = other.GetComponent<GroundItem>();
-        if (groundItem)
-        {
-            Item _item = new Item(groundItem.item);
-            if (inventory.AddItem(_item, 1))
-            {
-                Destroy(other.gameObject);
-            }
-        }
-    }*/
-
 
     //데이터 관리 클래스
     public void OnApplicationQuit()

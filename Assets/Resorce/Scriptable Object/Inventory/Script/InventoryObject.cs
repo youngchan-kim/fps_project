@@ -101,7 +101,8 @@ public class InventoryObject : ScriptableObject
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
-            if (Container.Items[i].item == _item)
+            //문제 //아이디 값이 같은데 걍 넘어감
+            if (Container.Items[i].item.Id == _item.Id)
             {
                 //Container.Items[i].UpdateSlot(null, 0);
                 Container.Items[i].item = new Item();
@@ -172,7 +173,7 @@ public class InventorySlot
 
     [System.NonSerialized]
     public UserInterface parent;
-
+    public string name;
     public Item item = new Item();
     public int amount;
 

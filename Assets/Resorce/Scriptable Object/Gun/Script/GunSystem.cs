@@ -7,15 +7,27 @@ using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
-    GunPickUp pickup = null;
-    //GunSystem의 속성
-    public int damage;
-    //총의 제어권, 확산, 범위, 재장전 시간, 연사속도
-    public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
-    //탄창의 사이즈, 한번 누를때 발사하는 총알의 수
-    public int magazineSize, bulletsPerTap;
-    //버튼이 눌렸는지 확인하기 위함
-    public bool allowButtonHold;
+    public Gun_Scriptable Gun_property;
+
+    //GunPickUp pickup = null;
+
+    //공격할지점
+    [SerializeField]
+    public AimShaker firePosition;
+    [SerializeField]
+    public Transform attackPoint;
+
+    //총이 맞는 곳의 이펙트
+    [SerializeField]
+    public GameObject bulletHoleGraphic;
+
+    //남은 탄 표시
+    [SerializeField]
+    public TextMeshProUGUI text;
+
+    //사격 이펙트
+    [SerializeField]
+    public ParticleSystem muzzleFlashparticle;
 
     //남은 탄창, 쏠수 있는 탄
     int bulletsLeft, bulletsShot;
@@ -23,38 +35,22 @@ public class GunSystem : MonoBehaviour
     //bools
     bool shooting, readyToShoot, reloading;
     bool shoot = true;
-    //Reference
-    //public Transform fpsCam;
-    //공격할지점
-    /*public Transform attackPoint;*/
-    public AimShaker firePosition;
-    public Transform attackPoint;
 
     //공격한 곳
     public RaycastHit rayHit;
-    //언떤 것을 공격했는지
-    public LayerMask whatIsEnemy;
-
-    //Graphics
-    public GameObject bulletHoleGraphic;
-    //public CameraShake camShake;
-    //public float ShakeMagnitude, ShakeDuration;
-    public TextMeshProUGUI text;
-    public ParticleSystem muzzleFlashparticle;
+ 
     public int Equipped_parts_Scopes;
-    //private bool Equipped_parts_Holo;
-    //private bool Equipped_parts_RedDot;
 
     //총구가 가리키는 포지션
     Vector3 target_position;
     //촐구가 바라보는 방향
     Vector3 direction;
-    public Sprite sprites;
+
     private void Awake()
     {
-        pickup = GetComponent<GunPickUp>();
+        //pickup = GetComponent<GunPickUp>();
         //탄창사이즈 만큼 남은 탄을 채워준다.
-        bulletsLeft = magazineSize;
+        bulletsLeft = Gun_property.magazineSize;
         //쏠 수 있는 상태
         readyToShoot = true;
     }
@@ -65,9 +61,8 @@ public class GunSystem : MonoBehaviour
 
     private void Update()
     {
-
-
-        if (pickup.GetEquipped())
+        Debug.Log(GameMgr.Instance.GetCollierPlayer());
+        if (GameMgr.Instance.GetCollierPlayer().GetEquipped())
         {
             transform.LookAt(attackPoint.transform.position);
             Debug.DrawLine(firePosition.transform.position, attackPoint.transform.position, Color.red);
@@ -76,7 +71,7 @@ public class GunSystem : MonoBehaviour
 
             MyInput();
             //SetText
-            text.SetText(bulletsLeft + "/" + magazineSize);
+            text.SetText(bulletsLeft + "/" + Gun_property.magazineSize);
         }
         //Target();
     }
@@ -86,18 +81,18 @@ public class GunSystem : MonoBehaviour
     {
         //연사와 단발을 B키를 통해 조작할 수 있다.
         if (Input.GetKeyDown(KeyCode.B))
-            if (allowButtonHold)
-                allowButtonHold = false;
-            else allowButtonHold = true;
+            if (Gun_property.allowButtonHold)
+                Gun_property.allowButtonHold = false;
+            else Gun_property.allowButtonHold = true;
         /*if (!Input.GetKeyUp(KeyCode.Mouse0))*/
         //버튼 눌림 체크가 false이면 shooting은 눌렸을 때 ture;
         //연사 가능 일때
-        if (allowButtonHold)
+        if (Gun_property.allowButtonHold)
         {
             shooting = Input.GetKey(KeyCode.Mouse0);
             if (Input.GetKey(KeyCode.Mouse0) && shoot)
             {
-                StartCoroutine(firePosition.AimShake(spread));
+                StartCoroutine(firePosition.AimShake(Gun_property.spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -108,7 +103,7 @@ public class GunSystem : MonoBehaviour
             shooting = Input.GetKeyDown(KeyCode.Mouse0);
             if (Input.GetKeyDown(KeyCode.Mouse0) && shoot)
             {
-                StartCoroutine(firePosition.AimShake(spread));
+                StartCoroutine(firePosition.AimShake(Gun_property.spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -116,13 +111,13 @@ public class GunSystem : MonoBehaviour
         }
 
         //R키가 눌렸고 남은 탄이 탄창보다 작고 리로드 중이 아닐때 호출한다.
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
+        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < Gun_property.magazineSize && !reloading) Reload();
 
         //Shoot
         //쏠준비됨 혹은 슈팅중이고 재장전중이지 않으며 장전된 탄의 수가 0보다 클때
         if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
         {
-            bulletsShot = bulletsPerTap;
+            bulletsShot = Gun_property.bulletsPerTap;
             Shoot();
         }
     }
@@ -136,11 +131,11 @@ public class GunSystem : MonoBehaviour
         //접촉한 단일 개체의 정보를 얻어오기 위함
         //특정 위치에서 일정한 방향으로 광선을 발사
 
-        if (Physics.Raycast(firePosition.transform.position, attackPoint.transform.position, out rayHit, range))
+        if (Physics.Raycast(firePosition.transform.position, attackPoint.transform.position, out rayHit, Gun_property.range))
         {
             //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<ShootingAi>())
-                rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
+                rayHit.collider.GetComponent<ShootingAi>().TakeDamage(Gun_property.damage);
         }
         //Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
 
@@ -158,12 +153,12 @@ public class GunSystem : MonoBehaviour
         bulletsLeft--;
         bulletsShot--;
         //총 쏘면서 바뀐 속성 리셋
-        Invoke("ResetShot", timeBetweenShooting);
+        Invoke("ResetShot", Gun_property.timeBetweenShooting);
 
         //총을 쏠때 연사시간
         if (bulletsShot > 0 && bulletsLeft > 0)
         {
-            Invoke("Shoot", timeBetweenShots);
+            Invoke("Shoot", Gun_property.timeBetweenShots);
         }
         shoot = false;
     }
@@ -179,18 +174,18 @@ public class GunSystem : MonoBehaviour
     private void Reload()
     {
         reloading = true;
-        Invoke("ReloadFinished", reloadTime);
+        Invoke("ReloadFinished", Gun_property.reloadTime);
     }
 
 
     private void ReloadFinished()
     {
-        bulletsLeft = magazineSize;
+        bulletsLeft = Gun_property.magazineSize;
         reloading = false;
     }
 
     public Sprite GetSprite()
     {
-        return sprites;
+        return Gun_property.sprites;
     }
 }

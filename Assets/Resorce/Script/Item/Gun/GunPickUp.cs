@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemPickUp : PickUpController
+public class GunPickUp : PickUpController
 {
     //총기 시스템을 가지고 있는 object를 연결
     public GunSystem gunScript;
@@ -12,7 +12,7 @@ public class ItemPickUp : PickUpController
     //object가 있게 될 위치
     public Transform gunContainer;
     //object의 장착 여부
-    public bool equipped;
+    //public bool equipped;
     //이미 총을 들고 있는지 확인
     //모든 스크립트에서 변경하기 위함
     public static bool slotFull;
@@ -22,10 +22,10 @@ public class ItemPickUp : PickUpController
     Sprite after_object;
 
 
-    public bool GetEquipped()
+    /*public bool GetEquipped()
     {
         return equipped;
-    }
+    }*/
 
     void Start()
     {
@@ -53,7 +53,8 @@ public class ItemPickUp : PickUpController
     private void Update()
     {
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
-        //if (!equipped && Player_recognizes() && Input.GetKeyDown(KeyCode.F) && !slotFull) PickUpItem();
+        if (!equipped && Input.GetKeyDown(KeyCode.F) && !slotFull)
+            PickUpItem();
 
         //플레이어가 아이템을 가지고 있는지 체크와 G키를 통해 내려놓음
         if (equipped && Input.GetKeyDown(KeyCode.G))

@@ -17,6 +17,6 @@ MonoBehaviour:
   type: 5
   description: 
   data:
-    Name: 
-    Id: -1
+    Name: monkfish
+    Id: 4
     buffs: []
