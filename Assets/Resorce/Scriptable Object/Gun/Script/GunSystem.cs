@@ -61,9 +61,9 @@ public class GunSystem : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(GameMgr.Instance.GetCollierPlayer().GetEquipped());
-        Debug.Log(GameMgr.Instance.GetCollierPlayer().GetGunslotFull());
-        if (GameMgr.Instance.GetCollierPlayer().GetGunslotFull())
+        Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetEquipped());
+        Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull());
+        if (GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull())
         {
             transform.LookAt(attackPoint.transform.position);
             Debug.DrawLine(firePosition.transform.position, attackPoint.transform.position, Color.red);

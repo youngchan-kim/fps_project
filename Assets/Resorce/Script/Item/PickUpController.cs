@@ -28,7 +28,8 @@ public class PickUpController : Player_recognizes_Item
     {
         Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
         //문제 //아이디 값이 같은데 걍 넘어감
-        haveitem = GetPickupItem().gameObject;
+        GetPickupItem();
+        /*haveitem = GetPickupItem().gameObject;
         itemname = haveitem.transform.GetChild(0).name;
         Activeitem = ListActiveCheck(haveitem.name);
         Debug.Log("지금 찾는것" + haveitem.name);
@@ -50,7 +51,7 @@ public class PickUpController : Player_recognizes_Item
 
 
         //충돌한 아이템을 비활성화한다.
-        haveitem.SetActive(false);
+        haveitem.SetActive(false);*/
     }
 
     protected Vector3 Drop()

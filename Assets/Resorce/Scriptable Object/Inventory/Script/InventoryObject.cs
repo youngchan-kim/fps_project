@@ -188,6 +188,11 @@ public class InventorySlot
             return null;
         }
     }
+    public int GetInventoryID()
+    {
+        return parent.inventory.InventoryID;
+    }
+
 
     public InventorySlot()
     {

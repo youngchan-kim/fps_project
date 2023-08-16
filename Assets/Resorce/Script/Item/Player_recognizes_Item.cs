@@ -70,6 +70,7 @@ public class Player_recognizes_Item : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         groundItem = other.GetComponent<GroundItem>();
+        Debug.Log(name);
     }
     public void OnTriggerExit(Collider other)
     {
@@ -78,6 +79,7 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public GroundItem GetPickupItem()
     {
+        Debug.Log(name);
         return groundItem;
     }
 

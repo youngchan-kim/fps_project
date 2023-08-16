@@ -4,7 +4,7 @@ using UnityEngine;
 
 public sealed class GameMgr : MonoBehaviour
 {
-    public Player player;
+    public GameObject player;
 
     static GameMgr instance = null;
     public static GameMgr Instance
@@ -33,9 +33,9 @@ public sealed class GameMgr : MonoBehaviour
     }
     void StartGame() 
     {
-        player.Initialize();
+        player.GetComponent<Player>().Initialize();
     }
-    public Player GetCollierPlayer()
+    public GameObject GetCollierPlayer()
     {
         return player;
     }
