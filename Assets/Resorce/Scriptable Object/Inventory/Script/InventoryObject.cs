@@ -9,8 +9,8 @@ using System.Runtime.Serialization;
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 
 public class InventoryObject : ScriptableObject
-
 {
+    public int InventoryID;
     public string savePath;
     //public List<ItemObject> Container = new List<ItemObject>(); 에서로 변경
     //private ItemDatabaseObject database;
