@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player_recognizes_Item : MonoBehaviour
 {
-    private GroundDynamicInterface Ground_item;
+    private GroundInterface Ground_item;
     private DynamicInterface Inventory_item;
     private StaticInterface Equip_item;
     private StaticInterface Gun_item;
@@ -36,18 +36,20 @@ public class Player_recognizes_Item : MonoBehaviour
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void On_The_Ground_Item(Item item)
     {
+        Debug.Log("주변아이템 목록에 추가");
         Add_Item(Groundinventory, item);
         
     }
 
     public void On_The_Ground_Item_Removed(Item item)
     {
+        Debug.Log("주변아이템 목록에서 삭제");
         Item_Removed(Groundinventory, item);
     }
 
     public void Add_Item(InventoryObject inven, Item item)
     {
-        Debug.Log(item.);
+
         if (inven.AddItem(item, 1))
         {
             crruntitem = item;
