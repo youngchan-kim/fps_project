@@ -85,20 +85,20 @@ public abstract class UserInterface : MonoBehaviour
         {
             slotsOnInterface[obj].RemoveItem();
             DragEnd = false;
+            //Debug.Log(name);
+            //GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
             return;
         }
         if (MouseData.slotHoveredOver)
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
-            Debug.Log("주는곳"+slotsOnInterface[obj].GetInventoryID());
-            //Debug.Log(slotsOnInterface[obj].item);
-            Debug.Log("받는곳"+mouseHoverSlotData.GetInventoryID());
-            //Debug.Log(mouseHoverSlotData.ToString());
+            //Debug.Log("주는곳"+slotsOnInterface[obj].GetInventoryID());
+            //Debug.Log("받는곳"+mouseHoverSlotData.GetInventoryID());
             inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
             if (mouseHoverSlotData.GetInventoryID() != 0)
             {
-                Debug.Log(name);
-                GameMgr.Instance.player.GetComponent<Player>().PickUp();
+                //Debug.Log(name);
+                GameMgr.Instance.player.GetComponent<Player>().ItemPickupSystem();
             }
 /*            else if (mouseHoverSlotData.GetInventoryID() == 0)
             {

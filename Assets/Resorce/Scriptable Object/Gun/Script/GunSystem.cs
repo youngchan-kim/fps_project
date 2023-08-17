@@ -61,8 +61,8 @@ public class GunSystem : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetEquipped());
-        Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull());
+        //Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetEquipped());
+        //Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull());
         if (GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull())
         {
             transform.LookAt(attackPoint.transform.position);
@@ -144,7 +144,7 @@ public class GunSystem : MonoBehaviour
 
 
         /*Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);*/
-        Instantiate(muzzleFlashparticle, attackPoint.transform.position, Quaternion.identity);
+        //Instantiate(muzzleFlashparticle, attackPoint.transform.position, Quaternion.identity);
 
         bulletsLeft--;
         bulletsShot--;

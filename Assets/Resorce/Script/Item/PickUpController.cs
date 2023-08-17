@@ -14,7 +14,7 @@ public class PickUpController : Player_recognizes_Item
     private Vector3 hitPos;
 
     string itemname;
-    GameObject haveitem;
+    GroundItem haveitem;
     GameObject Activeitem;
 
     //총
@@ -26,19 +26,23 @@ public class PickUpController : Player_recognizes_Item
 
     public virtual void PickUp()
     {
-        Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
-        //문제 //아이디 값이 같은데 걍 넘어감
-        GetPickupItem();
-        /*haveitem = GetPickupItem().gameObject;
-        itemname = haveitem.transform.GetChild(0).name;
+        //충돌한 아이템
+        ItemPickupSystem();
+        Swap_Item();
+    }
+
+    public void ItemPickupSystem()
+    {
+        haveitem = GetPickupItem();
+        itemname = haveitem.gameObject.transform.GetChild(0).name;
         Activeitem = ListActiveCheck(haveitem.name);
-        Debug.Log("지금 찾는것" + haveitem.name);
+        //Debug.Log("지금 찾는것" + haveitem.name);
         //총인경우 체크
-        if(haveitem.name == "Gun")
+        if (haveitem.name == "Gun")
         {
             //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
             if (!equipped && !GunslotFull)
-            { 
+            {
                 Activeitem.transform.Find(itemname).gameObject.SetActive(true);
                 equipped = true;
                 GunslotFull = true;
@@ -51,8 +55,11 @@ public class PickUpController : Player_recognizes_Item
 
 
         //충돌한 아이템을 비활성화한다.
-        haveitem.SetActive(false);*/
+        haveitem.gameObject.SetActive(false);
     }
+
+
+
 
     protected Vector3 Drop()
     {
@@ -75,13 +82,15 @@ public class PickUpController : Player_recognizes_Item
         
 
 
-        haveitem.SetActive(true);
+        haveitem.gameObject.SetActive(true);
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
         haveitem.transform.position = hitPos;
         return hitPos;
     }
+
+
 
     //활성화된 오브젝트 리턴
     GameObject ItemActiveCheck()
@@ -103,7 +112,7 @@ public class PickUpController : Player_recognizes_Item
     GameObject ListActiveCheck(string name)
     {
         int ListListcount = transform.GetChild(1).GetChild(0).childCount;
-        Debug.Log(ListListcount);
+        //Debug.Log(ListListcount);
 
         for (int i = 0; i < ListListcount; i++)
         {
@@ -117,7 +126,7 @@ public class PickUpController : Player_recognizes_Item
 
     public bool GetEquipped()
     {
-        Debug.Log("장착 : " + equipped);
+        //Debug.Log("장착 : " + equipped);
         return equipped;
     }
 

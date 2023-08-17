@@ -10,7 +10,8 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     Transform PlayerObject;
     private void Start()
     {
-        PlayerObject = GameMgr.Instance.GetCollierPlayer().transform.Find("PlayerObject");
+        //Debug.Log("지금 찾는거" +GameMgr.Instance.player.transform.Find("PlayerObject"));
+        PlayerObject = GameMgr.Instance.player.transform.Find("PlayerObject");
     }
     public void OnAfterDeserialize()
     {
@@ -31,6 +32,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         {
             Item thisitem = new Item(item);
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(thisitem);
+
         }
     }
 

@@ -77,8 +77,28 @@ public class InventoryObject : ScriptableObject
         return null;
     }
 
+    public InventorySlot GetEmptySlot()
+    {
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].item.Id == -1)
+            {
+                return Container.Items[i];
+            }
+        }
+        //full inventory
+        return null;
+    }
+
     public void SwapItems(InventorySlot item1, InventorySlot item2)
     {
+        //Debug.Log("지금 찾는아이템인벤토리의 아이디");
+        //Debug.Log(item1.GetInventoryID());
+        //Debug.Log(item2.GetInventoryID());
+        //Debug.Log("지금 찾는아이템");
+        //Debug.Log(item1.ItemObject);
+        //Debug.Log(item2.ItemObject);
+
         if (item2.CanPlaceInSlot(item1.ItemObject)&& item1.CanPlaceInSlot(item2.ItemObject))
         {
             InventorySlot temp = new InventorySlot(item2.item, item2.amount);
