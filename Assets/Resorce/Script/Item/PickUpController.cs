@@ -26,12 +26,18 @@ public class PickUpController : Player_recognizes_Item
 
     public virtual void PickUp()
     {
+        Debug.DrawRay(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward * 5f, Color.black, 0.2f);
+        //Debug.DrawLine(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward,Color.black ,  2f);
+        if(Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, 5f))
+        {
+
+        }
+
         //충돌한 아이템
-        ItemPickupSystem();
-        Swap_Item();
+        Pickup_Swap_Item();
     }
 
-    public void ItemPickupSystem()
+    public void ItemPickup_inventory_System()
     {
         haveitem = GetPickupItem();
         itemname = haveitem.gameObject.transform.GetChild(0).name;
@@ -61,10 +67,15 @@ public class PickUpController : Player_recognizes_Item
 
 
 
-    protected Vector3 Drop()
+    protected void Drop()
     {
         Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
 
+        ItemDropSystem();
+    }
+
+    public void ItemDropSystem()
+    {
         if (haveitem.name == "Gun")
         {
             //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
@@ -72,14 +83,14 @@ public class PickUpController : Player_recognizes_Item
             {
                 equipped = false;
                 GunslotFull = false;
-                ItemActiveCheck().SetActive(false); 
+                ItemActiveCheck().SetActive(false);
             }
         }
         else
         {
             ItemActiveCheck().SetActive(false);
         }
-        
+
 
 
         haveitem.gameObject.SetActive(true);
@@ -87,12 +98,9 @@ public class PickUpController : Player_recognizes_Item
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
         haveitem.transform.position = hitPos;
-        return hitPos;
     }
 
-
-
-    //활성화된 오브젝트 리턴
+        //활성화된 오브젝트 리턴
     GameObject ItemActiveCheck()
     {
         int ItemListcount = transform.GetChild(1).GetChild(0).GetChild(0).childCount;

@@ -32,13 +32,32 @@ public class Player_recognizes_Item : MonoBehaviour
         }
     */
     
-    public void Swap_Item()
+    public void Pickup_Swap_Item()
     {
         if (Groundinventory.FindItemOnInventory(crruntitem) != null)
         {
             if (groundItem.name == "Gun")
             {
-                Debug.Log("아이템 스왑");
+                Debug.Log("아이템 픽업");
+                Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(crruntitem), Guninventory.GetEmptySlot());
+            }
+            else if (groundItem.name == "Helmat" || groundItem.name == "Bag" || groundItem.name == "Amor")
+            {
+                Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(crruntitem), Equipinventory.GetEmptySlot());
+            }
+            else
+            {
+                Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(crruntitem), inventory.GetEmptySlot());
+            }
+        }
+    }
+    public void Drop_Swap_Item()
+    {
+        if (Groundinventory.FindItemOnInventory(crruntitem) != null)
+        {
+            if (groundItem.name == "Gun")
+            {
+                Debug.Log("아이템 픽업");
                 Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(crruntitem), Guninventory.GetEmptySlot());
             }
             else if (groundItem.name == "Helmat" || groundItem.name == "Bag" || groundItem.name == "Amor")
@@ -52,8 +71,9 @@ public class Player_recognizes_Item : MonoBehaviour
         }
     }
 
-        //추가 코드
-        // 오브젝트 사이의 접촉이 일어난 순간 호출
+
+    //추가 코드
+    // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void On_The_Ground_Item(Item item)
     {
         Debug.Log("주변아이템 목록에 추가");

@@ -86,7 +86,7 @@ public abstract class UserInterface : MonoBehaviour
             slotsOnInterface[obj].RemoveItem();
             DragEnd = false;
             //Debug.Log(name);
-            //GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
+            GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
             return;
         }
         if (MouseData.slotHoveredOver)
@@ -98,12 +98,12 @@ public abstract class UserInterface : MonoBehaviour
             if (mouseHoverSlotData.GetInventoryID() != 0)
             {
                 //Debug.Log(name);
-                GameMgr.Instance.player.GetComponent<Player>().ItemPickupSystem();
+                GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System();
             }
-/*            else if (mouseHoverSlotData.GetInventoryID() == 0)
+            else if (mouseHoverSlotData.GetInventoryID() == 0)
             {
-
-            }*/
+                GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
+            }
             /*if (slotsOnInterface[obj].GetInventoryID() != mouseHoverSlotData.GetInventoryID())
             {
             }*/
