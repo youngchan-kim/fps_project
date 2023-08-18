@@ -10,6 +10,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     Transform PlayerObject;
     private void Start()
     {
+        
         //Debug.Log("지금 찾는거" +GameMgr.Instance.player.transform.Find("PlayerObject"));
         PlayerObject = GameMgr.Instance.player.transform.Find("PlayerObject");
     }
@@ -43,5 +44,10 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
             Item thisitem = new Item(item);
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(thisitem);
         }
+    }
+    public Item This_Item_info()
+    {
+        Item thisitem = new Item(item);
+        return thisitem;
     }
 }

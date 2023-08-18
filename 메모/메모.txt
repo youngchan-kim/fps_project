@@ -57,4 +57,5 @@ Gun오브젝트에 추가한 gun system script에 있는 Attack Point를 움직�
 컬리더분류할것 2개 다 쓸것
 laycast쏠때 레이어 설정하고
 
+총쏠때
 트리거 레이캐스트에서 무시하는 방법 검색
