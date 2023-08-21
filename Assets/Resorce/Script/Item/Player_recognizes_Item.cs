@@ -51,7 +51,7 @@ public class Player_recognizes_Item : MonoBehaviour
                 Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(see_the_item), inventory.GetEmptySlot());
             }
             groundItem = ground_Item;
-            ItemPickup_inventory_System();
+            ItemPickup_inventory_System(see_the_item);
         }
     }
     //드래그로 먹을때
@@ -74,53 +74,11 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
     }
-    
-
-
-    //추가 코드
-    // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(Item item)
-    { 
-        Add_Item(Groundinventory, item);
-        crruntitem = item;
-    }
-
-    public void On_The_Ground_Item_Removed(Item item)
-    {
-        Item_Removed(Groundinventory, item);
-        crruntitem = null;
-    }
-
-    public void Add_Item(InventoryObject inven, Item item)
-    {
-        if (inven.AddItem(item, 1))
-        {
-            crruntitem = item;
-            pickup = true;
-        }
-    }
-    
-    public void Item_Removed(InventoryObject inven, Item item)
-    {
-        inven.ClearItem(item);
-        pickup = false;
-    }
-
-    public bool GetPickup()
-    {
-        return pickup;
-    }
-
-    public bool Player_recognizes()
-    {
-        return player_recognizes;
-    }
-
     //드래그엔드일때 사용
-    public void ItemPickup_inventory_System()
+    public void ItemPickup_inventory_System(Item _item)
     {
         //총인경우 체크
-        if (Activeitem = Gun_Item_ID_Check(crruntitem.Id))
+        if (Activeitem = Gun_Item_ID_Check(_item.Id))
         {
             
             //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
@@ -138,12 +96,12 @@ public class Player_recognizes_Item : MonoBehaviour
 
         //클릭한아이템을 Items에서 제거해야함
         //충돌한 아이템을 비활성화한다.
-        haveitem.gameObject.SetActive(false);
+        _item.groundobject.SetActive(false);
     }
 
     public void ItemDropSystem()
     {
-        if (haveitem.name == "Gun")
+        if (crruntitem.groundobject.name == "Gun")
         {
             //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
             if (equipped)
@@ -158,11 +116,11 @@ public class Player_recognizes_Item : MonoBehaviour
             ItemActiveCheck().SetActive(false);
         }
 
-        haveitem.gameObject.SetActive(true);
+        crruntitem.groundobject.SetActive(true);
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
-        haveitem.transform.position = hitPos;
+        crruntitem.groundobject.transform.position = hitPos;
     }
 
     //목록체크
@@ -212,6 +170,45 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
         return null;
+    }
+    //추가 코드
+    // 오브젝트 사이의 접촉이 일어난 순간 호출
+    public void On_The_Ground_Item(Item item, GameObject prantObject)
+    {
+        Add_Item(Groundinventory, item, prantObject);
+        crruntitem = item;
+    }
+
+    public void On_The_Ground_Item_Removed(Item item)
+    {
+        Item_Removed(Groundinventory, item);
+        crruntitem = null;
+    }
+
+    public void Add_Item(InventoryObject inven, Item item, GameObject prantObject)
+    {
+        if (inven.AddItem(item, 1, prantObject))
+        {
+            crruntitem = item;
+            pickup = true;
+        }
+    }
+
+
+    public void Item_Removed(InventoryObject inven, Item item)
+    {
+        inven.ClearItem(item);
+        pickup = false;
+    }
+
+    public bool GetPickup()
+    {
+        return pickup;
+    }
+
+    public bool Player_recognizes()
+    {
+        return player_recognizes;
     }
 
     public void ClickItem(Item clickitem)

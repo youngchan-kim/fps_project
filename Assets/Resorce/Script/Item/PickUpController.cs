@@ -9,19 +9,12 @@ public class PickUpController : Player_recognizes_Item
     //내려지는 레이어
     public LayerMask Item_Mask;
 
-
-
-
     public virtual void PickUp(RaycastHit rayHit)
     {
         //Debug.Log(rayHit.collider.transform.parent.GetComponent<GroundItem>().This_Item_info());
-        //충돌한 아이템
+        //충돌한 아이템의 그라운드 아이템과 아이템을 매개변수로 사용
         Pickup_Swap_Item(rayHit.collider.transform.parent.GetComponent<GroundItem>(),rayHit.collider.transform.parent.GetComponent<GroundItem>().This_Item_info());
     }
-
-
-
-
 
     protected void Drop()
     {
@@ -29,12 +22,6 @@ public class PickUpController : Player_recognizes_Item
 
         ItemDropSystem();
     }
-
-    
-
-
-
-
     public bool GetEquipped()
     {
         //Debug.Log("장착 : " + equipped);

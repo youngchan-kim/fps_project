@@ -20,17 +20,18 @@ public class InventoryObject : ScriptableObject
     public Inventory Container;
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, int _amount)
+    public bool AddItem(Item _item, int _amount, GameObject _gameObject)
     {
         if (EmptySlotCount <= 0)
             return false;
         InventorySlot slot = FindItemOnInventory(_item);
         if (!database.Items[_item.Id].stackable || slot == null)
         {
-            SetEmptySlot(_item, _amount);
+            SetEmptySlot(_item, _amount, _gameObject);
             return true;
         }
         slot.AddAmount(_amount);
+        slot.AddPrantObject(_item, _gameObject);
         return true;
     }
 
@@ -63,13 +64,14 @@ public class InventoryObject : ScriptableObject
         return null;
     }
 
-    public InventorySlot SetEmptySlot(Item _item, int _amount)
+    //빈슬롯에 설정
+    public InventorySlot SetEmptySlot(Item _item, int _amount, GameObject _gameObject)
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
             if (Container.Items[i].item.Id <= -1)
             {
-                Container.Items[i].UpdateSlot(_item, _amount);
+                Container.Items[i].UpdateSlot(_item, _amount, _gameObject);
                 return Container.Items[i];
             }
         }
@@ -88,6 +90,10 @@ public class InventoryObject : ScriptableObject
         }
         //full inventory
         return null;
+    }
+    public void MakeEmptySlot(InventorySlot slot)
+    {
+        slot.RemoveItem();
     }
 
     public void SwapItems(InventorySlot item1, InventorySlot item2)
@@ -219,26 +225,40 @@ public class InventorySlot
     {
         item = new Item();
         amount = 0;
+        item.groundobject = null;
     }
+    //스왑할때 사용
     public InventorySlot(Item _item, int _amount)
     {
         item = _item;
         amount = _amount;
     }
-    //생성자와 같은 작업을 수행하는 업데이트 함수
+    //저장할때 주로 사용
     public void UpdateSlot(Item _item, int _amount)
+    {
+        item = _item;
+        amount = _amount;
+    }
+    //생성자와 같은 작업을 수행하는 업데이트 함수
+    public void UpdateSlot(Item _item, int _amount, GameObject _grounditemobject)
     { 
         item = _item;
         amount = _amount;
+        item.groundobject = _grounditemobject;
     }
     public void RemoveItem()
     {
         item = new Item();
         amount = 0;
+        item.groundobject = null;
     }
     public void AddAmount(int value)
     {
         amount += value;
+    }
+    public void AddPrantObject(Item _item, GameObject prant_gameObject)
+    {
+        _item.groundobject = prant_gameObject;
     }
 
     //허용된 슬롯만 가능

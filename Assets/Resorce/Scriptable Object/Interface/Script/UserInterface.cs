@@ -102,17 +102,19 @@ public abstract class UserInterface : MonoBehaviour
             //Debug.Log("받는곳"+mouseHoverSlotData.GetInventoryID());
             Debug.Log("찾는것" + slotsOnInterface[obj].item.Id);
             Debug.Log(slotsOnInterface[obj].item.GetType());
-            Debug.Log(slotsOnInterface[obj].item.Name);
-            inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+            Debug.Log("땅에 있던 오브젝트"+slotsOnInterface[obj].item.groundobject);
             if (mouseHoverSlotData.GetInventoryID() != 0)
             {
                 //Debug.Log(name);
-                GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System();
-                GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
+                GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System(slotsOnInterface[obj].item);
+                if (slotsOnInterface[obj].GetInventoryID() == 0) { };
+                inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
             }
             else if (mouseHoverSlotData.GetInventoryID() == 0)
             {
+                GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
                 GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
+                inventory.MakeEmptySlot(slotsOnInterface[obj]);
             }
             /*if (slotsOnInterface[obj].GetInventoryID() != mouseHoverSlotData.GetInventoryID())
             {
