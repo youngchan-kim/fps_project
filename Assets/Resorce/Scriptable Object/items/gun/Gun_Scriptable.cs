@@ -8,7 +8,8 @@ using TMPro;
 [CreateAssetMenu(fileName = "New Gun", menuName = "Gun System/Gun")]
 public class Gun_Scriptable : ScriptableObject
 {
-    
+    //총의 아이디
+    public int Id;
     //GunSystem의 속성
     public int damage;
     //총의 제어권
@@ -16,7 +17,7 @@ public class Gun_Scriptable : ScriptableObject
     //확산
     public float spread;
     //범위
-    public float range;
+    public int range;
     //재장전 시간
     public float reloadTime;
     //연사속도

@@ -14,7 +14,7 @@ public class PickUpController : Player_recognizes_Item
 
     public virtual void PickUp(RaycastHit rayHit)
     {
-        Debug.Log(rayHit.collider.transform.parent.GetComponent<GroundItem>().This_Item_info());
+        //Debug.Log(rayHit.collider.transform.parent.GetComponent<GroundItem>().This_Item_info());
         //충돌한 아이템
         Pickup_Swap_Item(rayHit.collider.transform.parent.GetComponent<GroundItem>(),rayHit.collider.transform.parent.GetComponent<GroundItem>().This_Item_info());
     }
@@ -25,7 +25,7 @@ public class PickUpController : Player_recognizes_Item
 
     protected void Drop()
     {
-        Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
+        //Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
 
         ItemDropSystem();
     }
@@ -43,7 +43,7 @@ public class PickUpController : Player_recognizes_Item
 
     public bool GetGunslotFull()
     {
-        Debug.Log("장착 : " + GunslotFull);
+        //Debug.Log("장착 : " + GunslotFull);
         return GunslotFull;
     }
 

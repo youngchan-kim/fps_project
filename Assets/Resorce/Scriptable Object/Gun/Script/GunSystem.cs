@@ -131,7 +131,7 @@ public class GunSystem : MonoBehaviour
         //접촉한 단일 개체의 정보를 얻어오기 위함
         //특정 위치에서 일정한 방향으로 광선을 발사
         Vector3 firedirection = attackPoint.transform.position - firePosition.transform.position;
-        if (Physics.Raycast(firePosition.transform.position, firedirection, out rayHit, Gun_property.range))
+        if (Physics.Raycast(firePosition.transform.position, firedirection, out rayHit, Gun_property.range/*, QueryTriggerInteraction.Ignore*/))
         {
             //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<ShootingAi>())
@@ -140,6 +140,7 @@ public class GunSystem : MonoBehaviour
             var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
 
         }
+
         //Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
 
 

@@ -36,8 +36,8 @@ public class Player : PickUpController
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
         if (Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, out rayHit,  4f, Item_Mask))
         {
-            Debug.Log("보고있는 아이템");
-            Debug.Log(rayHit.transform.parent.GetComponent<GroundItem>());
+            /*Debug.Log("보고있는 아이템");
+            Debug.Log(rayHit.transform.parent.GetComponent<GroundItem>());*/
             if (Input.GetKeyDown(KeyCode.F))
             {
                 PickUp(rayHit);

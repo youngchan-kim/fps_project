@@ -60,6 +60,7 @@ public abstract class UserInterface : MonoBehaviour
     public void OnDragStart(GameObject obj)
     {
         MouseData.tempItemBeingDragged = CreateTempItem(obj);
+        //클릭된 아이템의 grounditem 스크립트를 알아온다.
     }
     //드래그 중인 아이템에 사용됨
     //임시 아이템 생성 함수
@@ -87,6 +88,11 @@ public abstract class UserInterface : MonoBehaviour
             DragEnd = false;
             //Debug.Log(name);
             GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
+            /*if (mouseHoverSlotData.GetInventoryID() != 0)
+            {
+                //Debug.Log(name);
+                GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System();
+            }*/
             return;
         }
         if (MouseData.slotHoveredOver)
@@ -94,11 +100,15 @@ public abstract class UserInterface : MonoBehaviour
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
             //Debug.Log("주는곳"+slotsOnInterface[obj].GetInventoryID());
             //Debug.Log("받는곳"+mouseHoverSlotData.GetInventoryID());
+            Debug.Log("찾는것" + slotsOnInterface[obj].item.Id);
+            Debug.Log(slotsOnInterface[obj].item.GetType());
+            Debug.Log(slotsOnInterface[obj].item.Name);
             inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
             if (mouseHoverSlotData.GetInventoryID() != 0)
             {
                 //Debug.Log(name);
                 GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System();
+                GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
             }
             else if (mouseHoverSlotData.GetInventoryID() == 0)
             {
@@ -121,6 +131,17 @@ public abstract class UserInterface : MonoBehaviour
     {
         return DragEnd;
     }
+
+    public InventorySlot ClickItem(InventorySlot clickItem)
+    {
+        for (int i = 0; i < inventory.Container.Items.Length; i++)
+        {
+            if(clickItem == inventory.Container.Items[i])
+                return inventory.Container.Items[i];
+        }
+        return null;
+    }
+    
 }
 
 

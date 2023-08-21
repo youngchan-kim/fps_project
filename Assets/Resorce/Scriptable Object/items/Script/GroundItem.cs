@@ -33,7 +33,6 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         {
             Item thisitem = new Item(item);
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(thisitem);
-
         }
     }
 
@@ -43,6 +42,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         {
             Item thisitem = new Item(item);
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(thisitem);
+
         }
     }
     public Item This_Item_info()
@@ -50,4 +50,5 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         Item thisitem = new Item(item);
         return thisitem;
     }
+
 }
