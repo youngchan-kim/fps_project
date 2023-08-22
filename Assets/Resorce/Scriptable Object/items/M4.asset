@@ -18,7 +18,7 @@ MonoBehaviour:
   type: 3
   description: 
   data:
-    Name: gun
-    Id: 7
+    Name: M4
+    Id: 1
     groundobject: {fileID: 0}
     buffs: []

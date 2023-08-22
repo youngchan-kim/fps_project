@@ -18,13 +18,16 @@ public class Player_recognizes_Item : MonoBehaviour
     GroundItem haveitem;
     GameObject Activeitem;
     GameObject ItemList;
-    //모든 스크립트에서 변경하기 위함
+    //모든 스크립트에서 변경할 수 있게 하기 위함
     public static GameObject[] Gunslot =  new GameObject[4];
+    //아이템의 실제정보를 가지고 있음
+    public static GameObject[] Itemslot = new GameObject[4];
     public bool equipped;
     //아이템을 두기 위한 위치
     //월드 포지션을 가지기 위함
     private Vector3 hitPos;
 
+    int slotnum;
     private void Update()
     {
         Player_recognizes();
@@ -65,12 +68,13 @@ public class Player_recognizes_Item : MonoBehaviour
             {
                 //해당 부분 오류
                 //Activeitem.SetActive(true);
-                AddGun(Gun_Item_ID_Check(_item.Id));
+                Additem(Gunslot , Gun_Item_ID_Check(_item.Id));
                 GunActive(0);
             }
         }
         else
         {
+            //Additem(Itemslot, Gun_Item_ID_Check(_item.Id));
             //Activeitem.SetActive(true);
         }
 
@@ -82,7 +86,10 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public void GunActive(int sellect)
     {
-        Gunslot[sellect].SetActive(true);
+        if (Gunslot[sellect] != null)
+        {
+            Gunslot[sellect].SetActive(true);
+        }
         GunUnActive(sellect);
     }
     public bool GetGunSlotEmpty()
@@ -94,24 +101,41 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         return false;
     }
-    void AddGun(GameObject gun)
+    void Additem(GameObject[] Itemslot , GameObject item)
     {
-        for (int i = 0; i < Gunslot.Length; i++)
+        if (slotnum == -1)
         {
-            if (Gunslot[i] == null)
+            for (int i = 0; i < Itemslot.Length; i++)
             {
-                Gunslot[i] = gun;
-                return;
+                if (Itemslot[i] != null)
+                    Debug.Log(i + "번째 슬롯에 " + Itemslot[i] + " 있다.");
+                else
+                    Debug.Log(i + "번째 슬롯에 없다.");
+                if (Itemslot[i] == null)
+                {
+                    Itemslot[i] = item;
+                    return;
+                }
             }
         }
+        else
+        {
+            Itemslot[slotnum] = item;
+        }
+        slotnum = -1;
     }
 
-    void RemoveGun(int num)
+    public void ItemSlotNum(int num)
+    {
+        slotnum = num;
+    }
+    public void RemoveGun(int num)
     {
         for (int i = 0; i < Gunslot.Length; i++)
         {
             if (i == num)
             {
+                Gunslot[i].transform.gameObject.SetActive(false);
                 Gunslot[i] = null;
                 return;
             }
@@ -148,6 +172,7 @@ public class Player_recognizes_Item : MonoBehaviour
         return null;
     }
 
+
     public void ItemDropSystem()
     {
         if (crruntitem.groundobject.name == "Gun")
@@ -161,7 +186,7 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         else
         {
-            ItemActiveCheck().SetActive(false);
+            //ItemActiveCheck().SetActive(false);
         }
 
         crruntitem.groundobject.SetActive(true);

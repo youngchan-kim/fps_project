@@ -11,11 +11,12 @@ public abstract class UserInterface : MonoBehaviour
 
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
-
+    Player player;
     //임시 드레그가 끝났는지 안끝났는지 
     bool DragEnd = false;
     void Start()
     {
+        player = GameMgr.Instance.player.GetComponent<Player>();
         for (int i = 0; i < inventory.Container.Items.Length; i++)
         {
             inventory.Container.Items[i].parent = this;
@@ -88,9 +89,11 @@ public abstract class UserInterface : MonoBehaviour
 
             if (slotsOnInterface[obj].GetInventoryID() != 0)
             {
-                GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
-                GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
+                player.ClickItem(slotsOnInterface[obj].item);
+                player.ItemDropSystem();
                 slotsOnInterface[obj].RemoveItem();
+                if(slotsOnInterface[obj].GetInventoryID() == 3)
+                    player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
             }
             
             DragEnd = false;
@@ -119,28 +122,56 @@ public abstract class UserInterface : MonoBehaviour
             switch (mouseHoverSlotData.GetInventoryID())
             {
                 case 0:
-                    GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
-                    if(slotsOnInterface[obj].GetInventoryID() != 0)
-                        GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
-                    //slotsOnInterface[obj].RemoveItem();
+                    player.ClickItem(slotsOnInterface[obj].item);
+                    if (slotsOnInterface[obj].GetInventoryID() != 0)
+                    {
+                        player.ItemDropSystem();
+                        player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
+                        slotsOnInterface[obj].RemoveItem();
+                    }
+                    
+                    
+                        
                     break;
                 case 1:
+                    if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
+                    {
+                        if (slotsOnInterface[obj].GetInventoryID() != 1)
+                        {
+                            player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].item);
+                        }
+                        inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+                        if (slotsOnInterface[obj].GetInventoryID() == 1)
+                        {
+                            player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
+                                , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                        }
+                    }
                     break;
                 case 2:
+  /*                  if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
+                    {
+
+                    }*/
                     break;
                 case 3:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
                         if (slotsOnInterface[obj].GetInventoryID() != 3)
-                            GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System(slotsOnInterface[obj].item);
+                        {
+                            player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].item); 
+                        }
                         inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                         if (slotsOnInterface[obj].GetInventoryID()==3)
                         {
-                            GameMgr.Instance.player.GetComponent<Player>().GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
+                            player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
                                 , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                         }
                     }
                     break;
+
             }
 
             DragEnd = true;
