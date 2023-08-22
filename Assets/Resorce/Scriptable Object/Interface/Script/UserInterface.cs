@@ -84,10 +84,17 @@ public abstract class UserInterface : MonoBehaviour
         Destroy(MouseData.tempItemBeingDragged);
         if (MouseData.interfaceMouseIsOver == null)
         {
-            slotsOnInterface[obj].RemoveItem();
+            Debug.Log("오브젝트를 허공에 뒀을 때");
+
+            if (slotsOnInterface[obj].GetInventoryID() != 0)
+            {
+                GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
+                GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
+                slotsOnInterface[obj].RemoveItem();
+            }
+            
             DragEnd = false;
             //Debug.Log(name);
-            GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
             /*if (mouseHoverSlotData.GetInventoryID() != 0)
             {
                 //Debug.Log(name);
@@ -100,25 +107,41 @@ public abstract class UserInterface : MonoBehaviour
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
             //Debug.Log("주는곳"+slotsOnInterface[obj].GetInventoryID());
             //Debug.Log("받는곳"+mouseHoverSlotData.GetInventoryID());
-            Debug.Log("찾는것" + slotsOnInterface[obj].item.Id);
+            Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
+            Debug.Log(slotsOnInterface[obj].AllowedItems);
             Debug.Log(slotsOnInterface[obj].item.GetType());
             Debug.Log("땅에 있던 오브젝트"+slotsOnInterface[obj].item.groundobject);
-            if (mouseHoverSlotData.GetInventoryID() != 0)
+            Debug.Log("오브젝트를 둔 곳" + mouseHoverSlotData.GetInventoryID());
+            Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.name);
+            Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData) + " 번째");
+            Debug.Log("오브젝트를 가져온 곳은 " + slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj] )+ " 번째");
+
+            switch (mouseHoverSlotData.GetInventoryID())
             {
-                //Debug.Log(name);
-                GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System(slotsOnInterface[obj].item);
-                if (slotsOnInterface[obj].GetInventoryID() == 0) { };
-                inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+                case 0:
+                    GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
+                    if(slotsOnInterface[obj].GetInventoryID() != 0)
+                        GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
+                    //slotsOnInterface[obj].RemoveItem();
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
+                    {
+                        if (slotsOnInterface[obj].GetInventoryID() != 3)
+                            GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System(slotsOnInterface[obj].item);
+                        inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+                        if (slotsOnInterface[obj].GetInventoryID()==3)
+                        {
+                            GameMgr.Instance.player.GetComponent<Player>().GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
+                                , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                        }
+                    }
+                    break;
             }
-            else if (mouseHoverSlotData.GetInventoryID() == 0)
-            {
-                GameMgr.Instance.player.GetComponent<Player>().ClickItem(slotsOnInterface[obj].item);
-                GameMgr.Instance.player.GetComponent<Player>().ItemDropSystem();
-                inventory.MakeEmptySlot(slotsOnInterface[obj]);
-            }
-            /*if (slotsOnInterface[obj].GetInventoryID() != mouseHoverSlotData.GetInventoryID())
-            {
-            }*/
 
             DragEnd = true;
         }

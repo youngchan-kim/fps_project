@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Sniper
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300036, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
+  characterDisplay: {fileID: 0}
   stackable: 0
-  type: 7
+  type: 3
   description: 
   data:
     Name: gun
     Id: 6
+    groundobject: {fileID: 0}
     buffs: []

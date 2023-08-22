@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 
 public class InventoryObject : ScriptableObject
 {
+    
     public int InventoryID;
     public string savePath;
     //public List<ItemObject> Container = new List<ItemObject>(); 에서로 변경
@@ -91,10 +92,6 @@ public class InventoryObject : ScriptableObject
         //full inventory
         return null;
     }
-    public void MakeEmptySlot(InventorySlot slot)
-    {
-        slot.RemoveItem();
-    }
 
     public void SwapItems(InventorySlot item1, InventorySlot item2)
     {
@@ -111,6 +108,18 @@ public class InventoryObject : ScriptableObject
             item2.UpdateSlot(item1.item, item1.amount);
             item1.UpdateSlot(temp.item, temp.amount);
         }
+    }
+
+    public int ItemSlotNum(InventorySlot sellectslot)
+    {
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i] == sellectslot)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void RemoveItem(Item _item)

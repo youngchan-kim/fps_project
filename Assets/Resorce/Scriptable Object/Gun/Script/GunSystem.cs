@@ -63,7 +63,7 @@ public class GunSystem : MonoBehaviour
     {
         //Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetEquipped());
         //Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull());
-        if (GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull())
+        if (GameMgr.Instance.player.GetComponent<Player>().GetGunSlotEmpty())
         {
             transform.LookAt(attackPoint.transform.position);
             Debug.DrawLine(firePosition.transform.position, attackPoint.transform.position, Color.red);

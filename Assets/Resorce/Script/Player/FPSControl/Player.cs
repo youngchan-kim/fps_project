@@ -52,7 +52,23 @@ public class Player : PickUpController
         {
             inventory.Load();
         }
-
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("1번눌림" );
+            GunActive(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GunActive(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GunActive(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            GunActive(3);
+        }
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {

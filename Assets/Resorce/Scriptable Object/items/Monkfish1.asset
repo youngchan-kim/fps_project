@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Monkfish1
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: adf92f5459022124193e381473dbcce6, type: 3}
+  characterDisplay: {fileID: 0}
   stackable: 1
-  type: 5
+  type: 8
   description: 
   data:
     Name: monkfish
     Id: 4
+    groundobject: {fileID: 0}
     buffs: []
-    itemType: 5

@@ -3,27 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ItemType
 {
-
-    //장착아이템 test용
-    Equipment,
+    Helmet,
     //방탄복
     Armor,
-    //가방
     Bag,
-    //치료아이템
+    Gun,
     Medical,    
-    //총알
     Bullet,
-    //itemtest용
-    Food,
-    Helmet,
-    Weapon,
-    Shield,
-    Boots,
     Chest,
+    Boots,
     //기타
-    Default,
-    Gun
+    Default
 }
 
 //당장은 쓰지 않는 버프 종류
@@ -39,7 +29,7 @@ public enum Attributes
 public class ItemObject : ScriptableObject
 {
     public Sprite uiDisplay;
-    //public GameObject characterDisplay;
+    public GameObject characterDisplay;
     public bool stackable;
     public ItemType type;
     [TextArea(15, 20)]
