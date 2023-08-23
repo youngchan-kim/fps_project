@@ -21,18 +21,27 @@ public class InventoryObject : ScriptableObject
     public Inventory Container;
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, int _amount, GameObject _gameObject)
+    public bool AddItem(Item _item, int _amount, GameObject _gameObject, InventoryType inventoryType )
     {
         if (EmptySlotCount <= 0)
             return false;
-        InventorySlot slot = FindItemOnInventory(_item);
-        if (!database.Items[_item.Id].stackable || slot == null)
+
+        if(inventoryType == InventoryType.Ground)
         {
             SetEmptySlot(_item, _amount, _gameObject);
-            return true;
+            return true;            
         }
-        slot.AddAmount(_amount);
-        slot.AddPrantObject(_item, _gameObject);
+        else if (inventoryType == InventoryType.other)
+        {
+            InventorySlot slot = FindItemOnInventory(_item);
+            if (!database.Items[_item.Id].stackable || slot == null)
+            {
+                SetEmptySlot(_item, _amount, _gameObject);
+                return true;
+            }
+            slot.AddAmount(_amount);
+            slot.AddPrantObject(_item, _gameObject);
+        }
         return true;
     }
 
@@ -79,6 +88,7 @@ public class InventoryObject : ScriptableObject
         //set up functionality for full inventory
         return null;
     }
+
 
     public InventorySlot GetEmptySlot()
     {

@@ -46,11 +46,18 @@ public class GunSystem : MonoBehaviour
     //촐구가 바라보는 방향
     Vector3 direction;
 
+    public ItemObject bullet;
+    float total_reloadTime;
+    int total_magazineSize;
+    float total_timeBetweenShooting;
+
+    Player player;
     private void Awake()
     {
+        player = GameMgr.Instance.player.GetComponent<Player>();
         //pickup = GetComponent<GunPickUp>();
         //탄창사이즈 만큼 남은 탄을 채워준다.
-        bulletsLeft = Gun_property.magazineSize;
+        bulletsLeft = 0;
         //쏠 수 있는 상태
         readyToShoot = true;
     }
@@ -72,7 +79,7 @@ public class GunSystem : MonoBehaviour
 
             MyInput();
             //SetText
-            text.SetText(bulletsLeft + "/" + Gun_property.magazineSize);
+            text.SetText(bulletsLeft + "/" + player.GetInven_Find_Item(bullet));
         }
     }
 
@@ -150,7 +157,8 @@ public class GunSystem : MonoBehaviour
         bulletsLeft--;
         bulletsShot--;
         //총 쏘면서 바뀐 속성 리셋
-        Invoke("ResetShot", Gun_property.timeBetweenShooting);
+        total_timeBetweenShooting = Gun_property.timeBetweenShooting + 0;
+        Invoke("ResetShot", total_timeBetweenShooting);
 
         //총을 쏠때 연사시간
         if (bulletsShot > 0 && bulletsLeft > 0)
@@ -171,13 +179,28 @@ public class GunSystem : MonoBehaviour
     private void Reload()
     {
         reloading = true;
-        Invoke("ReloadFinished", Gun_property.reloadTime);
+        total_reloadTime = Gun_property.reloadTime + 0;
+        Invoke("ReloadFinished", total_reloadTime);
     }
 
 
     private void ReloadFinished()
     {
-        bulletsLeft = Gun_property.magazineSize;
+        total_magazineSize = Gun_property.magazineSize + 0;
+        int haveBullet = player.GetInven_Find_Item(bullet);
+        int addBullet = 0;
+        addBullet = total_magazineSize - bulletsLeft;
+
+        if (haveBullet <= addBullet)
+        {
+            bulletsLeft = addBullet + haveBullet;
+            player.SetInven_Find_Item(bullet, 0);
+        }
+        else
+        {
+            bulletsLeft = addBullet;
+            player.SetInven_Find_Item(bullet, haveBullet- addBullet);
+        }
         reloading = false;
     }
 

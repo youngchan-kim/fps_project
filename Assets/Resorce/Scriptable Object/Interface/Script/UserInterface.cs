@@ -128,10 +128,7 @@ public abstract class UserInterface : MonoBehaviour
                         player.ItemDropSystem();
                         player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
                         slotsOnInterface[obj].RemoveItem();
-                    }
-                    
-                    
-                        
+                    }    
                     break;
                 case 1:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
@@ -139,7 +136,10 @@ public abstract class UserInterface : MonoBehaviour
                         if (slotsOnInterface[obj].GetInventoryID() != 1)
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item, slotsOnInterface[obj].item.groundobject);
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].item);
+                            slotsOnInterface[obj].RemoveItem();
+
                         }
                         inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                         if (slotsOnInterface[obj].GetInventoryID() == 1)

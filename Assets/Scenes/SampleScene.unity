@@ -5202,6 +5202,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 563036028}
     - target: {fileID: 880272520824250100, guid: 8302d4990ce6e604c985bd9217386af1, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c0b200afe3f44746addd882989891c2, type: 2}
+    - target: {fileID: 880272520824250100, guid: 8302d4990ce6e604c985bd9217386af1, type: 3}
       propertyPath: attackPoint
       value: 
       objectReference: {fileID: 151215155}
@@ -5213,6 +5217,10 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 563036028}
+    - target: {fileID: 2629325159164924237, guid: 8302d4990ce6e604c985bd9217386af1, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 11400000, guid: b515ee65afda9804fa1cbd936632bbe7, type: 2}
     - target: {fileID: 2629325159164924237, guid: 8302d4990ce6e604c985bd9217386af1, type: 3}
       propertyPath: attackPoint
       value: 

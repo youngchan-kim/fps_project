@@ -12,175 +12,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9849a35b4563b4db1f660301810d5b, type: 3}
   m_Name: Ground Inventory
   m_EditorClassIdentifier: 
+  InventoryID: 0
   savePath: /Ground.Save
   database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
   Container:
     Items:
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
     - AllowedItems: 
+      name: 
       item:
         Name: 
         Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
+        groundobject: {fileID: 0}
         buffs: []
       amount: 0
