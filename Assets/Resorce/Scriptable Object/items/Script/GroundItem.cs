@@ -45,10 +45,9 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 
         }
     }
-    public Item This_Item_info()
+    public ItemObject This_Item_info()
     {
-        Item thisitem = new Item(item);
-        return thisitem;
+        return item;
     }
 
 }

@@ -108,8 +108,8 @@ public abstract class UserInterface : MonoBehaviour
         if (MouseData.slotHoveredOver)
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
-            //Debug.Log("주는곳"+slotsOnInterface[obj].GetInventoryID());
-            //Debug.Log("받는곳"+mouseHoverSlotData.GetInventoryID());
+            //Debug.Log("원래 있던 곳"+slotsOnInterface[obj].GetInventoryID());
+            //Debug.Log("두는곳"+mouseHoverSlotData.GetInventoryID());
             Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
             Debug.Log(slotsOnInterface[obj].AllowedItems);
             Debug.Log(slotsOnInterface[obj].item.GetType());
@@ -136,17 +136,19 @@ public abstract class UserInterface : MonoBehaviour
                         if (slotsOnInterface[obj].GetInventoryID() != 1)
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject);
                             player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item, slotsOnInterface[obj].item.groundobject);
-                            player.ItemPickup_inventory_System(slotsOnInterface[obj].item);
+
+                            //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                             slotsOnInterface[obj].RemoveItem();
 
                         }
-                        inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
-                        if (slotsOnInterface[obj].GetInventoryID() == 1)
+                        else if (slotsOnInterface[obj].GetInventoryID() == 1)
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
                                 , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                         }
+                        //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                     }
                     break;
                 case 2:
@@ -161,7 +163,7 @@ public abstract class UserInterface : MonoBehaviour
                         if (slotsOnInterface[obj].GetInventoryID() != 3)
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
-                            player.ItemPickup_inventory_System(slotsOnInterface[obj].item); 
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject); 
                         }
                         inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                         if (slotsOnInterface[obj].GetInventoryID()==3)

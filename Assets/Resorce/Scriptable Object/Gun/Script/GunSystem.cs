@@ -34,7 +34,7 @@ public class GunSystem : MonoBehaviour
 
     //bools
     bool shooting, readyToShoot, reloading;
-    bool shoot = true;
+    bool shoot;
 
     //공격한 곳
     public RaycastHit rayHit;
@@ -193,9 +193,14 @@ public class GunSystem : MonoBehaviour
 
         if (haveBullet <= addBullet)
         {
-            bulletsLeft = addBullet + haveBullet;
+            bulletsLeft = bulletsLeft + haveBullet;
             player.SetInven_Find_Item(bullet, 0);
         }
+/*        else if (haveBullet == addBullet)
+        {
+            bulletsLeft = bulletsLeft + haveBullet;
+            player.SetInven_Find_Item(bullet, 0);
+        }*/
         else
         {
             bulletsLeft = addBullet;

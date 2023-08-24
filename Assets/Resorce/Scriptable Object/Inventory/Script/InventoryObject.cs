@@ -41,6 +41,7 @@ public class InventoryObject : ScriptableObject
             }
             slot.AddAmount(_amount);
             slot.AddPrantObject(_item, _gameObject);
+
         }
         return true;
     }

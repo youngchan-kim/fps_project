@@ -43,54 +43,67 @@ public class Player_recognizes_Item : MonoBehaviour
     }
 
     //키보드로 먹을때
-    public void Pickup_Swap_Item(Transform ground_Item, Item see_the_item)
+    public void Pickup_Swap_Item(Transform ground_Item, ItemObject see_the_itemobject)
     {
-        if (Groundinventory.FindItemOnInventory(see_the_item) != null)
+        Item _item = see_the_itemobject.data;
+        if (Groundinventory.FindItemOnInventory(_item) != null)
         {
-            if (ground_Item.GetComponent<GroundItem>().name == "Gun")
+            switch (ground_Item.GetComponent<GroundItem>().item.type)
             {
-                Debug.Log("아이템 픽업");
-                Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(see_the_item), Guninventory.GetEmptySlot());
+                case ItemType.Gun:
+                    Debug.Log("아이템 픽업");
+                    Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), Guninventory.GetEmptySlot());
+                    break;
+
+                case ItemType.Helmet:
+                case ItemType.Bag:
+                case ItemType.Armor:
+                    Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), Equipinventory.GetEmptySlot());
+                    break;
+                case ItemType.Bullet:
+                    Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), inventory.GetEmptySlot());
+                    break;
             }
-            else if (ground_Item.GetComponent<GroundItem>().name == "Helmat" || ground_Item.GetComponent<GroundItem>().name == "Bag" || ground_Item.GetComponent<GroundItem>().name == "Armor")
-            {
-                Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(see_the_item), Equipinventory.GetEmptySlot());
-            }
-            else
-            {
-                Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(see_the_item), inventory.GetEmptySlot());
-            }
-           // groundItem = ground_Item.GetComponent<GroundItem>();
-            see_the_item.groundobject = ground_Item.gameObject;
-            ItemPickup_inventory_System(see_the_item);
         }
-    }
+            _item.groundobject = ground_Item.gameObject;
+            ItemPickup_inventory_System(see_the_itemobject);
+        }
 
     //드래그엔드일때 사용
-    public void ItemPickup_inventory_System(Item _item)
+    public void ItemPickup_inventory_System(ItemObject _itemObject)
     {
-        //총인경우 체크
-        if (Activeitem = Gun_Item_ID_Check(_item.Id))
+        Item _item = _itemObject.data;
+        switch(_itemObject.type)
         {
-            //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
-            if (GetGunSlotEmpty())
-            {
-                //해당 부분 오류
-                //Activeitem.SetActive(true);
-                Additem(Gunslot , Gun_Item_ID_Check(_item.Id));
-                GunActive(0);
-                
-            }
-        }
-        else
-        {
-            //Additem(Itemslot, Gun_Item_ID_Check(_item.Id));
-            //Activeitem.SetActive(true);
-        }
+            case ItemType.Gun:
+                if (Activeitem = Gun_Item_ID_Check(_item.Id))
+                {
+                    //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
+                    if (GetGunSlotEmpty())
+                    {
+                        //해당 부분 오류
+                        //Activeitem.SetActive(true);
+                        Additem(Gunslot, Gun_Item_ID_Check(_item.Id));
+                        GunActive(0);
+                        _item.groundobject.SetActive(false);
+                    }
+                }
+                break;
+            case ItemType.Bullet:
+                //아이템 슬롯에 아이템 넣어야함
+                _item.groundobject.SetActive(false);
+                //총알은 플레이어에게서 버려질때를 제외하면 부모 오브젝트가 없다.
+                //오브젝트 비활성화가 불가능하다.
+                break;
+            case ItemType.Medical:
+                //아이템 슬롯에 아이템 넣어야함
 
-        _item.groundobject.SetActive(false);
+                //힐템은 해당 아이템 상호작용전까지는 비활성화 상태이다.
+                break;
+        }
         //클릭한아이템을 Items에서 제거해야함
-        //충돌한 아이템을 비활성화한다.
+        //_item.groundobject.SetActive(false);
+
     }
 
 
