@@ -48,7 +48,7 @@ public class Item
 {
     public string Name;
     public int Id = -1;
-    public GameObject groundobject;
+    //public GameObject groundobject;
     public ItemBuff[] buffs;
     //public ItemType itemType;
 

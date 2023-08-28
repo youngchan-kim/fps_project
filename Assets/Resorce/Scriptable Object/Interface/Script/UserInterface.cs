@@ -82,6 +82,7 @@ public abstract class UserInterface : MonoBehaviour
     }
     public void OnDragEnd(GameObject obj)
     {
+        //만들어야 하는것 해당키가 없는 경우의 예외 처리 만들것
         Destroy(MouseData.tempItemBeingDragged);
         if (MouseData.interfaceMouseIsOver == null)
         {

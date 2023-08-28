@@ -85,13 +85,13 @@ public class Player_recognizes_Item : MonoBehaviour
                         //Activeitem.SetActive(true);
                         Additem(Gunslot, Gun_Item_ID_Check(_item.Id));
                         GunActive(0);
-                        _item.groundobject.SetActive(false);
+                        //_item.groundobject.SetActive(false);
                     }
                 }
                 break;
             case ItemType.Bullet:
                 //아이템 슬롯에 아이템 넣어야함
-                _item.groundobject.SetActive(false);
+                //_item.groundobject.SetActive(false);
                 //총알은 플레이어에게서 버려질때를 제외하면 부모 오브젝트가 없다.
                 //오브젝트 비활성화가 불가능하다.
                 break;
