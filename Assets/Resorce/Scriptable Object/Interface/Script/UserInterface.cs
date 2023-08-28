@@ -137,7 +137,7 @@ public abstract class UserInterface : MonoBehaviour
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject);
-                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item, slotsOnInterface[obj].item.groundobject);
+                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].ItemObject_Data(), slotsOnInterface[obj].item.groundobject);
 
                             //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                             slotsOnInterface[obj].RemoveItem();
@@ -221,7 +221,8 @@ public static class ExtensionMethods
             {
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.ItemObject.uiDisplay;
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
-                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = _slot.Value.amount == 1 ? "" : _slot.Value.amount.ToString("n0");
+                //슬롯 아이템의 갯수가 1이면 숫자 표시 X 0이 아니면 숫자 표시
+                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = _slot.Value.amount != 0 ? _slot.Value.amount.ToString("n0"): "";
             }
             else
             {

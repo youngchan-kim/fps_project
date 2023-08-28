@@ -35,7 +35,7 @@ public class ItemObject : ScriptableObject
     [TextArea(15, 20)]
     public string description;
     public Item data = new Item();
-
+    public int amount;
     public Item CreateItem()
     {
         Item newItem = new Item(this);

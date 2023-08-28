@@ -22,3 +22,4 @@ MonoBehaviour:
     Id: 2
     groundobject: {fileID: 0}
     buffs: []
+  amount: 30

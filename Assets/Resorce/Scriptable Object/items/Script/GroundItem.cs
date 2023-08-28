@@ -31,8 +31,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name)
         {
-            Item thisitem = new Item(item);
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(thisitem, gameObject);
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item, gameObject);
         }
     }
 
@@ -40,9 +39,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name) 
         {
-            Item thisitem = new Item(item);
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(thisitem);
-
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
         }
     }
     public ItemObject This_Item_info()

@@ -254,47 +254,47 @@ public class Player_recognizes_Item : MonoBehaviour
     }
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(Item item, GameObject prantObject)
+    public void On_The_Ground_Item(ItemObject item,  GameObject prantObject)
     {
         Add_Item(Groundinventory.InventoryID, item, prantObject);
-        crruntitem = item;
+        crruntitem = item.data;
     }
 
-    public void On_The_Ground_Item_Removed(Item item)
+    public void On_The_Ground_Item_Removed(ItemObject item)
     {
-        Item_Removed(Groundinventory, item);
+        Item_Removed(Groundinventory, item.data);
         crruntitem = null;
     }
 
-    public void Add_Item(int invenID, Item item, GameObject prantObject)
+    public void Add_Item(int invenID, ItemObject item, GameObject prantObject)
     {
         switch(invenID)
         {
             case 0:
-                if (Groundinventory.AddItem(item, 1, prantObject, InventoryType.Ground))
+                if (Groundinventory.AddItem(item, prantObject, InventoryType.Ground))
                 {
-                    crruntitem = item;
+                    crruntitem = item.data;
                     pickup = true;
                 }
                 break;
             case 1:
-                if (inventory.AddItem(item, 1, prantObject, InventoryType.other))
+                if (inventory.AddItem(item, prantObject, InventoryType.other))
                 {
-                    crruntitem = item;
+                    crruntitem = item.data;
                     pickup = true;
                 }
                 break;
             case 2:
-                if ( Equipinventory.AddItem(item, 1, prantObject, InventoryType.other))
+                if ( Equipinventory.AddItem(item, prantObject, InventoryType.other))
                 {
-                    crruntitem = item;
+                    crruntitem = item.data;
                     pickup = true;
                 }
                 break;
             case 3:
-                if (Guninventory.AddItem(item, 1, prantObject, InventoryType.other))
+                if (Guninventory.AddItem(item, prantObject, InventoryType.other))
                 {
-                    crruntitem = item;
+                    crruntitem = item.data;
                     pickup = true;
                 }
                 break;
@@ -329,6 +329,7 @@ public class Player_recognizes_Item : MonoBehaviour
         { 
             if(inventory.Container.Items[i].item.Id == _item.data.Id)
             {
+                int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
                 return inventory.Container.Items[i].amount;
             }  
         }
@@ -340,7 +341,8 @@ public class Player_recognizes_Item : MonoBehaviour
         {
             if (inventory.Container.Items[i].item.Id == _item.data.Id)
             {
-                 inventory.Container.Items[i].amount = num;
+                int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
+                inventory.Container.Items[i].amount = num;
             }
         }
     }

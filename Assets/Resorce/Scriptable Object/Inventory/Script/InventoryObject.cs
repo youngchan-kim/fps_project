@@ -21,26 +21,26 @@ public class InventoryObject : ScriptableObject
     public Inventory Container;
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, int _amount, GameObject _gameObject, InventoryType inventoryType )
+    public bool AddItem(ItemObject _item, GameObject _gameObject, InventoryType inventoryType )
     {
         if (EmptySlotCount <= 0)
             return false;
 
         if(inventoryType == InventoryType.Ground)
         {
-            SetEmptySlot(_item, _amount, _gameObject);
+            SetEmptySlot(_item.data, _item.amount, _gameObject);
             return true;            
         }
         else if (inventoryType == InventoryType.other)
         {
-            InventorySlot slot = FindItemOnInventory(_item);
-            if (!database.Items[_item.Id].stackable || slot == null)
+            InventorySlot slot = FindItemOnInventory(_item.data);
+            if (!database.Items[_item.data.Id].stackable || slot == null)
             {
-                SetEmptySlot(_item, _amount, _gameObject);
+                SetEmptySlot(_item.data, _item.amount, _gameObject);
                 return true;
             }
-            slot.AddAmount(_amount);
-            slot.AddPrantObject(_item, _gameObject);
+            slot.AddAmount(slot.itemobject_data, _item.amount);
+            slot.AddPrantObject(_item.data, _gameObject);
 
         }
         return true;
@@ -152,7 +152,7 @@ public class InventoryObject : ScriptableObject
             {
                 //Container.Items[i].UpdateSlot(null, 0);
                 Container.Items[i].item = new Item();
-                Container.Items[i].amount = 0;
+                //Container.Items[i].amount = 0;
             }
         }
     }
@@ -222,13 +222,27 @@ public class InventorySlot
     public string name;
     public Item item = new Item();
     public int amount;
+    public ItemObject itemobject_data;
 
+
+    public ItemObject ItemObject_Data()
+    {
+        if (item.Id >= 0)
+        {
+            item.groundobject = parent.inventory.database.Items[item.Id].data.groundobject;
+            itemobject_data = parent.inventory.database.Items[item.Id];
+            itemobject_data.data = item;
+            return itemobject_data;
+        }
+        return null;
+    }
     public ItemObject ItemObject
     {
         get
         {
             if(item.Id >= 0)
             {
+                item.groundobject = parent.inventory.database.Items[item.Id].data.groundobject;
                 return parent.inventory.database.Items[item.Id];
             }
             return null;
@@ -254,7 +268,7 @@ public class InventorySlot
         amount = _amount;
     }
     //저장할때 주로 사용
-    public void UpdateSlot(Item _item, int _amount)
+    public void UpdateSlot(Item _item ,int _amount)
     {
         item = _item;
         amount = _amount;
@@ -262,6 +276,7 @@ public class InventorySlot
     //생성자와 같은 작업을 수행하는 업데이트 함수
     public void UpdateSlot(Item _item, int _amount, GameObject _grounditemobject)
     { 
+
         item = _item;
         amount = _amount;
         item.groundobject = _grounditemobject;
@@ -272,9 +287,10 @@ public class InventorySlot
         amount = 0;
         item.groundobject = null;
     }
-    public void AddAmount(int value)
+    public void AddAmount(ItemObject _item, int value)
     {
-        amount += value;
+        //itemobject_data.amount += value;
+        amount += _item.amount;
     }
     public void AddPrantObject(Item _item, GameObject prant_gameObject)
     {
