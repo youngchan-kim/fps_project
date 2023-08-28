@@ -138,8 +138,13 @@ public abstract class UserInterface : MonoBehaviour
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject);
+<<<<<<< Updated upstream
                             player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].ItemObject_Data(), slotsOnInterface[obj].item.groundobject);
 
+=======
+                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item, slotsOnInterface[obj].item.groundobject);
+                            
+>>>>>>> Stashed changes
                             //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                             slotsOnInterface[obj].RemoveItem();
 
