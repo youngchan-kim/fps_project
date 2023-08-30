@@ -39,7 +39,7 @@ public class InventoryObject : ScriptableObject
                 SetEmptySlot(_item.data, _item.amount, _gameObject);
                 return true;
             }
-            slot.AddAmount(slot.itemobject_data, _item.amount);
+            //slot.AddAmount(slot.itemobject_data, _item.amount);
             slot.AddPrantObject(_item.data, _gameObject);
 
         }
@@ -222,10 +222,11 @@ public class InventorySlot
     public string name;
     public Item item = new Item();
     public int amount;
-    public ItemObject itemobject_data;
+    public GameObject parent_Object;
+    //public ItemObject itemobject_data;
 
 
-    public ItemObject ItemObject_Data()
+    /*public ItemObject ItemObject_Data()
     {
         if (item.Id >= 0)
         {
@@ -235,14 +236,15 @@ public class InventorySlot
             return itemobject_data;
         }
         return null;
-    }
+    }*/
     public ItemObject ItemObject
     {
         get
         {
             if(item.Id >= 0)
             {
-                item.groundobject = parent.inventory.database.Items[item.Id].data.groundobject;
+                
+                //item.groundobject = parent.inventory.database.Items[item.Id].data.groundobject;
                 return parent.inventory.database.Items[item.Id];
             }
             return null;
@@ -259,7 +261,7 @@ public class InventorySlot
     {
         item = new Item();
         amount = 0;
-        item.groundobject = null;
+        //item.groundobject = null;
     }
     //스왑할때 사용
     public InventorySlot(Item _item, int _amount)
@@ -279,13 +281,13 @@ public class InventorySlot
 
         item = _item;
         amount = _amount;
-        item.groundobject = _grounditemobject;
+        //item.groundobject = _grounditemobject;
     }
     public void RemoveItem()
     {
         item = new Item();
         amount = 0;
-        item.groundobject = null;
+        //item.groundobject = null;
     }
     public void AddAmount(ItemObject _item, int value)
     {
@@ -294,7 +296,7 @@ public class InventorySlot
     }
     public void AddPrantObject(Item _item, GameObject prant_gameObject)
     {
-        _item.groundobject = prant_gameObject;
+        //_item.groundobject = prant_gameObject;
     }
 
     //허용된 슬롯만 가능

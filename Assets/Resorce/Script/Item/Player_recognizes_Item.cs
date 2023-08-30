@@ -65,7 +65,7 @@ public class Player_recognizes_Item : MonoBehaviour
                     break;
             }
         }
-            _item.groundobject = ground_Item.gameObject;
+            //_item.groundobject = ground_Item.gameObject;
             ItemPickup_inventory_System(see_the_itemobject);
         }
 
@@ -198,7 +198,7 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public void ItemDropSystem()
     {
-        if (crruntitem.groundobject.name == "Gun")
+        /*if (*//*crruntitem.groundobject.name == "Gun"*//*)
         {
             //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
             if (equipped)
@@ -210,13 +210,13 @@ public class Player_recognizes_Item : MonoBehaviour
         else
         {
             //ItemActiveCheck().SetActive(false);
-        }
+        }*/
 
-        crruntitem.groundobject.SetActive(true);
+        //crruntitem.groundobject.SetActive(true);
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
-        crruntitem.groundobject.transform.position = hitPos;
+        //crruntitem.groundobject.transform.position = hitPos;
     }
 
     //목록체크
@@ -329,7 +329,7 @@ public class Player_recognizes_Item : MonoBehaviour
         { 
             if(inventory.Container.Items[i].item.Id == _item.data.Id)
             {
-                int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
+                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
                 return inventory.Container.Items[i].amount;
             }  
         }
@@ -341,7 +341,7 @@ public class Player_recognizes_Item : MonoBehaviour
         {
             if (inventory.Container.Items[i].item.Id == _item.data.Id)
             {
-                int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
+                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
                 inventory.Container.Items[i].amount = num;
             }
         }

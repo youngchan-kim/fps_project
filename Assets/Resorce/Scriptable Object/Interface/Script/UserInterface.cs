@@ -112,13 +112,19 @@ public abstract class UserInterface : MonoBehaviour
             //Debug.Log("원래 있던 곳"+slotsOnInterface[obj].GetInventoryID());
             //Debug.Log("두는곳"+mouseHoverSlotData.GetInventoryID());
             Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
-            Debug.Log(slotsOnInterface[obj].AllowedItems);
-            Debug.Log(slotsOnInterface[obj].item.GetType());
-            Debug.Log("땅에 있던 오브젝트"+slotsOnInterface[obj].item.groundobject);
-            Debug.Log("오브젝트를 둔 곳" + mouseHoverSlotData.GetInventoryID());
-            Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.name);
-            Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData) + " 번째");
-            Debug.Log("오브젝트를 가져온 곳은 " + slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj] )+ " 번째");
+            /*            Debug.Log(slotsOnInterface[obj].AllowedItems);
+                        Debug.Log(slotsOnInterface[obj].item.GetType());*/
+            Debug.Log("땅에 있던 오브젝트" + obj);
+            Debug.Log("땅에 있던 오브젝트" + obj.transform.parent);
+            Debug.Log("땅에 있던 오브젝트" + obj.activeSelf);
+            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj]);
+            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj].parent);
+            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface.Keys);
+            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj].ItemObject);
+            /*            Debug.Log("오브젝트를 둔 곳" + mouseHoverSlotData.GetInventoryID());
+                        Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.name);
+                        Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData) + " 번째");
+                        Debug.Log("오브젝트를 가져온 곳은 " + slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj] )+ " 번째");*/
 
             switch (mouseHoverSlotData.GetInventoryID())
             {
@@ -138,13 +144,8 @@ public abstract class UserInterface : MonoBehaviour
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject);
-<<<<<<< Updated upstream
-                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].ItemObject_Data(), slotsOnInterface[obj].item.groundobject);
+                           // player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].ItemObject_Data(), slotsOnInterface[obj].item.groundobject);
 
-=======
-                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item, slotsOnInterface[obj].item.groundobject);
-                            
->>>>>>> Stashed changes
                             //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                             slotsOnInterface[obj].RemoveItem();
 
