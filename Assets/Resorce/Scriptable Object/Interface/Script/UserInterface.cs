@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public abstract class UserInterface : MonoBehaviour
 {
@@ -114,13 +115,13 @@ public abstract class UserInterface : MonoBehaviour
             Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
             /*            Debug.Log(slotsOnInterface[obj].AllowedItems);
                         Debug.Log(slotsOnInterface[obj].item.GetType());*/
-            Debug.Log("땅에 있던 오브젝트" + obj);
-            Debug.Log("땅에 있던 오브젝트" + obj.transform.parent);
-            Debug.Log("땅에 있던 오브젝트" + obj.activeSelf);
+           // Debug.Log("땅에 있던 오브젝트" + obj);
+            Debug.Log("땅에 있던 오브젝트의 이름" + obj.GetComponent<ItemPrefabObject>().GetObject().name);
+/*            Debug.Log("땅에 있던 오브젝트" + obj.activeSelf);
             Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj]);
             Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj].parent);
             Debug.Log("땅에 있던 오브젝트" + slotsOnInterface.Keys);
-            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj].ItemObject);
+            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj].ItemObject);*/
             /*            Debug.Log("오브젝트를 둔 곳" + mouseHoverSlotData.GetInventoryID());
                         Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.name);
                         Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData) + " 번째");
@@ -220,12 +221,24 @@ public static class MouseData
 //확장 메서드
 public static class ExtensionMethods
 {
+    
     public static void UpdateSlotDisplay(this Dictionary<GameObject, InventorySlot> _slotsOnInterface)
     {
+
+
+
         foreach (KeyValuePair<GameObject, InventorySlot> _slot in _slotsOnInterface)
         {
+            if(_slot.Value.item.Id != _slot.Value.item.beforeId)
+            {
+                //#
+                Debug.Log(_slot.Key.transform.GetComponent<ItemPrefabObject>().GetObject().ToString());
+                _slot.Key.transform.GetComponent<ItemPrefabObject>().SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
+            }
             if (_slot.Value.item.Id >= 0)
             {
+                //_slot.Key.transform.GetComponent<ItemPrefabObject>().SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
+                //Debug.Log(_slot.Key.transform.GetComponent<ItemPrefabObject>().GetObject().ToString());
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.ItemObject.uiDisplay;
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
                 //슬롯 아이템의 갯수가 1이면 숫자 표시 X 0이 아니면 숫자 표시
@@ -233,6 +246,8 @@ public static class ExtensionMethods
             }
             else
             {
+                //Debug.Log(_slot.Key.transform.name) ;
+                //_slot.Key.transform.GetComponent<ItemPrefabObject>().RemoveObject();
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
                 _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = "";

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -36,6 +37,8 @@ public class Player_recognizes_Item : MonoBehaviour
 
     int slotnum;
 
+    //화면에 표시되는 아이템 오브젝트
+    GameObject prantObject;
 
     private void Update()
     {
@@ -254,10 +257,11 @@ public class Player_recognizes_Item : MonoBehaviour
     }
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(ItemObject item,  GameObject prantObject)
+    public void On_The_Ground_Item(ItemObject item,  GameObject _prantObject)
     {
-        Add_Item(Groundinventory.InventoryID, item, prantObject);
+        Add_Item(Groundinventory.InventoryID, item, _prantObject);
         crruntitem = item.data;
+        prantObject = _prantObject;
     }
 
     public void On_The_Ground_Item_Removed(ItemObject item)
@@ -345,5 +349,16 @@ public class Player_recognizes_Item : MonoBehaviour
                 inventory.Container.Items[i].amount = num;
             }
         }
+    }
+
+    public GameObject GetPrantObject()
+    {
+        if (prantObject == null)
+            return null;
+        return prantObject;
+    }
+    public GameObject SetRemoveObject()
+    {
+        return null;
     }
 }

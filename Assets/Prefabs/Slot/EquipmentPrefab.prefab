@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 7935681555426096216}
   - component: {fileID: 1496657509158025873}
   - component: {fileID: 5236816279220841873}
+  - component: {fileID: -2190478130133493870}
   m_Layer: 5
   m_Name: EquipmentPrefab
   m_TagString: Untagged
@@ -323,3 +324,15 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls: []
+--- !u!114 &-2190478130133493870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8926149776847499569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cda0bc1605e16948bc5c63fd9dc02c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

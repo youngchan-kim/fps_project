@@ -28,6 +28,7 @@ public class InventoryObject : ScriptableObject
 
         if(inventoryType == InventoryType.Ground)
         {
+            
             SetEmptySlot(_item.data, _item.amount, _gameObject);
             return true;            
         }
@@ -83,6 +84,7 @@ public class InventoryObject : ScriptableObject
             if (Container.Items[i].item.Id <= -1)
             {
                 Container.Items[i].UpdateSlot(_item, _amount, _gameObject);
+                
                 return Container.Items[i];
             }
         }
@@ -222,7 +224,7 @@ public class InventorySlot
     public string name;
     public Item item = new Item();
     public int amount;
-    public GameObject parent_Object;
+/*    public GameObject parent_Object;*/
     //public ItemObject itemobject_data;
 
 
@@ -243,7 +245,6 @@ public class InventorySlot
         {
             if(item.Id >= 0)
             {
-                
                 //item.groundobject = parent.inventory.database.Items[item.Id].data.groundobject;
                 return parent.inventory.database.Items[item.Id];
             }
@@ -278,9 +279,9 @@ public class InventorySlot
     //생성자와 같은 작업을 수행하는 업데이트 함수
     public void UpdateSlot(Item _item, int _amount, GameObject _grounditemobject)
     { 
-
         item = _item;
         amount = _amount;
+        
         //item.groundobject = _grounditemobject;
     }
     public void RemoveItem()

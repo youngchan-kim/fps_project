@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class ItemPrefabObject : MonoBehaviour
 {
-    GameObject gameobject;
+    GameObject Itemobject;
     
     public void SetObject(GameObject _gameobject)
     {
-        gameobject = _gameobject;
+        Itemobject = _gameobject;
     }
 
+    public void RemoveObject()
+    {
+        Itemobject = null;
+    }
     public GameObject GetObject()
     {
-        if (gameobject == null)
+        if (Itemobject == null)
             return null;
-        return gameobject;
+        return Itemobject;
     }
 }

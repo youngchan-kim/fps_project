@@ -48,6 +48,7 @@ public class Item
 {
     public string Name;
     public int Id = -1;
+    public int beforeId =-1;
     public ItemBuff[] buffs;
     //public ItemType itemType;
 
@@ -59,6 +60,7 @@ public class Item
 
     public Item(ItemObject item)
     {
+        beforeId = Id;
         Name = item.name;
         Id = item.data.Id;
         buffs = new ItemBuff[item.data.buffs.Length];
