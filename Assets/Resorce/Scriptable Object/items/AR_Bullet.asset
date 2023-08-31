@@ -20,6 +20,5 @@ MonoBehaviour:
   data:
     Name: AR_Bullet
     Id: 2
-    groundobject: {fileID: 0}
     buffs: []
-  amount: 30
+    amount: 30

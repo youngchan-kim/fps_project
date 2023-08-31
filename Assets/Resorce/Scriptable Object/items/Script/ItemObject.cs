@@ -35,7 +35,7 @@ public class ItemObject : ScriptableObject
     [TextArea(15, 20)]
     public string description;
     public Item data = new Item();
-    public int amount;
+
     public Item CreateItem()
     {
         Item newItem = new Item(this);
@@ -48,8 +48,9 @@ public class Item
 {
     public string Name;
     public int Id = -1;
-    public int beforeId =-1;
     public ItemBuff[] buffs;
+    public int amount;
+
     //public ItemType itemType;
 
     public Item()
@@ -60,7 +61,6 @@ public class Item
 
     public Item(ItemObject item)
     {
-        beforeId = Id;
         Name = item.name;
         Id = item.data.Id;
         buffs = new ItemBuff[item.data.buffs.Length];

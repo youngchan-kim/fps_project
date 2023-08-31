@@ -13,15 +13,9 @@ public class PickUpController : Player_recognizes_Item
     {
         //Debug.Log(rayHit.collider.transform.parent.GetComponent<GroundItem>().This_Item_info());
         //충돌한 아이템의 그라운드 아이템과 아이템을 매개변수로 사용
-        Pickup_Swap_Item(rayHit.collider.transform.parent,rayHit.collider.transform.parent.GetComponent<GroundItem>().This_Item_info());
+        Pickup_Swap_Item(rayHit.collider);
     }
 
-    protected void Drop()
-    {
-        //Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).name);
-
-        ItemDropSystem();
-    }
     public bool GetEquipped()
     {
         //Debug.Log("장착 : " + equipped);

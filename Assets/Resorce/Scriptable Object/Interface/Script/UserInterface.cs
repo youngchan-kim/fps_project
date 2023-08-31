@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using Unity.VisualScripting;
+using static UnityEditor.Progress;
 
 public abstract class UserInterface : MonoBehaviour
 {
@@ -83,6 +84,7 @@ public abstract class UserInterface : MonoBehaviour
     }
     public void OnDragEnd(GameObject obj)
     {
+        GameObject Item_coupling_object = obj.GetComponent<ItemPrefabObject>().GetObject();
         //만들어야 하는것 해당키가 없는 경우의 예외 처리 만들것
         Destroy(MouseData.tempItemBeingDragged);
         if (MouseData.interfaceMouseIsOver == null)
@@ -92,7 +94,7 @@ public abstract class UserInterface : MonoBehaviour
             if (slotsOnInterface[obj].GetInventoryID() != 0)
             {
                 player.ClickItem(slotsOnInterface[obj].item);
-                player.ItemDropSystem();
+                player.ItemDropSystem(obj);
                 slotsOnInterface[obj].RemoveItem();
                 if(slotsOnInterface[obj].GetInventoryID() == 3)
                     player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
@@ -110,30 +112,17 @@ public abstract class UserInterface : MonoBehaviour
         if (MouseData.slotHoveredOver)
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
-            //Debug.Log("원래 있던 곳"+slotsOnInterface[obj].GetInventoryID());
-            //Debug.Log("두는곳"+mouseHoverSlotData.GetInventoryID());
             Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
-            /*            Debug.Log(slotsOnInterface[obj].AllowedItems);
-                        Debug.Log(slotsOnInterface[obj].item.GetType());*/
-           // Debug.Log("땅에 있던 오브젝트" + obj);
             Debug.Log("땅에 있던 오브젝트의 이름" + obj.GetComponent<ItemPrefabObject>().GetObject().name);
-/*            Debug.Log("땅에 있던 오브젝트" + obj.activeSelf);
-            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj]);
-            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj].parent);
-            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface.Keys);
-            Debug.Log("땅에 있던 오브젝트" + slotsOnInterface[obj].ItemObject);*/
-            /*            Debug.Log("오브젝트를 둔 곳" + mouseHoverSlotData.GetInventoryID());
-                        Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.name);
-                        Debug.Log("오브젝트를 둔 곳은 " + mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData) + " 번째");
-                        Debug.Log("오브젝트를 가져온 곳은 " + slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj] )+ " 번째");*/
 
             switch (mouseHoverSlotData.GetInventoryID())
             {
                 case 0:
                     player.ClickItem(slotsOnInterface[obj].item);
+                    
                     if (slotsOnInterface[obj].GetInventoryID() != 0)
                     {
-                        player.ItemDropSystem();
+                        player.ItemDropSystem(obj);
                         player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
                         slotsOnInterface[obj].RemoveItem();
                     }    
@@ -141,21 +130,26 @@ public abstract class UserInterface : MonoBehaviour
                 case 1:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
-                        if (slotsOnInterface[obj].GetInventoryID() != 1)
+                        
+                        if (slotsOnInterface[obj].GetInventoryID() == 1)
                         {
+                            player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
+                                , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                        }
+                        else
+                        {
+                            Debug.Log("다른 인벤에서 캐릭터 인벤으로 들어옴");
+                            
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
-                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject);
-                           // player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].ItemObject_Data(), slotsOnInterface[obj].item.groundobject);
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, Item_coupling_object);
+                            Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
+                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item, Item_coupling_object);
 
                             //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                             slotsOnInterface[obj].RemoveItem();
 
                         }
-                        else if (slotsOnInterface[obj].GetInventoryID() == 1)
-                        {
-                            player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
-                                , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
-                        }
+                        
                         //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                     }
                     break;
@@ -171,7 +165,7 @@ public abstract class UserInterface : MonoBehaviour
                         if (slotsOnInterface[obj].GetInventoryID() != 3)
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
-                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject); 
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, Item_coupling_object); 
                         }
                         inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                         if (slotsOnInterface[obj].GetInventoryID()==3)
@@ -224,33 +218,44 @@ public static class ExtensionMethods
     
     public static void UpdateSlotDisplay(this Dictionary<GameObject, InventorySlot> _slotsOnInterface)
     {
-
-
+/*        for(int i = 0; i < _slotsOnInterface.Count; i++)
+        {
+            if (_slotsOnInterface.Value.item.Id != -1 && itemPrefabObject.GetObject() == null)
+            {
+                GameMgr.Instance.player.GetComponent<Player>().SetPrfebObject(_slot.Key);
+                Debug.Log(itemPrefabObject.GetObject().ToString());
+                *//*                itemPrefabObject.SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
+                                Debug.Log(itemPrefabObject.GetObject().ToString());*//*
+            }
+        }*/
 
         foreach (KeyValuePair<GameObject, InventorySlot> _slot in _slotsOnInterface)
         {
-            if(_slot.Value.item.Id != _slot.Value.item.beforeId)
+            Image image = _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>();
+            TextMeshProUGUI text_GUI = _slot.Key.GetComponentInChildren<TextMeshProUGUI>();
+            ItemPrefabObject itemPrefabObject = _slot.Key.GetComponent<ItemPrefabObject>();
+            //딕셔너리 값중 아이템의 아이디가 -1이 아닌데 키중에 부모의 값이 없으면
+            if (_slot.Value.item.Id != -1 && itemPrefabObject.GetObject()==null)
             {
-                //#
-                Debug.Log(_slot.Key.transform.GetComponent<ItemPrefabObject>().GetObject().ToString());
-                _slot.Key.transform.GetComponent<ItemPrefabObject>().SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
+                GameMgr.Instance.player.GetComponent<Player>().SetPrfebObject(_slot.Key);
+                Debug.Log(itemPrefabObject.GetObject().ToString());
+/*                itemPrefabObject.SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
+                Debug.Log(itemPrefabObject.GetObject().ToString());*/
             }
             if (_slot.Value.item.Id >= 0)
-            {
-                //_slot.Key.transform.GetComponent<ItemPrefabObject>().SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
-                //Debug.Log(_slot.Key.transform.GetComponent<ItemPrefabObject>().GetObject().ToString());
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.ItemObject.uiDisplay;
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            {                
+                image.sprite = _slot.Value.ItemObject.uiDisplay;
+                image.color = new Color(1, 1, 1, 1);
                 //슬롯 아이템의 갯수가 1이면 숫자 표시 X 0이 아니면 숫자 표시
-                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = _slot.Value.amount != 0 ? _slot.Value.amount.ToString("n0"): "";
+                text_GUI.text = _slot.Value.totalamount != 0 ? _slot.Value.totalamount.ToString("n0"): "";
             }
             else
             {
                 //Debug.Log(_slot.Key.transform.name) ;
                 //_slot.Key.transform.GetComponent<ItemPrefabObject>().RemoveObject();
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
-                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = "";
+                image.sprite = null;
+                image.color = new Color(1, 1, 1, 0);
+                text_GUI.text = "";
             }
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 public enum InventoryType
@@ -12,10 +13,6 @@ public enum InventoryType
 
 public class Player_recognizes_Item : MonoBehaviour
 {
-    private GroundInterface Ground_item;
-    private DynamicInterface Inventory_item;
-    private StaticInterface Equip_item;
-    private StaticInterface Gun_item;
     public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
     private bool player_recognizes = false;
     Item crruntitem;
@@ -38,7 +35,7 @@ public class Player_recognizes_Item : MonoBehaviour
     int slotnum;
 
     //화면에 표시되는 아이템 오브젝트
-    GameObject prantObject;
+    GameObject prfebobject;
 
     private void Update()
     {
@@ -46,8 +43,11 @@ public class Player_recognizes_Item : MonoBehaviour
     }
 
     //키보드로 먹을때
-    public void Pickup_Swap_Item(Transform ground_Item, ItemObject see_the_itemobject)
+    public void Pickup_Swap_Item(Collider Coll)
     {
+        Transform coll_parent = Coll.transform.parent;
+        GameObject ground_Item =  coll_parent.gameObject;
+        ItemObject see_the_itemobject = coll_parent.GetComponent<GroundItem>().This_Item_info();
         Item _item = see_the_itemobject.data;
         if (Groundinventory.FindItemOnInventory(_item) != null)
         {
@@ -69,11 +69,11 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
             //_item.groundobject = ground_Item.gameObject;
-            ItemPickup_inventory_System(see_the_itemobject);
+            ItemPickup_inventory_System(see_the_itemobject, ground_Item);
         }
 
     //드래그엔드일때 사용
-    public void ItemPickup_inventory_System(ItemObject _itemObject)
+    public void ItemPickup_inventory_System(ItemObject _itemObject, GameObject ground_Item)
     {
         Item _item = _itemObject.data;
         switch(_itemObject.type)
@@ -88,13 +88,13 @@ public class Player_recognizes_Item : MonoBehaviour
                         //Activeitem.SetActive(true);
                         Additem(Gunslot, Gun_Item_ID_Check(_item.Id));
                         GunActive(0);
-                        //_item.groundobject.SetActive(false);
+                        ground_Item.SetActive(false);
                     }
                 }
                 break;
             case ItemType.Bullet:
                 //아이템 슬롯에 아이템 넣어야함
-                //_item.groundobject.SetActive(false);
+                ground_Item.SetActive(false);
                 //총알은 플레이어에게서 버려질때를 제외하면 부모 오브젝트가 없다.
                 //오브젝트 비활성화가 불가능하다.
                 break;
@@ -161,7 +161,7 @@ public class Player_recognizes_Item : MonoBehaviour
         {
             if (i == num)
             {
-                Gunslot[i].transform.gameObject.SetActive(false);
+                Gunslot[i].gameObject.SetActive(false);
                 Gunslot[i] = null;
                 return;
             }
@@ -180,7 +180,7 @@ public class Player_recognizes_Item : MonoBehaviour
         for (int i = 0; i < Gunslot.Length; i++)
         {
             if((sellect) != i && Gunslot[i] != null)
-            Gunslot[i].transform.gameObject.SetActive(false);
+            Gunslot[i].gameObject.SetActive(false);
         }
     }
     //아이템 id 찾기
@@ -199,7 +199,7 @@ public class Player_recognizes_Item : MonoBehaviour
     }
 
 
-    public void ItemDropSystem()
+    public void ItemDropSystem(GameObject obj)
     {
         /*if (*//*crruntitem.groundobject.name == "Gun"*//*)
         {
@@ -219,7 +219,7 @@ public class Player_recognizes_Item : MonoBehaviour
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
-        //crruntitem.groundobject.transform.position = hitPos;
+        obj.transform.position = hitPos;
     }
 
     //목록체크
@@ -259,9 +259,8 @@ public class Player_recognizes_Item : MonoBehaviour
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void On_The_Ground_Item(ItemObject item,  GameObject _prantObject)
     {
-        Add_Item(Groundinventory.InventoryID, item, _prantObject);
+        Add_Item(Groundinventory.InventoryID, item.data, _prantObject);
         crruntitem = item.data;
-        prantObject = _prantObject;
     }
 
     public void On_The_Ground_Item_Removed(ItemObject item)
@@ -270,39 +269,45 @@ public class Player_recognizes_Item : MonoBehaviour
         crruntitem = null;
     }
 
-    public void Add_Item(int invenID, ItemObject item, GameObject prantObject)
+    public void Add_Item(int invenID, Item item, GameObject prantObject)
     {
-        switch(invenID)
+        if (prfebobject)
+        {
+            prfebobject.GetComponent<ItemPrefabObject>().SetObject(prantObject);
+            prfebobject = null;
+        }
+        switch (invenID)
         {
             case 0:
                 if (Groundinventory.AddItem(item, prantObject, InventoryType.Ground))
                 {
-                    crruntitem = item.data;
+                    crruntitem = item;
                     pickup = true;
                 }
                 break;
             case 1:
                 if (inventory.AddItem(item, prantObject, InventoryType.other))
                 {
-                    crruntitem = item.data;
+                    crruntitem = item;
                     pickup = true;
                 }
                 break;
             case 2:
                 if ( Equipinventory.AddItem(item, prantObject, InventoryType.other))
                 {
-                    crruntitem = item.data;
+                    crruntitem = item;
                     pickup = true;
                 }
                 break;
             case 3:
                 if (Guninventory.AddItem(item, prantObject, InventoryType.other))
                 {
-                    crruntitem = item.data;
+                    crruntitem = item;
                     pickup = true;
                 }
                 break;
         }
+
     }
 
 
@@ -334,7 +339,7 @@ public class Player_recognizes_Item : MonoBehaviour
             if(inventory.Container.Items[i].item.Id == _item.data.Id)
             {
                 //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
-                return inventory.Container.Items[i].amount;
+                return inventory.Container.Items[i].totalamount;
             }  
         }
         return 0;
@@ -346,19 +351,17 @@ public class Player_recognizes_Item : MonoBehaviour
             if (inventory.Container.Items[i].item.Id == _item.data.Id)
             {
                 //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
-                inventory.Container.Items[i].amount = num;
+                inventory.Container.Items[i].totalamount = num;
             }
         }
     }
 
-    public GameObject GetPrantObject()
-    {
-        if (prantObject == null)
-            return null;
-        return prantObject;
-    }
     public GameObject SetRemoveObject()
     {
         return null;
+    }
+    public void SetPrfebObject(GameObject obj)
+    {
+        prfebobject = obj;
     }
 }

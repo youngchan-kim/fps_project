@@ -37,4 +37,6 @@ public class GroundInterface : UserInterface
         //이미지의 위치를 잡아주는 코드
         return new Vector3(X_START + (X_SPACE_BETWEEN_ITEM * (i % NUMBER_OF_COLUMN)), Y_START + (-Y_SPACE_BETWEEN_ITEM * (i / NUMBER_OF_COLUMN)), 0f);
     }
+
+
 }

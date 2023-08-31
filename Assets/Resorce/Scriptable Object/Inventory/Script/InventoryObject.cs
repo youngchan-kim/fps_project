@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEditor;
 using System.Runtime.Serialization;
+using static UnityEditor.Progress;
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 
@@ -21,7 +22,7 @@ public class InventoryObject : ScriptableObject
     public Inventory Container;
 
     //아이템 항목 추가 기능
-    public bool AddItem(ItemObject _item, GameObject _gameObject, InventoryType inventoryType )
+    public bool AddItem(Item _item, GameObject _gameObject, InventoryType inventoryType )
     {
         if (EmptySlotCount <= 0)
             return false;
@@ -29,19 +30,18 @@ public class InventoryObject : ScriptableObject
         if(inventoryType == InventoryType.Ground)
         {
             
-            SetEmptySlot(_item.data, _item.amount, _gameObject);
+            SetEmptySlot(_item, _item.amount/*, _gameObject*/);
             return true;            
         }
         else if (inventoryType == InventoryType.other)
         {
-            InventorySlot slot = FindItemOnInventory(_item.data);
-            if (!database.Items[_item.data.Id].stackable || slot == null)
+            InventorySlot slot = FindItemOnInventory(_item);
+            if (!database.Items[_item.Id].stackable || slot == null)
             {
-                SetEmptySlot(_item.data, _item.amount, _gameObject);
+                SetEmptySlot(_item, _item.amount/*, _gameObject*/);
                 return true;
             }
-            //slot.AddAmount(slot.itemobject_data, _item.amount);
-            slot.AddPrantObject(_item.data, _gameObject);
+            slot.AddAmount(slot.item, _item.amount);
 
         }
         return true;
@@ -77,13 +77,13 @@ public class InventoryObject : ScriptableObject
     }
 
     //빈슬롯에 설정
-    public InventorySlot SetEmptySlot(Item _item, int _amount, GameObject _gameObject)
+    public InventorySlot SetEmptySlot(Item _item, int _amount/*, GameObject _gameObject*/)
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
             if (Container.Items[i].item.Id <= -1)
             {
-                Container.Items[i].UpdateSlot(_item, _amount, _gameObject);
+                Container.Items[i].UpdateSlot(_item, _amount/*, _gameObject*/);
                 
                 return Container.Items[i];
             }
@@ -117,9 +117,9 @@ public class InventoryObject : ScriptableObject
 
         if (item2.CanPlaceInSlot(item1.ItemObject)&& item1.CanPlaceInSlot(item2.ItemObject))
         {
-            InventorySlot temp = new InventorySlot(item2.item, item2.amount);
-            item2.UpdateSlot(item1.item, item1.amount);
-            item1.UpdateSlot(temp.item, temp.amount);
+            InventorySlot temp = new InventorySlot(item2.item, item2.totalamount);
+            item2.UpdateSlot(item1.item, item1.totalamount);
+            item1.UpdateSlot(temp.item, temp.totalamount);
         }
     }
 
@@ -181,7 +181,7 @@ public class InventoryObject : ScriptableObject
             Inventory newContainer = (Inventory)formatter.Deserialize(stream);
             for(int i =0; i<Container.Items.Length; i++)
             {
-                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].amount);
+                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].item.amount);
             }
             stream.Close();
             Debug.Log("인벤토리 로드");
@@ -223,29 +223,13 @@ public class InventorySlot
     public UserInterface parent;
     public string name;
     public Item item = new Item();
-    public int amount;
-/*    public GameObject parent_Object;*/
-    //public ItemObject itemobject_data;
-
-
-    /*public ItemObject ItemObject_Data()
-    {
-        if (item.Id >= 0)
-        {
-            item.groundobject = parent.inventory.database.Items[item.Id].data.groundobject;
-            itemobject_data = parent.inventory.database.Items[item.Id];
-            itemobject_data.data = item;
-            return itemobject_data;
-        }
-        return null;
-    }*/
+    public int totalamount;
     public ItemObject ItemObject
     {
         get
         {
             if(item.Id >= 0)
             {
-                //item.groundobject = parent.inventory.database.Items[item.Id].data.groundobject;
                 return parent.inventory.database.Items[item.Id];
             }
             return null;
@@ -261,43 +245,35 @@ public class InventorySlot
     public InventorySlot()
     {
         item = new Item();
-        amount = 0;
-        //item.groundobject = null;
+        //amount = 0;
     }
     //스왑할때 사용
     public InventorySlot(Item _item, int _amount)
     {
         item = _item;
-        amount = _amount;
+        totalamount = _item.amount;
     }
     //저장할때 주로 사용
     public void UpdateSlot(Item _item ,int _amount)
     {
         item = _item;
-        amount = _amount;
+        totalamount = _item.amount;
     }
     //생성자와 같은 작업을 수행하는 업데이트 함수
     public void UpdateSlot(Item _item, int _amount, GameObject _grounditemobject)
     { 
         item = _item;
-        amount = _amount;
+        totalamount = _item.amount;
         
-        //item.groundobject = _grounditemobject;
     }
     public void RemoveItem()
     {
         item = new Item();
-        amount = 0;
-        //item.groundobject = null;
+        totalamount = 0;
     }
-    public void AddAmount(ItemObject _item, int value)
+    public void AddAmount(Item _item, int value)
     {
-        //itemobject_data.amount += value;
-        amount += _item.amount;
-    }
-    public void AddPrantObject(Item _item, GameObject prant_gameObject)
-    {
-        //_item.groundobject = prant_gameObject;
+        totalamount += _item.amount;
     }
 
     //허용된 슬롯만 가능
