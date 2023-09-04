@@ -215,35 +215,19 @@ public static class ExtensionMethods
     
     public static void UpdateSlotDisplay(this Dictionary<GameObject, InventorySlot> _slotsOnInterface)
     {
-/*        for(int i = 0; i < _slotsOnInterface.Count; i++)
-        {
-            if (_slotsOnInterface.Value.item.Id != -1 && itemPrefabObject.GetObject() == null)
-            {
-                GameMgr.Instance.player.GetComponent<Player>().SetPrfebObject(_slot.Key);
-                Debug.Log(itemPrefabObject.GetObject().ToString());
-                *//*                itemPrefabObject.SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
-                                Debug.Log(itemPrefabObject.GetObject().ToString());*//*
-            }
-        }*/
-
         foreach (KeyValuePair<GameObject, InventorySlot> _slot in _slotsOnInterface)
         {
             Image image = _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>();
             TextMeshProUGUI text_GUI = _slot.Key.GetComponentInChildren<TextMeshProUGUI>();
-            ItemPrefabObject itemPrefabObject = _slot.Key.GetComponent<ItemPrefabObject>();
-            //Debug.Log(_slot.Value.item.Id);
+            
             if (_slot.Value.item.Id >= 0)
             {                
                 image.sprite = _slot.Value.ItemObject.uiDisplay;
                 image.color = new Color(1, 1, 1, 1);
-
-                //슬롯 아이템의 갯수가 1이면 숫자 표시 X 0이 아니면 숫자 표시
                 text_GUI.text = _slot.Value.totalamount != 0 ? _slot.Value.totalamount.ToString("n0"): "";
             }
             else
             {
-                //Debug.Log(_slot.Key.transform.name) ;
-                //_slot.Key.transform.GetComponent<ItemPrefabObject>().RemoveObject();
                 image.sprite = null;
                 image.color = new Color(1, 1, 1, 0);
                 text_GUI.text = "";

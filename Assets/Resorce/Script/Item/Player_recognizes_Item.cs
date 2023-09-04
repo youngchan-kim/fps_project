@@ -301,6 +301,9 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public void Item_Removed(InventoryObject inven, Item item)
     {
+        Debug.Log("반응 확인");
+        InventorySlot slot = Groundinventory.FindItemOnInventory(item);
+        Debug.Log(slot.game_object.name);
         inven.ClearItem(item.Id);
         pickup = false;
     }

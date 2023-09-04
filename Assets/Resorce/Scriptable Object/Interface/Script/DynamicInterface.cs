@@ -31,6 +31,7 @@ public class DynamicInterface : UserInterface
             AddEvent(obj, EventTriggerType.Drag, delegate { OnDrag(obj); });
 
             slotsOnInterface.Add(obj, inventory.Container.Items[i]);
+            //Debug.Log(inventory.Container.Items[i]);
         }
     }
     private Vector3 GetPosition(int i)

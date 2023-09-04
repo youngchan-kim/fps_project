@@ -15,8 +15,8 @@ public class GroundInterface : UserInterface
     
     public override void CreateSlots()
     {
-        //
         slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
+
 
         for (int i = 0; i < inventory.Container.Items.Length; i++)
         {
@@ -30,6 +30,8 @@ public class GroundInterface : UserInterface
             AddEvent(obj, EventTriggerType.Drag, delegate { OnDrag(obj); });
 
             slotsOnInterface.Add(obj, inventory.Container.Items[i]);
+
+            //Debug.Log(inventory.Container.Items[i]);
         }
     }
     private Vector3 GetPosition(int i)

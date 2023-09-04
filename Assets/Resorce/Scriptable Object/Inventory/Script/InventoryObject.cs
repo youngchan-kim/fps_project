@@ -39,9 +39,11 @@ public class InventoryObject : ScriptableObject
         else if (inventoryType == InventoryType.other)
         {
             InventorySlot slot = FindItemOnInventory(_item);
+            
             if (!database.Items[_item.Id].stackable || slot == null)
             {
                 SetEmptySlot(_item, _item.amount);
+                
                 slot.game_object = _game_Object;
                 Debug.Log(slot.game_object.name + " | " + _game_Object);
                 return true;
@@ -152,15 +154,20 @@ public class InventoryObject : ScriptableObject
         }
     }*/
 
+
+    //#
     public void ClearItem(int _Item_Id)
     {
+
         for (int i = 0; i < Container.Items.Length; i++)
         {
             //문제 //아이디 값이 같은데 걍 넘어감
             if (Container.Items[i].item.Id == _Item_Id)
             {
-                //Container.Items[i].UpdateSlot(null, 0);
                 Container.Items[i].item = null;
+                //item에 내용이 없으면 오류 발생
+                Container.Items[i].item = new Item();
+                break;
                 //Container.Items[i].amount = 0;
             }
         }
@@ -215,11 +222,11 @@ public class Inventory
     public InventorySlot[] Items = new InventorySlot[28];
     public void Clear()
     {
-        /*for(int i =0; i<Items.Length; i ++)
+        for(int i =0; i<Items.Length; i ++)
         {
-            Items[i].RemoveItem();
-        }*/
-        Items = new InventorySlot[28];
+            Items[i] = null;
+        }
+        //Items = new InventorySlot[28];
     }
 }
 
@@ -269,16 +276,10 @@ public class InventorySlot
         item = _item;
         totalamount = _item.amount;
     }
-    //생성자와 같은 작업을 수행하는 업데이트 함수
-    public void UpdateSlot(Item _item, int _amount, GameObject _grounditemobject)
-    { 
-        item = _item;
-        totalamount = _item.amount;
-        
-    }
+
     public void RemoveItem()
     {
-        item = new Item();
+        item = null;
         totalamount = 0;
     }
     public void AddAmount(Item _item, int value)
