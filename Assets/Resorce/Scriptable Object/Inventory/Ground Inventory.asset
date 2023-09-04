@@ -22,62 +22,250 @@ MonoBehaviour:
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
     - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
     - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
     - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
     - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
     - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
     - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
     - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        amount: 0
+      game_object: {fileID: 0}
+      totalamount: 0

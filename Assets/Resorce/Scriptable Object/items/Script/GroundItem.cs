@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 {
     public ItemObject item;
-
+   
     Transform PlayerObject;
     private void Start()
     {
@@ -31,7 +32,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name)
         {
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item, gameObject);
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item.data, gameObject);
         }
     }
 
@@ -39,7 +40,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name) 
         {
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item.data);
         }
     }
     public ItemObject This_Item_info()

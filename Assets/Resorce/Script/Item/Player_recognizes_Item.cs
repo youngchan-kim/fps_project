@@ -15,7 +15,6 @@ public class Player_recognizes_Item : MonoBehaviour
 {
     public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
     private bool player_recognizes = false;
-    Item crruntitem;
     GroundItem groundItem;
     public bool pickup;
 
@@ -33,9 +32,6 @@ public class Player_recognizes_Item : MonoBehaviour
     private Vector3 hitPos;
 
     int slotnum;
-
-    //화면에 표시되는 아이템 오브젝트
-    GameObject prfebobject;
 
     private void Update()
     {
@@ -215,7 +211,6 @@ public class Player_recognizes_Item : MonoBehaviour
             //ItemActiveCheck().SetActive(false);
         }*/
 
-        //crruntitem.groundobject.SetActive(true);
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
@@ -257,52 +252,45 @@ public class Player_recognizes_Item : MonoBehaviour
     }
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(ItemObject item,  GameObject _prantObject)
+    public void On_The_Ground_Item(Item item,  GameObject game_object)
     {
-        Add_Item(Groundinventory.InventoryID, item.data, _prantObject);
-        crruntitem = item.data;
+        Add_Item(Groundinventory.InventoryID, item, game_object);
     }
 
-    public void On_The_Ground_Item_Removed(ItemObject item)
+    public void On_The_Ground_Item_Removed(Item item)
     {
-        Item_Removed(Groundinventory, item.data);
-        crruntitem = null;
+        Item_Removed(Groundinventory, item);
+
     }
 
-    public void Add_Item(int invenID, Item item, GameObject prantObject)
+    public void Add_Item(int invenID, Item item, GameObject game_Object)
     {
-        if (prfebobject)
-        {
-            prfebobject.GetComponent<ItemPrefabObject>().SetObject(prantObject);
-            prfebobject = null;
-        }
         switch (invenID)
         {
             case 0:
-                if (Groundinventory.AddItem(item, prantObject, InventoryType.Ground))
+                if (Groundinventory.AddItem(item, game_Object, InventoryType.Ground))
                 {
-                    crruntitem = item;
                     pickup = true;
                 }
                 break;
             case 1:
-                if (inventory.AddItem(item, prantObject, InventoryType.other))
+                if (inventory.AddItem(item, game_Object, InventoryType.other))
                 {
-                    crruntitem = item;
+                    
                     pickup = true;
                 }
                 break;
             case 2:
-                if ( Equipinventory.AddItem(item, prantObject, InventoryType.other))
+                if ( Equipinventory.AddItem(item, game_Object, InventoryType.other))
                 {
-                    crruntitem = item;
+                    
                     pickup = true;
                 }
                 break;
             case 3:
-                if (Guninventory.AddItem(item, prantObject, InventoryType.other))
+                if (Guninventory.AddItem(item, game_Object, InventoryType.other))
                 {
-                    crruntitem = item;
+                    
                     pickup = true;
                 }
                 break;
@@ -313,7 +301,7 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public void Item_Removed(InventoryObject inven, Item item)
     {
-        inven.ClearItem(item);
+        inven.ClearItem(item.Id);
         pickup = false;
     }
 
@@ -327,10 +315,6 @@ public class Player_recognizes_Item : MonoBehaviour
         return player_recognizes;
     }
 
-    public void ClickItem(Item clickitem)
-    {
-        crruntitem = clickitem;
-    }
 
     public int GetInven_Find_Item(ItemObject _item)
     {
@@ -354,14 +338,5 @@ public class Player_recognizes_Item : MonoBehaviour
                 inventory.Container.Items[i].totalamount = num;
             }
         }
-    }
-
-    public GameObject SetRemoveObject()
-    {
-        return null;
-    }
-    public void SetPrfebObject(GameObject obj)
-    {
-        prfebobject = obj;
     }
 }

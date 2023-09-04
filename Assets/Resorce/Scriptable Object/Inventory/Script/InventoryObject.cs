@@ -22,15 +22,18 @@ public class InventoryObject : ScriptableObject
     public Inventory Container;
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, GameObject _gameObject, InventoryType inventoryType )
+    public bool AddItem(Item _item, GameObject _game_Object, InventoryType inventoryType )
     {
         if (EmptySlotCount <= 0)
             return false;
 
-        if(inventoryType == InventoryType.Ground)
+        
+        if (inventoryType == InventoryType.Ground)
         {
-            
-            SetEmptySlot(_item, _item.amount/*, _gameObject*/);
+            SetEmptySlot(_item, _item.amount);
+            InventorySlot slot = FindItemOnInventory(_item);
+            slot.game_object = _game_Object;
+            Debug.Log(slot.game_object.name + " | " + _game_Object);
             return true;            
         }
         else if (inventoryType == InventoryType.other)
@@ -38,11 +41,14 @@ public class InventoryObject : ScriptableObject
             InventorySlot slot = FindItemOnInventory(_item);
             if (!database.Items[_item.Id].stackable || slot == null)
             {
-                SetEmptySlot(_item, _item.amount/*, _gameObject*/);
+                SetEmptySlot(_item, _item.amount);
+                slot.game_object = _game_Object;
+                Debug.Log(slot.game_object.name + " | " + _game_Object);
                 return true;
             }
+            slot.game_object = _game_Object;
             slot.AddAmount(slot.item, _item.amount);
-
+            Debug.Log(slot.game_object.name + " | " + _game_Object);
         }
         return true;
     }
@@ -77,13 +83,13 @@ public class InventoryObject : ScriptableObject
     }
 
     //빈슬롯에 설정
-    public InventorySlot SetEmptySlot(Item _item, int _amount/*, GameObject _gameObject*/)
+    public InventorySlot SetEmptySlot(Item _item, int _amount)
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
             if (Container.Items[i].item.Id <= -1)
             {
-                Container.Items[i].UpdateSlot(_item, _amount/*, _gameObject*/);
+                Container.Items[i].UpdateSlot(_item, _amount);
                 
                 return Container.Items[i];
             }
@@ -135,7 +141,7 @@ public class InventoryObject : ScriptableObject
         return -1;
     }
 
-    public void RemoveItem(Item _item)
+    /*public void RemoveItem(Item _item)
     {
         for (int i = 0; i < Container.Items.Length; i++) 
         {
@@ -144,16 +150,17 @@ public class InventoryObject : ScriptableObject
                 Container.Items[i].UpdateSlot(null, 0);
             }
         }
-    }
-    public void ClearItem(Item _item)
+    }*/
+
+    public void ClearItem(int _Item_Id)
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
             //문제 //아이디 값이 같은데 걍 넘어감
-            if (Container.Items[i].item.Id == _item.Id)
+            if (Container.Items[i].item.Id == _Item_Id)
             {
                 //Container.Items[i].UpdateSlot(null, 0);
-                Container.Items[i].item = new Item();
+                Container.Items[i].item = null;
                 //Container.Items[i].amount = 0;
             }
         }
@@ -190,6 +197,7 @@ public class InventoryObject : ScriptableObject
     [ContextMenu("Clear")]
     public void Clear()
     {
+        Debug.Log("clear");
         Container.Clear();
     }
 }
@@ -207,10 +215,11 @@ public class Inventory
     public InventorySlot[] Items = new InventorySlot[28];
     public void Clear()
     {
-        for(int i =0; i<Items.Length; i ++)
+        /*for(int i =0; i<Items.Length; i ++)
         {
             Items[i].RemoveItem();
-        }
+        }*/
+        Items = new InventorySlot[28];
     }
 }
 
@@ -223,6 +232,7 @@ public class InventorySlot
     public UserInterface parent;
     public string name;
     public Item item = new Item();
+    public GameObject game_object;
     public int totalamount;
     public ItemObject ItemObject
     {
@@ -242,11 +252,11 @@ public class InventorySlot
     }
 
 
-    public InventorySlot()
+/*    public InventorySlot()
     {
         item = new Item();
         //amount = 0;
-    }
+    }*/
     //스왑할때 사용
     public InventorySlot(Item _item, int _amount)
     {

@@ -36,11 +36,11 @@ public class ItemObject : ScriptableObject
     public string description;
     public Item data = new Item();
 
-    public Item CreateItem()
+    /*public Item CreateItem()
     {
         Item newItem = new Item(this);
         return newItem;
-    }
+    }*/
 }
 
 [System.Serializable]
@@ -59,7 +59,7 @@ public class Item
         Id = -1;
     }
 
-    public Item(ItemObject item)
+    /*public Item(ItemObject item)
     {
         Name = item.name;
         Id = item.data.Id;
@@ -71,7 +71,7 @@ public class Item
                 attribute = item.data.buffs[i].attribute
             };
         }
-    }
+    }*/
 }
 
 [System.Serializable]

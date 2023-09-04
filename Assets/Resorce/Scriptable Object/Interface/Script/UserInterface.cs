@@ -93,7 +93,6 @@ public abstract class UserInterface : MonoBehaviour
 
             if (slotsOnInterface[obj].GetInventoryID() != 0)
             {
-                player.ClickItem(slotsOnInterface[obj].item);
                 player.ItemDropSystem(obj);
                 slotsOnInterface[obj].RemoveItem();
                 if(slotsOnInterface[obj].GetInventoryID() == 3)
@@ -117,9 +116,7 @@ public abstract class UserInterface : MonoBehaviour
 
             switch (mouseHoverSlotData.GetInventoryID())
             {
-                case 0:
-                    player.ClickItem(slotsOnInterface[obj].item);
-                    
+                case 0:                    
                     if (slotsOnInterface[obj].GetInventoryID() != 0)
                     {
                         player.ItemDropSystem(obj);
@@ -234,18 +231,12 @@ public static class ExtensionMethods
             Image image = _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>();
             TextMeshProUGUI text_GUI = _slot.Key.GetComponentInChildren<TextMeshProUGUI>();
             ItemPrefabObject itemPrefabObject = _slot.Key.GetComponent<ItemPrefabObject>();
-            //딕셔너리 값중 아이템의 아이디가 -1이 아닌데 키중에 부모의 값이 없으면
-            if (_slot.Value.item.Id != -1 && itemPrefabObject.GetObject()==null)
-            {
-                GameMgr.Instance.player.GetComponent<Player>().SetPrfebObject(_slot.Key);
-                Debug.Log(itemPrefabObject.GetObject().ToString());
-/*                itemPrefabObject.SetObject(GameMgr.Instance.player.GetComponent<Player>().GetPrantObject());
-                Debug.Log(itemPrefabObject.GetObject().ToString());*/
-            }
+            //Debug.Log(_slot.Value.item.Id);
             if (_slot.Value.item.Id >= 0)
             {                
                 image.sprite = _slot.Value.ItemObject.uiDisplay;
                 image.color = new Color(1, 1, 1, 1);
+
                 //슬롯 아이템의 갯수가 1이면 숫자 표시 X 0이 아니면 숫자 표시
                 text_GUI.text = _slot.Value.totalamount != 0 ? _slot.Value.totalamount.ToString("n0"): "";
             }

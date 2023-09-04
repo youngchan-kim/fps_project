@@ -1472,7 +1472,7 @@ GameObject:
   - component: {fileID: 371614948}
   - component: {fileID: 371614949}
   m_Layer: 11
-  m_Name: Gun
+  m_Name: Gun M4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5351,7 +5351,7 @@ GameObject:
   - component: {fileID: 791245517}
   - component: {fileID: 791245518}
   m_Layer: 11
-  m_Name: Gun
+  m_Name: Gun Sr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
