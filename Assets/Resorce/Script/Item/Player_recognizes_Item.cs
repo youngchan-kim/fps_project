@@ -276,26 +276,22 @@ public class Player_recognizes_Item : MonoBehaviour
             case 1:
                 if (inventory.AddItem(item, game_Object, InventoryType.other))
                 {
-                    
                     pickup = true;
                 }
                 break;
             case 2:
                 if ( Equipinventory.AddItem(item, game_Object, InventoryType.other))
                 {
-                    
                     pickup = true;
                 }
                 break;
             case 3:
                 if (Guninventory.AddItem(item, game_Object, InventoryType.other))
                 {
-                    
                     pickup = true;
                 }
                 break;
         }
-
     }
 
 
