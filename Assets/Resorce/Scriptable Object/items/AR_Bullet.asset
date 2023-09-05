@@ -22,3 +22,4 @@ MonoBehaviour:
     Id: 2
     buffs: []
     amount: 30
+    item_object_Prefab: {fileID: 0}

@@ -33,10 +33,10 @@ public class Player_recognizes_Item : MonoBehaviour
 
     int slotnum;
 
-    private void Update()
+/*    private void Update()
     {
         Player_recognizes();
-    }
+    }*/
 
     //키보드로 먹을때
     public void Pickup_Swap_Item(Collider Coll)
@@ -90,7 +90,8 @@ public class Player_recognizes_Item : MonoBehaviour
                 break;
             case ItemType.Bullet:
                 //아이템 슬롯에 아이템 넣어야함
-                ground_Item.SetActive(false);
+                //디스트로이하기 때문에 필요 없다.
+                //ground_Item.SetActive(false);
                 //총알은 플레이어에게서 버려질때를 제외하면 부모 오브젝트가 없다.
                 //오브젝트 비활성화가 불가능하다.
                 break;
@@ -195,7 +196,7 @@ public class Player_recognizes_Item : MonoBehaviour
     }
 
 
-    public void ItemDropSystem(GameObject obj)
+    public void ItemDropSystem(InventorySlot obj)
     {
         /*if (*//*crruntitem.groundobject.name == "Gun"*//*)
         {
@@ -210,11 +211,12 @@ public class Player_recognizes_Item : MonoBehaviour
         {
             //ItemActiveCheck().SetActive(false);
         }*/
+        Debug.Log(obj.item_object_Prefab);
 
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
-        obj.transform.position = hitPos;
+        //obj.transform.position = hitPos;
     }
 
     //목록체크
@@ -252,54 +254,68 @@ public class Player_recognizes_Item : MonoBehaviour
     }
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(Item item,  GameObject game_object)
+    public void On_The_Ground_Item(Item item)
     {
-        Add_Item(Groundinventory.InventoryID, item, game_object);
-    }
-
-    public void On_The_Ground_Item_Removed(Item item)
-    {
-        Item_Removed(Groundinventory, item);
+        Add_Item(Groundinventory.InventoryID,item);
 
     }
 
-    public void Add_Item(int invenID, Item item, GameObject game_Object)
+    public void On_The_Ground_Item_Removed(ItemObject item)
+    {
+        
+        Item_Removed(Groundinventory, item.data);
+        //item.item_object_Prefab
+
+    }
+
+    public void Add_Item(int invenID, Item item)
     {
         switch (invenID)
         {
             case 0:
-                if (Groundinventory.AddItem(item, game_Object, InventoryType.Ground))
+                if (Groundinventory.AddItem(item, InventoryType.Ground))
                 {
-                    pickup = true;
                 }
                 break;
             case 1:
-                if (inventory.AddItem(item, game_Object, InventoryType.other))
-                {
-                    pickup = true;
-                }
-                break;
-            case 2:
-                if ( Equipinventory.AddItem(item, game_Object, InventoryType.other))
-                {
-                    pickup = true;
-                }
-                break;
-            case 3:
-                if (Guninventory.AddItem(item, game_Object, InventoryType.other))
+                if (inventory.AddItem(item, InventoryType.other))
                 {
                     pickup = true;
                 }
                 break;
         }
+        /*switch (invenID)
+        {
+            case 0:
+                if (Groundinventory.AddItem(item, InventoryType.Ground, game_object))
+                {
+                }
+                break;
+            case 1:
+                if (inventory.AddItem(item, InventoryType.other, game_object))
+                {
+                    pickup = true;
+                }
+                break;
+            case 2:
+                if ( Equipinventory.AddItem(item, InventoryType.other, game_object))
+                {
+                    pickup = true;
+                }
+                break;
+            case 3:
+                if (Guninventory.AddItem(item, InventoryType.other, game_object))
+                {
+                    pickup = true;
+                }
+                break;
+        }*/
     }
 
 
     public void Item_Removed(InventoryObject inven, Item item)
     {
         Debug.Log("반응 확인");
-        InventorySlot slot = Groundinventory.FindItemOnInventory(item);
-        Debug.Log(slot.game_object.name);
         inven.ClearItem(item.Id);
         pickup = false;
     }

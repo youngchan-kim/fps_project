@@ -11,8 +11,6 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     Transform PlayerObject;
     private void Start()
     {
-        
-        //Debug.Log("지금 찾는거" +GameMgr.Instance.player.transform.Find("PlayerObject"));
         PlayerObject = GameMgr.Instance.player.transform.Find("PlayerObject");
     }
     public void OnAfterDeserialize()
@@ -32,7 +30,8 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name)
         {
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item.data, gameObject);
+            item.data.item_object_Prefab = gameObject;
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item.data);
         }
     }
 
@@ -40,7 +39,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name) 
         {
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item.data);
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
         }
     }
     public ItemObject This_Item_info()

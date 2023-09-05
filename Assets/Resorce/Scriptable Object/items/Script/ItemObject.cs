@@ -28,6 +28,7 @@ public enum Attributes
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
 public class ItemObject : ScriptableObject
 {
+    
     public Sprite uiDisplay;
     public GameObject characterDisplay;
     public bool stackable;
@@ -50,7 +51,7 @@ public class Item
     public int Id = -1;
     public ItemBuff[] buffs;
     public int amount;
-
+    public GameObject item_object_Prefab;
     //public ItemType itemType;
 
     public Item()

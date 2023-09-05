@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemPrefabObject : MonoBehaviour
 {
-    GameObject Itemobject;
+    public GameObject Itemobject;
     
     public void SetObject(GameObject _gameobject)
     {

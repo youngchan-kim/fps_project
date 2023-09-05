@@ -22,7 +22,7 @@ public class InventoryObject : ScriptableObject
     public Inventory Container;
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, GameObject _game_Object, InventoryType inventoryType )
+    public bool AddItem(Item _item, InventoryType inventoryType)
     {
         if (EmptySlotCount <= 0)
             return false;
@@ -30,10 +30,8 @@ public class InventoryObject : ScriptableObject
         
         if (inventoryType == InventoryType.Ground)
         {
-            SetEmptySlot(_item, _item.amount);
-            InventorySlot slot = FindItemOnInventory(_item);
-            slot.game_object = _game_Object;
-            Debug.Log(slot.game_object.name + " | " + _game_Object);
+            SetEmptySlot(_item , _item.amount);
+
             return true;            
         }
         else if (inventoryType == InventoryType.other)
@@ -43,14 +41,11 @@ public class InventoryObject : ScriptableObject
             if (!database.Items[_item.Id].stackable || slot == null)
             {
                 SetEmptySlot(_item, _item.amount);
-                
-                slot.game_object = _game_Object;
-                Debug.Log(slot.game_object.name + " | " + _game_Object);
+                Destroy(_item.item_object_Prefab);
                 return true;
             }
-            slot.game_object = _game_Object;
             slot.AddAmount(slot.item, _item.amount);
-            Debug.Log(slot.game_object.name + " | " + _game_Object);
+             Destroy(_item.item_object_Prefab);
         }
         return true;
     }
@@ -85,14 +80,13 @@ public class InventoryObject : ScriptableObject
     }
 
     //빈슬롯에 설정
-    public InventorySlot SetEmptySlot(Item _item, int _amount)
+    public InventorySlot SetEmptySlot(Item _item, int _amount )
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
             if (Container.Items[i].item.Id <= -1)
             {
                 Container.Items[i].UpdateSlot(_item, _amount);
-                
                 return Container.Items[i];
             }
         }
@@ -239,7 +233,7 @@ public class InventorySlot
     public UserInterface parent;
     public string name;
     public Item item = new Item();
-    public GameObject game_object;
+    public GameObject item_object_Prefab;
     public int totalamount;
     public ItemObject ItemObject
     {
@@ -263,23 +257,27 @@ public class InventorySlot
     {
         item = new Item();
         //amount = 0;
-    }*/
+    }
+*/
     //스왑할때 사용
+
     public InventorySlot(Item _item, int _amount)
     {
         item = _item;
         totalamount = _item.amount;
     }
     //저장할때 주로 사용
-    public void UpdateSlot(Item _item ,int _amount)
+    public void UpdateSlot(Item _item, int _amount)
     {
         item = _item;
         totalamount = _item.amount;
+        item_object_Prefab = _item.item_object_Prefab;
     }
 
     public void RemoveItem()
     {
         item = null;
+        item = new Item();
         totalamount = 0;
     }
     public void AddAmount(Item _item, int value)

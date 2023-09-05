@@ -24,7 +24,8 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
-      game_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      item_object_Prefab: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -33,7 +34,8 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
-      game_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      item_object_Prefab: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -42,7 +44,8 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
-      game_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      item_object_Prefab: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -51,7 +54,8 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
-      game_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      item_object_Prefab: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -60,7 +64,8 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
-      game_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      item_object_Prefab: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -69,5 +74,6 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
-      game_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      item_object_Prefab: {fileID: 0}
       totalamount: 0
