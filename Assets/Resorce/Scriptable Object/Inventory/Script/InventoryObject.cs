@@ -27,7 +27,7 @@ public class InventoryObject : ScriptableObject
         if (EmptySlotCount <= 0)
             return false;
 
-        
+        InventorySlot slot = FindItemOnInventory(_item);
         if (inventoryType == InventoryType.Ground)
         {
             SetEmptySlot(_item , _item.amount);
@@ -35,17 +35,14 @@ public class InventoryObject : ScriptableObject
             return true;            
         }
         else if (inventoryType == InventoryType.other)
-        {
-            InventorySlot slot = FindItemOnInventory(_item);
-            
+        {            
             if (!database.Items[_item.Id].stackable || slot == null)
             {
                 SetEmptySlot(_item, _item.amount);
-                Destroy(_item.item_object_Prefab);
+
                 return true;
             }
-            slot.AddAmount(slot.item, _item.amount);
-             Destroy(_item.item_object_Prefab);
+            slot.AddAmount(slot.item, slot.totalamount);
         }
         return true;
     }
@@ -150,19 +147,21 @@ public class InventoryObject : ScriptableObject
 
 
     //#
-    public void ClearItem(int _Item_Id)
+    public void ClearItem(int _Item_Id, int inven_num)
     {
-
+        
         for (int i = 0; i < Container.Items.Length; i++)
         {
             //문제 //아이디 값이 같은데 걍 넘어감
             if (Container.Items[i].item.Id == _Item_Id)
             {
-                Container.Items[i].item = null;
-                //item에 내용이 없으면 오류 발생
-                Container.Items[i].item = new Item();
+                if (inven_num != 0 && inven_num != -1)
+                {
+                    Destroy(Container.Items[i].slot_item_object); 
+                }
+
+                Container.Items[i].RemoveItem();
                 break;
-                //Container.Items[i].amount = 0;
             }
         }
     }
@@ -233,7 +232,7 @@ public class InventorySlot
     public UserInterface parent;
     public string name;
     public Item item = new Item();
-    public GameObject item_object_Prefab;
+    [HideInInspector]public GameObject slot_item_object;
     public int totalamount;
     public ItemObject ItemObject
     {
@@ -252,13 +251,6 @@ public class InventorySlot
         return parent.inventory.InventoryID;
     }
 
-
-/*    public InventorySlot()
-    {
-        item = new Item();
-        //amount = 0;
-    }
-*/
     //스왑할때 사용
 
     public InventorySlot(Item _item, int _amount)
@@ -270,13 +262,12 @@ public class InventorySlot
     public void UpdateSlot(Item _item, int _amount)
     {
         item = _item;
-        totalamount = _item.amount;
-        item_object_Prefab = _item.item_object_Prefab;
+        totalamount =_amount;
+        slot_item_object = _item.item_object;
     }
 
     public void RemoveItem()
     {
-        item = null;
         item = new Item();
         totalamount = 0;
     }

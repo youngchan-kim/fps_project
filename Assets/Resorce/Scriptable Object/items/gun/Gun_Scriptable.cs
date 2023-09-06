@@ -37,5 +37,5 @@ public class Gun_Scriptable : ScriptableObject
     public Sprite sprites;
     
     //공격할 수 있는 것들
-    public LayerMask whatIsEnemy;
+    public LayerMask what_can_Shoot;
 }

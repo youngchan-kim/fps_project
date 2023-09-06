@@ -211,15 +211,16 @@ public class Player_recognizes_Item : MonoBehaviour
         {
             //ItemActiveCheck().SetActive(false);
         }*/
-        Debug.Log(obj.item_object_Prefab);
-
+        Debug.Log(obj.slot_item_object);
+        
         Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
         hitPos.y += 0.01f;
+        Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.Euler(0,0,0));
         //obj.transform.position = hitPos;
     }
 
-    //목록체크
+/*    //목록체크
     GameObject ListActiveCheck(string name)
     {
         int ListListcount = transform.GetChild(1).GetChild(0).childCount;
@@ -233,10 +234,10 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
         return null;
-    }
+    }*/
 
 
-    //활성화된 오브젝트 리턴
+/*    //활성화된 오브젝트 리턴
     GameObject ItemActiveCheck()
     {
         int ItemListcount = transform.GetChild(1).GetChild(0).GetChild(0).childCount;
@@ -251,7 +252,7 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
         return null;
-    }
+    }*/
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void On_The_Ground_Item(Item item)
@@ -263,7 +264,7 @@ public class Player_recognizes_Item : MonoBehaviour
     public void On_The_Ground_Item_Removed(ItemObject item)
     {
         
-        Item_Removed(Groundinventory, item.data);
+        Item_Removed(Groundinventory, -1, item.data);
         //item.item_object_Prefab
 
     }
@@ -283,53 +284,27 @@ public class Player_recognizes_Item : MonoBehaviour
                     pickup = true;
                 }
                 break;
-        }
-        /*switch (invenID)
-        {
-            case 0:
-                if (Groundinventory.AddItem(item, InventoryType.Ground, game_object))
-                {
-                }
-                break;
-            case 1:
-                if (inventory.AddItem(item, InventoryType.other, game_object))
-                {
-                    pickup = true;
-                }
-                break;
             case 2:
-                if ( Equipinventory.AddItem(item, InventoryType.other, game_object))
+                if (Equipinventory.AddItem(item, InventoryType.other))
                 {
                     pickup = true;
                 }
                 break;
             case 3:
-                if (Guninventory.AddItem(item, InventoryType.other, game_object))
+                if (Guninventory.AddItem(item, InventoryType.other))
                 {
                     pickup = true;
                 }
                 break;
-        }*/
+        }
     }
 
-
-    public void Item_Removed(InventoryObject inven, Item item)
+    public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item )
     {
         Debug.Log("반응 확인");
-        inven.ClearItem(item.Id);
+        item_out_inven.ClearItem(item.Id, inven_num);
         pickup = false;
     }
-
-    public bool GetPickup()
-    {
-        return pickup;
-    }
-
-    public bool Player_recognizes()
-    {
-        return player_recognizes;
-    }
-
 
     public int GetInven_Find_Item(ItemObject _item)
     {

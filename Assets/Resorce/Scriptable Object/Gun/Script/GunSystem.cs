@@ -40,7 +40,6 @@ public class GunSystem : MonoBehaviour
     public RaycastHit rayHit;
  
     public int Equipped_parts_Scopes;
-
     //총구가 가리키는 포지션
     Vector3 target_position;
     //촐구가 바라보는 방향
@@ -53,7 +52,7 @@ public class GunSystem : MonoBehaviour
 
     Player player;
     private void Awake()
-    {
+    { 
         player = GameMgr.Instance.player.GetComponent<Player>();
         //pickup = GetComponent<GunPickUp>();
         //탄창사이즈 만큼 남은 탄을 채워준다.
@@ -138,7 +137,7 @@ public class GunSystem : MonoBehaviour
         //접촉한 단일 개체의 정보를 얻어오기 위함
         //특정 위치에서 일정한 방향으로 광선을 발사
         Vector3 firedirection = attackPoint.transform.position - firePosition.transform.position;
-        if (Physics.Raycast(firePosition.transform.position, firedirection, out rayHit, Gun_property.range/*, QueryTriggerInteraction.Ignore*/))
+        if (Physics.Raycast(firePosition.transform.position, firedirection, out rayHit, Gun_property.range, Gun_property.what_can_Shoot))
         {
             //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<ShootingAi>())

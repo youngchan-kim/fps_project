@@ -5244,6 +5244,7 @@ MonoBehaviour:
   text: {fileID: 0}
   muzzleFlashparticle: {fileID: 4643290474178646696}
   Equipped_parts_Scopes: 0
+  bullet: {fileID: 0}
 --- !u!114 &6823976936530775459
 MonoBehaviour:
   m_ObjectHideFlags: 0

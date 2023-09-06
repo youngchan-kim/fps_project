@@ -24,6 +24,6 @@ MonoBehaviour:
   allowButtonHold: 1
   Equipped_parts_Scopes: 0
   sprites: {fileID: 21300046, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
-  whatIsEnemy:
+  what_can_Shoot:
     serializedVersion: 2
     m_Bits: 200

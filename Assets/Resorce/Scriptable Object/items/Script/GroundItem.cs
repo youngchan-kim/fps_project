@@ -30,7 +30,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name)
         {
-            item.data.item_object_Prefab = gameObject;
+            item.data.item_object = gameObject;
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item.data);
         }
     }

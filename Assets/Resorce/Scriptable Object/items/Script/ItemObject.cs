@@ -51,6 +51,7 @@ public class Item
     public int Id = -1;
     public ItemBuff[] buffs;
     public int amount;
+    [HideInInspector] public GameObject item_object;
     public GameObject item_object_Prefab;
     //public ItemType itemType;
 

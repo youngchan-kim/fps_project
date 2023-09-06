@@ -112,17 +112,19 @@ public abstract class UserInterface : MonoBehaviour
         if (MouseData.slotHoveredOver)
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
-            Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID()); 
+            Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
             //Debug.Log("땅에 있던 오브젝트의 이름" + obj.GetComponent<ItemPrefabObject>().GetObject().name);
-
-            switch (mouseHoverSlotData.GetInventoryID())
+            int startInventoryID = slotsOnInterface[obj].GetInventoryID();
+            int endInventoryID = mouseHoverSlotData.GetInventoryID();
+            switch (endInventoryID)
             {
                 case 0:                    
-                    if (slotsOnInterface[obj].GetInventoryID() != 0)
+                    if (startInventoryID != 0)
                     {
                         player.ItemDropSystem(slotsOnInterface[obj]);
-                        //문제
-                        //player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
+
+                        if (startInventoryID == 3)
+                            player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
                         slotsOnInterface[obj].RemoveItem();
                     }    
                     break;
@@ -130,7 +132,7 @@ public abstract class UserInterface : MonoBehaviour
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
                         
-                        if (slotsOnInterface[obj].GetInventoryID() == 1)
+                        if (startInventoryID == 1)
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
                                 , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
@@ -138,14 +140,12 @@ public abstract class UserInterface : MonoBehaviour
                         else
                         {
                             Debug.Log("다른 인벤에서 캐릭터 인벤으로 들어옴");
-                            Debug.Log(slotsOnInterface[obj].item_object_Prefab);
+                            Debug.Log(slotsOnInterface[obj].slot_item_object);
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
-                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].item_object_Prefab);
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
                             Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
-                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item);   
-
-                            //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
-                            slotsOnInterface[obj].RemoveItem();
+                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item);
+                            player.Item_Removed(slotsOnInterface[obj].parent.inventory, endInventoryID, slotsOnInterface[obj].item);
 
                         }
                         
@@ -161,13 +161,13 @@ public abstract class UserInterface : MonoBehaviour
                 case 3:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
-                        if (slotsOnInterface[obj].GetInventoryID() != 3)
+                        if (startInventoryID != 3)
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
-                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].item_object_Prefab); 
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object); 
                         }
                         inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
-                        if (slotsOnInterface[obj].GetInventoryID()==3)
+                        if (startInventoryID == 3)
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
                                 , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
