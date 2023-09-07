@@ -90,7 +90,6 @@ public abstract class UserInterface : MonoBehaviour
         if (MouseData.interfaceMouseIsOver == null)
         {
             Debug.Log("오브젝트를 허공에 뒀을 때");
-
             if (slotsOnInterface[obj].GetInventoryID() != 0)
             {
                 player.ItemDropSystem(slotsOnInterface[obj]);
@@ -122,10 +121,10 @@ public abstract class UserInterface : MonoBehaviour
                     if (startInventoryID != 0)
                     {
                         player.ItemDropSystem(slotsOnInterface[obj]);
-
                         if (startInventoryID == 3)
                             player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
                         slotsOnInterface[obj].RemoveItem();
+                        
                     }    
                     break;
                 case 1:
@@ -226,7 +225,8 @@ public static class ExtensionMethods
             {                
                 image.sprite = _slot.Value.ItemObject.uiDisplay;
                 image.color = new Color(1, 1, 1, 1);
-                text_GUI.text = _slot.Value.totalamount != 0 ? _slot.Value.totalamount.ToString("n0"): "";
+                text_GUI.text = _slot.Value.item.amount != 0 ? _slot.Value.item.amount.ToString("n0"): "";
+                //text_GUI.text = _slot.Value.totalamount != 0 ? _slot.Value.totalamount.ToString("n0") : "";
             }
             else
             {

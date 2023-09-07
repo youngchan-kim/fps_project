@@ -21,6 +21,8 @@ public class InventoryObject : ScriptableObject
     //Container를 사용하면 List Items를 사용하기위함
     public Inventory Container;
 
+
+
     //아이템 항목 추가 기능
     public bool AddItem(Item _item, InventoryType inventoryType)
     {
@@ -30,9 +32,9 @@ public class InventoryObject : ScriptableObject
         InventorySlot slot = FindItemOnInventory(_item);
         if (inventoryType == InventoryType.Ground)
         {
-            SetEmptySlot(_item , _item.amount);
+            SetEmptySlot(_item, _item.amount);
 
-            return true;            
+            return true;
         }
         else if (inventoryType == InventoryType.other)
         {            
@@ -43,6 +45,22 @@ public class InventoryObject : ScriptableObject
                 return true;
             }
             slot.AddAmount(slot.item, slot.totalamount);
+        }
+        return true;
+    }
+
+    public bool AddGroundItem(Item _item, InventoryType inventoryType)
+    {
+        if (EmptySlotCount <= 0)
+            return false;
+
+        InventorySlot slot = FindItemOnInventory(_item);
+        if (inventoryType == InventoryType.Ground)
+        {
+            if (slot.totalamount == 0)
+             SetEmptySlot(_item, _item.amount);
+            else
+                SetEmptySlot(_item, slot.totalamount);
         }
         return true;
     }
@@ -75,7 +93,19 @@ public class InventoryObject : ScriptableObject
         }
         return null;
     }
-
+    public InventorySlot SetGroundEmptySlot(Item _item, int _amount)
+    {
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].item.Id <= -1)
+            {
+                Container.Items[i].UpdateSlot(_item, _amount);
+                return Container.Items[i];
+            }
+        }
+        //set up functionality for full inventory
+        return null;
+    }
     //빈슬롯에 설정
     public InventorySlot SetEmptySlot(Item _item, int _amount )
     {

@@ -7,7 +7,7 @@ using static UnityEditor.Progress;
 public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 {
     public ItemObject item;
-   
+    public int amount;
     Transform PlayerObject;
     private void Start()
     {
@@ -42,9 +42,4 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
         }
     }
-    public ItemObject This_Item_info()
-    {
-        return item;
-    }
-
 }

@@ -36,6 +36,7 @@ public class ItemObject : ScriptableObject
     [TextArea(15, 20)]
     public string description;
     public Item data = new Item();
+    public int objectamount;
 
     /*public Item CreateItem()
     {

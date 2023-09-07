@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 
 public enum InventoryType
@@ -14,7 +15,7 @@ public enum InventoryType
 public class Player_recognizes_Item : MonoBehaviour
 {
     public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
-    private bool player_recognizes = false;
+    //private bool player_recognizes = false;
     GroundItem groundItem;
     public bool pickup;
 
@@ -43,24 +44,30 @@ public class Player_recognizes_Item : MonoBehaviour
     {
         Transform coll_parent = Coll.transform.parent;
         GameObject ground_Item =  coll_parent.gameObject;
-        ItemObject see_the_itemobject = coll_parent.GetComponent<GroundItem>().This_Item_info();
+        ItemObject see_the_itemobject = coll_parent.GetComponent<GroundItem>().item;
         Item _item = see_the_itemobject.data;
+
         if (Groundinventory.FindItemOnInventory(_item) != null)
         {
             switch (ground_Item.GetComponent<GroundItem>().item.type)
             {
                 case ItemType.Gun:
                     Debug.Log("아이템 픽업");
-                    Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), Guninventory.GetEmptySlot());
+                    Add_Item(Guninventory.InventoryID, _item);
+                    Item_Removed(Groundinventory, Guninventory.InventoryID, _item);
                     break;
 
                 case ItemType.Helmet:
                 case ItemType.Bag:
                 case ItemType.Armor:
-                    Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), Equipinventory.GetEmptySlot());
+                    Add_Item(Equipinventory.InventoryID, _item);
+                    Item_Removed(Groundinventory, Equipinventory.InventoryID, _item);
+
                     break;
                 case ItemType.Bullet:
-                    Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), inventory.GetEmptySlot());
+                    Add_Item(inventory.InventoryID, _item);
+                    Item_Removed(Groundinventory, inventory.InventoryID, _item);
+                    //Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), inventory.GetEmptySlot());
                     break;
             }
         }
@@ -103,8 +110,146 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         //클릭한아이템을 Items에서 제거해야함
         //_item.groundobject.SetActive(false);
+    }
+
+
+    public void ItemDropSystem(InventorySlot obj/*, InventorySlot slot*/)
+    {
+        Item item = new Item();
+        /*if (crruntitem.groundobject.name == "Gun")
+        {
+            //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
+            if (equipped)
+            {
+                equipped = false;
+                ItemActiveCheck().SetActive(false);
+            }
+        }
+        else
+        {
+            //ItemActiveCheck().SetActive(false);
+        }*/
+        Debug.Log(obj.slot_item_object);
+        
+        Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
+        hitPos = rayHit.point;
+        hitPos.y += 0.01f;
+        
+        item.item_object = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.Euler(0, 0, 0));
+    }
+
+
+    //추가 코드
+    // 오브젝트 사이의 접촉이 일어난 순간 호출
+    public void On_The_Ground_Item(Item item)
+    {
+        Add_Item(Groundinventory.InventoryID,item);
 
     }
+
+    public void On_The_Ground_Item_Removed(ItemObject item)
+    {
+        
+        Item_Removed(Groundinventory, -1, item.data);
+        //item.item_object_Prefab
+
+    }
+
+    public void Add_Item(int invenID, Item item)
+    {
+        switch (invenID)
+        {
+            case 0:
+                if (Groundinventory.AddGroundItem(item, InventoryType.Ground))
+                {
+                }
+                break;
+            case 1:
+                if (inventory.AddItem(item, InventoryType.other))
+                {
+                    pickup = true;
+                }
+                break;
+            case 2:
+                if (Equipinventory.AddItem(item, InventoryType.other))
+                {
+                    pickup = true;
+                }
+                break;
+            case 3:
+                if (Guninventory.AddItem(item, InventoryType.other))
+                {
+                    pickup = true;
+                }
+                break;
+        }
+    }
+
+    public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item )
+    {
+        Debug.Log("반응 확인");
+        item_out_inven.ClearItem(item.Id, inven_num);
+        pickup = false;
+    }
+
+    /*    //목록체크
+    GameObject ListActiveCheck(string name)
+    {
+        int ListListcount = transform.GetChild(1).GetChild(0).childCount;
+        //Debug.Log(ListListcount);
+
+        for (int i = 0; i < ListListcount; i++)
+        {
+            if (transform.GetChild(1).GetChild(0).GetChild(i).gameObject.name == name)
+            {
+                return transform.GetChild(1).GetChild(0).GetChild(i).gameObject;
+            }
+        }
+        return null;
+    }*/
+
+
+    /*    //활성화된 오브젝트 리턴
+        GameObject ItemActiveCheck()
+        {
+            int ItemListcount = transform.GetChild(1).GetChild(0).GetChild(0).childCount;
+            //Debug.Log(ItemListcount);
+
+            for (int i = 0; i < ItemListcount; i++)
+            {
+                if (transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject.activeSelf == true)
+                {
+
+                    return transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject;
+                }
+            }
+            return null;
+        }*/
+
+    public int GetInven_Find_Item(ItemObject _item)
+    {
+        for (int i = 0; i < inventory.Container.Items.Length; i++)
+        { 
+            if(inventory.Container.Items[i].item.Id == _item.data.Id)
+            {
+                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
+                return inventory.Container.Items[i].totalamount;
+            }  
+        }
+        return 0;
+    }
+    public void SetInven_Find_Item(ItemObject _item, int num)
+    {
+        for (int i = 0; i < inventory.Container.Items.Length; i++)
+        {
+            if (inventory.Container.Items[i].item.Id == _item.data.Id)
+            {
+                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
+                inventory.Container.Items[i].totalamount = num;
+            }
+        }
+    }
+
 
 
     public void GunActive(int sellect)
@@ -124,7 +269,7 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         return false;
     }
-    void Additem(GameObject[] Itemslot , GameObject item)
+    void Additem(GameObject[] Itemslot, GameObject item)
     {
         if (slotnum == -1)
         {
@@ -176,8 +321,8 @@ public class Player_recognizes_Item : MonoBehaviour
     {
         for (int i = 0; i < Gunslot.Length; i++)
         {
-            if((sellect) != i && Gunslot[i] != null)
-            Gunslot[i].gameObject.SetActive(false);
+            if ((sellect) != i && Gunslot[i] != null)
+                Gunslot[i].gameObject.SetActive(false);
         }
     }
     //아이템 id 찾기
@@ -195,138 +340,4 @@ public class Player_recognizes_Item : MonoBehaviour
         return null;
     }
 
-
-    public void ItemDropSystem(InventorySlot obj)
-    {
-        /*if (*//*crruntitem.groundobject.name == "Gun"*//*)
-        {
-            //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
-            if (equipped)
-            {
-                equipped = false;
-                ItemActiveCheck().SetActive(false);
-            }
-        }
-        else
-        {
-            //ItemActiveCheck().SetActive(false);
-        }*/
-        Debug.Log(obj.slot_item_object);
-        
-        Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
-        hitPos = rayHit.point;
-        hitPos.y += 0.01f;
-        Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.Euler(0,0,0));
-        //obj.transform.position = hitPos;
-    }
-
-/*    //목록체크
-    GameObject ListActiveCheck(string name)
-    {
-        int ListListcount = transform.GetChild(1).GetChild(0).childCount;
-        //Debug.Log(ListListcount);
-
-        for (int i = 0; i < ListListcount; i++)
-        {
-            if (transform.GetChild(1).GetChild(0).GetChild(i).gameObject.name == name)
-            {
-                return transform.GetChild(1).GetChild(0).GetChild(i).gameObject;
-            }
-        }
-        return null;
-    }*/
-
-
-/*    //활성화된 오브젝트 리턴
-    GameObject ItemActiveCheck()
-    {
-        int ItemListcount = transform.GetChild(1).GetChild(0).GetChild(0).childCount;
-        //Debug.Log(ItemListcount);
-
-        for (int i = 0; i < ItemListcount; i++)
-        {
-            if (transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject.activeSelf == true)
-            {
-
-                return transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject;
-            }
-        }
-        return null;
-    }*/
-    //추가 코드
-    // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(Item item)
-    {
-        Add_Item(Groundinventory.InventoryID,item);
-
-    }
-
-    public void On_The_Ground_Item_Removed(ItemObject item)
-    {
-        
-        Item_Removed(Groundinventory, -1, item.data);
-        //item.item_object_Prefab
-
-    }
-
-    public void Add_Item(int invenID, Item item)
-    {
-        switch (invenID)
-        {
-            case 0:
-                if (Groundinventory.AddItem(item, InventoryType.Ground))
-                {
-                }
-                break;
-            case 1:
-                if (inventory.AddItem(item, InventoryType.other))
-                {
-                    pickup = true;
-                }
-                break;
-            case 2:
-                if (Equipinventory.AddItem(item, InventoryType.other))
-                {
-                    pickup = true;
-                }
-                break;
-            case 3:
-                if (Guninventory.AddItem(item, InventoryType.other))
-                {
-                    pickup = true;
-                }
-                break;
-        }
-    }
-
-    public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item )
-    {
-        Debug.Log("반응 확인");
-        item_out_inven.ClearItem(item.Id, inven_num);
-        pickup = false;
-    }
-
-    public int GetInven_Find_Item(ItemObject _item)
-    {
-        for (int i = 0; i < inventory.Container.Items.Length; i++)
-        { 
-            if(inventory.Container.Items[i].item.Id == _item.data.Id)
-            {
-                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
-                return inventory.Container.Items[i].totalamount;
-            }  
-        }
-        return 0;
-    }
-    public void SetInven_Find_Item(ItemObject _item, int num)
-    {
-        for (int i = 0; i < inventory.Container.Items.Length; i++)
-        {
-            if (inventory.Container.Items[i].item.Id == _item.data.Id)
-            {
-                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
-                inventory.Container.Items[i].totalamount = num;
-            }
-        }
-    }
 }
