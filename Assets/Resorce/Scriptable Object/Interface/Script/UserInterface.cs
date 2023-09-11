@@ -225,8 +225,8 @@ public static class ExtensionMethods
             {                
                 image.sprite = _slot.Value.ItemObject.uiDisplay;
                 image.color = new Color(1, 1, 1, 1);
-                text_GUI.text = _slot.Value.item.amount != 0 ? _slot.Value.item.amount.ToString("n0"): "";
-                //text_GUI.text = _slot.Value.totalamount != 0 ? _slot.Value.totalamount.ToString("n0") : "";
+                //text_GUI.text = _slot.Value.item.amount != 0 ? _slot.Value.item.amount.ToString("n0"): "";
+                text_GUI.text = _slot.Value.totalamount != 0 ? _slot.Value.totalamount.ToString("n0") : "";
             }
             else
             {

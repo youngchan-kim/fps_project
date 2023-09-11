@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Ground
   m_EditorClassIdentifier: 
   InventoryID: 0
-  savePath: /Ground.Save
-  database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
+  savePath: 
+  database: {fileID: 0}
   Container:
     Items:
     - AllowedItems: 
@@ -24,8 +24,9 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
+        item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
-      item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -34,8 +35,9 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
+        item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
-      item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -44,8 +46,9 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
+        item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
-      item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -54,8 +57,9 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
+        item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
-      item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -64,8 +68,9 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
+        item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
-      item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
       totalamount: 0
     - AllowedItems: 
       name: 
@@ -74,6 +79,7 @@ MonoBehaviour:
         Id: -1
         buffs: []
         amount: 0
+        item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
-      item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
       totalamount: 0

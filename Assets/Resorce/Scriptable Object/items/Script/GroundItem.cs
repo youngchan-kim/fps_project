@@ -7,7 +7,8 @@ using static UnityEditor.Progress;
 public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 {
     public ItemObject item;
-    public int amount;
+    //데이터 바뀌도록할것
+    public int amount=-1;
     Transform PlayerObject;
     private void Start()
     {
@@ -28,10 +29,19 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void OnTriggerEnter(Collider other)
     {
+/*        if(amount==-1)
+        {
+            amount = item.data.amount;
+        }*/
         if (PlayerObject.name == other.name)
         {
             item.data.item_object = gameObject;
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item.data);
+            if (amount == -1)
+            {
+                amount = item.data.amount;
+
+            }
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/);
         }
     }
 
@@ -39,6 +49,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name) 
         {
+            amount = item.objectamount;
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
         }
     }

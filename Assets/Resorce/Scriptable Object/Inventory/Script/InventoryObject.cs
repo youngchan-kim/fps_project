@@ -49,21 +49,26 @@ public class InventoryObject : ScriptableObject
         return true;
     }
 
-    public bool AddGroundItem(Item _item, InventoryType inventoryType)
+    //Ground
+    public bool AddGroundItem(ItemObject _item, InventoryType inventoryType)
     {
         if (EmptySlotCount <= 0)
             return false;
 
-        InventorySlot slot = FindItemOnInventory(_item);
-        if (inventoryType == InventoryType.Ground)
+        InventorySlot slot = FindItemOnInventory(_item.data);
+        if (_item.objectamount == 0)
         {
-            if (slot.totalamount == 0)
-             SetEmptySlot(_item, _item.amount);
-            else
-                SetEmptySlot(_item, slot.totalamount);
+            SetGroundEmptySlot(_item.data, _item.data.amount);
+            _item.objectamount = _item.data.amount;
         }
+        //슬롯의 값이 0이 아닌경우
+        else if (_item.objectamount != 0)
+            //값이 있으면 슬롯의 값을 넣어준다.
+            SetGroundEmptySlot(_item.data, _item.objectamount);
+
         return true;
     }
+
 
     //내부의 첫 번째 빈 슬롯을 찾는함수
     public int EmptySlotCount
@@ -99,7 +104,7 @@ public class InventoryObject : ScriptableObject
         {
             if (Container.Items[i].item.Id <= -1)
             {
-                Container.Items[i].UpdateSlot(_item, _amount);
+                Container.Items[i].GroundUpdateSlot(_item, _amount);
                 return Container.Items[i];
             }
         }
@@ -137,13 +142,6 @@ public class InventoryObject : ScriptableObject
 
     public void SwapItems(InventorySlot item1, InventorySlot item2)
     {
-        //Debug.Log("지금 찾는아이템인벤토리의 아이디");
-        //Debug.Log(item1.GetInventoryID());
-        //Debug.Log(item2.GetInventoryID());
-        //Debug.Log("지금 찾는아이템");
-        //Debug.Log(item1.ItemObject);
-        //Debug.Log(item2.ItemObject);
-
         if (item2.CanPlaceInSlot(item1.ItemObject)&& item1.CanPlaceInSlot(item2.ItemObject))
         {
             InventorySlot temp = new InventorySlot(item2.item, item2.totalamount);
@@ -164,16 +162,6 @@ public class InventoryObject : ScriptableObject
         return -1;
     }
 
-    /*public void RemoveItem(Item _item)
-    {
-        for (int i = 0; i < Container.Items.Length; i++) 
-        {
-            if(Container.Items[i].item == _item)
-            {
-                Container.Items[i].UpdateSlot(null, 0);
-            }
-        }
-    }*/
 
 
     //#
@@ -233,27 +221,6 @@ public class InventoryObject : ScriptableObject
 }
 
 [System.Serializable]
-public class Inventory
-{
-    //Items명의 List생성 타입은 InventorySlot
-    //List의 경우 게임 실행 중에 쉽게 추가와 제거가 가능하다는것 하지만 
-    //public List<InventorySlot> Items = new List<InventorySlot>();
-    //배열은 크기를 알아야 해당기능이 가능하다.
-    //배열을 사용하려면 초기화때 배열의 크기를 설정해줘야한다.
-    //처음에 배열의 크기를 8로 하지만 변경이 가능하다.
-    //@슬롯
-    public InventorySlot[] Items = new InventorySlot[28];
-    public void Clear()
-    {
-        for(int i =0; i<Items.Length; i ++)
-        {
-            Items[i] = null;
-        }
-        //Items = new InventorySlot[28];
-    }
-}
-
-[System.Serializable]
 public class InventorySlot
 {
     public ItemType[] AllowedItems = new ItemType[0];
@@ -286,16 +253,23 @@ public class InventorySlot
     public InventorySlot(Item _item, int _amount)
     {
         item = _item;
-        totalamount = _item.amount;
+         totalamount = _item.amount;
+        //totalamount = -1;
     }
     //저장할때 주로 사용
     public void UpdateSlot(Item _item, int _amount)
     {
         item = _item;
-        totalamount =_amount;
+        totalamount = _amount;
         slot_item_object = _item.item_object;
     }
-
+    
+    public void GroundUpdateSlot(Item _item, int _amount)
+    {
+        item = _item;
+        totalamount = _amount;
+        slot_item_object = _item.item_object;
+    }
     public void RemoveItem()
     {
         item = new Item();

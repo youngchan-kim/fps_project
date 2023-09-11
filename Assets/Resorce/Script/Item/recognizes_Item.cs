@@ -6,13 +6,8 @@ using static UnityEditor.Progress;
 using static UnityEditor.Timeline.Actions.MenuPriority;
 
 
-public enum InventoryType
-{
-    Ground,
-    other
-}
 
-public class recognizes_Item : MonoBehaviour
+public class Player_recognizes_Item : MonoBehaviour
 {
     public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
     //private bool player_recognizes = false;

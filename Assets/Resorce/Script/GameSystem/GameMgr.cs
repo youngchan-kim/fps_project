@@ -5,6 +5,7 @@ using UnityEngine;
 public sealed class GameMgr : MonoBehaviour
 {
     public GameObject player;
+    public InventoryObject gminvent;
     static GameMgr instance = null;
     public static GameMgr Instance
     {

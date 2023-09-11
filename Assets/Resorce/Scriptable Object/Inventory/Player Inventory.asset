@@ -17,51 +17,69 @@ MonoBehaviour:
   database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
   Container:
     Items:
-    - AllowedItems: 0500000004000000060000000700000008000000
+    - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
-    - AllowedItems: 0500000004000000060000000700000008000000
+        amount: 0
+        item_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
-    - AllowedItems: 0500000004000000060000000700000008000000
+        amount: 0
+        item_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
-    - AllowedItems: 0500000004000000060000000700000008000000
+        amount: 0
+        item_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
-    - AllowedItems: 0500000004000000060000000700000008000000
+        amount: 0
+        item_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
-    - AllowedItems: 0500000004000000060000000700000008000000
+        amount: 0
+        item_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 
       name: 
       item:
         Name: 
         Id: -1
-        groundobject: {fileID: 0}
         buffs: []
-      amount: 0
+        amount: 0
+        item_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+      slot_item_object: {fileID: 0}
+      totalamount: 0
