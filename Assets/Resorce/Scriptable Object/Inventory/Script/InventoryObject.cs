@@ -6,6 +6,7 @@ using System.IO;
 using UnityEditor;
 using System.Runtime.Serialization;
 using static UnityEditor.Progress;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 
@@ -24,7 +25,7 @@ public class InventoryObject : ScriptableObject
 
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, InventoryType inventoryType)
+    public bool AddItem(Item _item, InventoryType inventoryType, int itemamount)
     {
         if (EmptySlotCount <= 0)
             return false;
@@ -32,7 +33,7 @@ public class InventoryObject : ScriptableObject
         InventorySlot slot = FindItemOnInventory(_item);
         if (inventoryType == InventoryType.Ground)
         {
-            SetEmptySlot(_item, _item.amount);
+            SetEmptySlot(_item, itemamount);
 
             return true;
         }
@@ -40,32 +41,21 @@ public class InventoryObject : ScriptableObject
         {            
             if (!database.Items[_item.Id].stackable || slot == null)
             {
-                SetEmptySlot(_item, _item.amount);
+                SetEmptySlot(_item, itemamount);
 
                 return true;
             }
-            slot.AddAmount(slot.item, slot.totalamount);
+            slot.AddAmount(slot.item, itemamount);
         }
         return true;
     }
 
     //Ground
-    public bool AddGroundItem(ItemObject _item, InventoryType inventoryType)
+  public bool AddGroundItem(Item _item, int itemamount)
     {
         if (EmptySlotCount <= 0)
             return false;
-
-        InventorySlot slot = FindItemOnInventory(_item.data);
-        if (_item.objectamount == 0)
-        {
-            SetGroundEmptySlot(_item.data, _item.data.amount);
-            _item.objectamount = _item.data.amount;
-        }
-        //슬롯의 값이 0이 아닌경우
-        else if (_item.objectamount != 0)
-            //값이 있으면 슬롯의 값을 넣어준다.
-            SetGroundEmptySlot(_item.data, _item.objectamount);
-
+        SetEmptySlot(_item, itemamount);
         return true;
     }
 
@@ -98,19 +88,7 @@ public class InventoryObject : ScriptableObject
         }
         return null;
     }
-    public InventorySlot SetGroundEmptySlot(Item _item, int _amount)
-    {
-        for (int i = 0; i < Container.Items.Length; i++)
-        {
-            if (Container.Items[i].item.Id <= -1)
-            {
-                Container.Items[i].GroundUpdateSlot(_item, _amount);
-                return Container.Items[i];
-            }
-        }
-        //set up functionality for full inventory
-        return null;
-    }
+
     //빈슬롯에 설정
     public InventorySlot SetEmptySlot(Item _item, int _amount )
     {
@@ -149,7 +127,23 @@ public class InventoryObject : ScriptableObject
             item1.UpdateSlot(temp.item, temp.totalamount);
         }
     }
-
+    public void Sort()
+    {      
+        for (int i = 0; i < Container.Items.Length-1; i++)
+        {
+            if ((Container.Items[i].item.Id == -1) && (Container.Items[i + 1].item.Id >= -1))
+            {
+                Container.Items[i].slot_item_object = Container.Items[i + 1].slot_item_object;
+                Container.Items[i].SortSlot(Container.Items[i + 1].item, Container.Items[i + 1].totalamount);
+                Container.Items[i + 1].RemoveItem();
+            }
+            else if ((Container.Items[i].item.Id == -1) && (Container.Items[i + 1].item.Id == -1))
+            {
+                break;
+            }
+        }
+       
+    }
     public int ItemSlotNum(InventorySlot sellectslot)
     {
         for (int i = 0; i < Container.Items.Length; i++)
@@ -191,6 +185,7 @@ public class InventoryObject : ScriptableObject
         //설명
         IFormatter formatter = new BinaryFormatter();
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
+        //SerializationException: Type 'UnityEngine.GameObject' in Assembly 'UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' is not marked as serializable.발생
         formatter.Serialize(stream, Container); 
         stream.Close();
         Debug.Log("인벤토리 저장");
@@ -263,13 +258,12 @@ public class InventorySlot
         totalamount = _amount;
         slot_item_object = _item.item_object;
     }
-    
-    public void GroundUpdateSlot(Item _item, int _amount)
+    public void SortSlot(Item _item, int _amount)
     {
         item = _item;
         totalamount = _amount;
-        slot_item_object = _item.item_object;
     }
+
     public void RemoveItem()
     {
         item = new Item();

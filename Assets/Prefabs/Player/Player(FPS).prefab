@@ -106,6 +106,7 @@ Transform:
   - {fileID: 592227387818848170}
   - {fileID: 592227386540223350}
   - {fileID: 592227387135812361}
+  - {fileID: 5482880407376755602}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -162,12 +163,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Groundinventory: {fileID: 11400000, guid: 79c68b546a206a348adf4f437c7b69f8, type: 2}
   inventory: {fileID: 11400000, guid: f67be386492b52c42aa8de4e5469ec75, type: 2}
-  pickup: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 0
   Equipinventory: {fileID: 11400000, guid: 42c09b1bf5c78064e932465c073128fb, type: 2}
   Guninventory: {fileID: 11400000, guid: 07e6282161e91c249b23f382fa9bc001, type: 2}
+  pickup: 0
+  equipped: 0
+  Item_Mask:
+    serializedVersion: 2
+    m_Bits: 0
   maxHealth: 100
   currentHealth: 100
   healthBar: {fileID: 0}
@@ -762,6 +764,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 592227386136401046}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1342349944112450460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5482880407376755602}
+  m_Layer: 0
+  m_Name: PlayerFoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5482880407376755602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342349944112450460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.488, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 592227386446531361}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &592227388104104292
 PrefabInstance:

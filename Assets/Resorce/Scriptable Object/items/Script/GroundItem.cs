@@ -8,7 +8,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 {
     public ItemObject item;
     //데이터 바뀌도록할것
-    public int amount=-1;
+    public int amount;
     Transform PlayerObject;
     private void Start()
     {
@@ -29,19 +29,16 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void OnTriggerEnter(Collider other)
     {
-/*        if(amount==-1)
+        if(amount == 0)
         {
             amount = item.data.amount;
-        }*/
+        }
+        Debug.Log(amount+"1번");
         if (PlayerObject.name == other.name)
         {
             item.data.item_object = gameObject;
-            if (amount == -1)
-            {
-                amount = item.data.amount;
 
-            }
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/);
+                GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/, amount);
         }
     }
 
@@ -49,8 +46,9 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name) 
         {
-            amount = item.objectamount;
+
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
+           
         }
     }
 }

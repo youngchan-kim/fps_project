@@ -18,6 +18,10 @@ public class Player : PickUpController
 
     RaycastHit rayHit;
     // Start is called before the first frame update
+    //Player body Object
+    //[HideInInspector] 
+    public GameObject floor;
+
     void Start()
     {
         healthBar.SetMaxHealth(maxHealth);
@@ -44,14 +48,14 @@ public class Player : PickUpController
             }
         }
         //itemDatabase save & load test code
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.End))
         {
             inventory.Save();
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             inventory.Load();
-        }
+        }*/
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("1번눌림" );

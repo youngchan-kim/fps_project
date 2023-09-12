@@ -21,6 +21,6 @@ MonoBehaviour:
     Name: M4
     Id: 1
     buffs: []
-    amount: 0
+    amount: 1
     item_object: {fileID: 0}
     item_object_Prefab: {fileID: 5330394481861556738, guid: 2e254a7352b4f374f914509cfb9f6cf0, type: 3}

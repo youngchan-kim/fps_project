@@ -21,6 +21,6 @@ MonoBehaviour:
     Name: Sniper
     Id: 0
     buffs: []
-    amount: 0
+    amount: 1
     item_object: {fileID: 0}
     item_object_Prefab: {fileID: 3865992893041346291, guid: 137791a206f3f6f49a0a72d60b71dd29, type: 3}

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Ground
   m_EditorClassIdentifier: 
   InventoryID: 0
-  savePath: 
-  database: {fileID: 0}
+  savePath: /Groundt.Save
+  database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
   Container:
     Items:
     - AllowedItems: 

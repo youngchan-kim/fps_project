@@ -1,4 +1,4 @@
-﻿[System.Serializable]
+[System.Serializable]
 public class Inventory
 {
     //Items명의 List생성 타입은 InventorySlot
@@ -15,6 +15,5 @@ public class Inventory
         {
             Items[i] = null;
         }
-        //Items = new InventorySlot[28];
     }
 }

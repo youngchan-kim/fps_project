@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
 using static UnityEditor.Timeline.Actions.MenuPriority;
+using static UnityEngine.Rendering.VolumeComponent;
 
 
 public enum InventoryType
@@ -12,7 +14,7 @@ public enum InventoryType
     other
 }
 
-public class recognizes_Item : MonoBehaviour
+public class Player_recognizes_Item : MonoBehaviour
 {
     public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
     //private bool player_recognizes = false;
@@ -44,35 +46,35 @@ public class recognizes_Item : MonoBehaviour
     {
         Transform coll_parent = Coll.transform.parent;
         GameObject ground_Item =  coll_parent.gameObject;
-        ItemObject see_the_itemobject = coll_parent.GetComponent<GroundItem>().item;
-        Item _item = see_the_itemobject.data;
+        GroundItem ground_stript = coll_parent.GetComponent<GroundItem>();
+        Item _item = ground_stript.item.data;   
 
         if (Groundinventory.FindItemOnInventory(_item) != null)
         {
-            switch (ground_Item.GetComponent<GroundItem>().item.type)
+            switch (ground_stript.item.type)
             {
                 case ItemType.Gun:
                     Debug.Log("아이템 픽업");
-                    Add_Item(Guninventory.InventoryID, _item);
+                    Add_Item(Guninventory.InventoryID, _item, ground_stript.amount);
                     Item_Removed(Groundinventory, Guninventory.InventoryID, _item);
                     break;
 
                 case ItemType.Helmet:
                 case ItemType.Bag:
                 case ItemType.Armor:
-                    Add_Item(Equipinventory.InventoryID, _item);
+                    Add_Item(Equipinventory.InventoryID, _item, ground_stript.amount);
                     Item_Removed(Groundinventory, Equipinventory.InventoryID, _item);
 
                     break;
                 case ItemType.Bullet:
-                    Add_Item(inventory.InventoryID, _item);
+                    Add_Item(inventory.InventoryID, _item, ground_stript.amount);
                     Item_Removed(Groundinventory, inventory.InventoryID, _item);
                     //Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), inventory.GetEmptySlot());
                     break;
             }
         }
             //_item.groundobject = ground_Item.gameObject;
-            ItemPickup_inventory_System(see_the_itemobject, ground_Item);
+            ItemPickup_inventory_System(ground_stript.item, ground_Item);
         }
 
     //드래그엔드일때 사용
@@ -115,7 +117,7 @@ public class recognizes_Item : MonoBehaviour
 
     public void ItemDropSystem(InventorySlot obj/*, InventorySlot slot*/)
     {
-        ItemObject item = new ItemObject();
+        GameObject grountitem;
         /*if (crruntitem.groundobject.name == "Gun")
         {
             //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
@@ -131,61 +133,58 @@ public class recognizes_Item : MonoBehaviour
         }*/
         Debug.Log(obj.slot_item_object);
         
-        Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
+ /*       Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
         hitPos = rayHit.point;
-        hitPos.y += 0.01f;
-        item.data.item_object = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.Euler(0, 0, 0));
-        item.objectamount = obj.totalamount;
+        hitPos.y += 0.01f;*/
+        hitPos = this.transform.position;
+        hitPos.y = 0.01f;
+        if (obj.totalamount != 0)
+        {
+            grountitem = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
+            grountitem.GetComponent<GroundItem>().amount = obj.totalamount;
+        }
+
     }
 
 
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(ItemObject item)
+    public void On_The_Ground_Item(ItemObject item, int itemamount)
     {
-        Groundinventory.AddGroundItem(item, InventoryType.Ground);
+        Groundinventory.AddGroundItem(item.data, itemamount);
     }
 
     public void On_The_Ground_Item_Removed(ItemObject item)
     {
-        GroundItem_Removed(Groundinventory, -1, item.data);
+        Item_Removed(Groundinventory, -1, item.data);
+        Groundinventory.Sort();
     }
 
-    public void Add_Item(int invenID, Item item)
+    public void Add_Item(int invenID, Item item, int itemamount)
     {
         switch (invenID)
         {
-            case 0:
-                if (Groundinventory.AddItem(item, InventoryType.Ground))
-                {
-                }
-                break;
             case 1:
-                if (inventory.AddItem(item, InventoryType.other))
+                if (inventory.AddItem(item, InventoryType.other, itemamount))
                 {
                     pickup = true;
                 }
                 break;
             case 2:
-                if (Equipinventory.AddItem(item, InventoryType.other))
+                if (Equipinventory.AddItem(item, InventoryType.other, itemamount))
                 {
                     pickup = true;
                 }
                 break;
             case 3:
-                if (Guninventory.AddItem(item, InventoryType.other))
+                if (Guninventory.AddItem(item, InventoryType.other, itemamount))
                 {
                     pickup = true;
                 }
                 break;
         }
     }
-    public void GroundItem_Removed(InventoryObject item_out_inven, int inven_num, Item item)
-    {
-        Debug.Log("반응 확인");
-        item_out_inven.ClearItem(item.Id, inven_num);
-        pickup = false;
-    }
+
 
     public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item )
     {
@@ -251,7 +250,29 @@ public class recognizes_Item : MonoBehaviour
             }
         }
     }
-
+    public void InventRefresh()
+    {
+        for (int i = 0; i < inventory.Container.Items.Length; i++)
+        {
+            if (inventory.Container.Items[i].totalamount == 0)
+            {
+                inventory.Container.Items[i].RemoveItem();
+            }
+        }
+    }
+    public void Inventsort(int invenID)
+    {
+        switch (invenID)
+        {
+            case 0:
+                Groundinventory.Sort();
+                break;
+            case 1:
+               inventory.Sort();
+                break;
+        }
+        
+    }
 
 
     public void GunActive(int sellect)

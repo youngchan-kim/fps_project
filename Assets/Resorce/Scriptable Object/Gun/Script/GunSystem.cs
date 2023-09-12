@@ -195,17 +195,13 @@ public class GunSystem : MonoBehaviour
             bulletsLeft = bulletsLeft + haveBullet;
             player.SetInven_Find_Item(bullet, 0);
         }
-/*        else if (haveBullet == addBullet)
-        {
-            bulletsLeft = bulletsLeft + haveBullet;
-            player.SetInven_Find_Item(bullet, 0);
-        }*/
         else
         {
             bulletsLeft = addBullet;
             player.SetInven_Find_Item(bullet, haveBullet- addBullet);
         }
         reloading = false;
+        player.InventRefresh();
     }
 
     public Sprite GetSprite()

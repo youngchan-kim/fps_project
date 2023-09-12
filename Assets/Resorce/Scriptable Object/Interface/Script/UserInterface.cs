@@ -98,7 +98,8 @@ public abstract class UserInterface : MonoBehaviour
                 if (slotsOnInterface[obj].GetInventoryID() == 3)
                     player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
             }
-            
+
+            player.Inventsort(slotsOnInterface[obj].GetInventoryID());
             DragEnd = false;
             //Debug.Log(name);
             /*if (mouseHoverSlotData.GetInventoryID() != 0)
@@ -117,20 +118,20 @@ public abstract class UserInterface : MonoBehaviour
             int endInventoryID = mouseHoverSlotData.GetInventoryID();
             switch (endInventoryID)
             {
-                case 0:                    
+                case 0:
                     if (startInventoryID != 0)
                     {
                         player.ItemDropSystem(slotsOnInterface[obj]);
                         if (startInventoryID == 3)
                             player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
                         slotsOnInterface[obj].RemoveItem();
-                        
-                    }    
+
+                    }
                     break;
                 case 1:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
-                        
+
                         if (startInventoryID == 1)
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
@@ -143,19 +144,19 @@ public abstract class UserInterface : MonoBehaviour
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
                             Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
-                            player.Add_Item(mouseHoverSlotData.GetInventoryID(), slotsOnInterface[obj].item);
+                            player.Add_Item(endInventoryID, slotsOnInterface[obj].item, slotsOnInterface[obj].totalamount);
                             player.Item_Removed(slotsOnInterface[obj].parent.inventory, endInventoryID, slotsOnInterface[obj].item);
-
+                            player.Inventsort(startInventoryID);
                         }
-                        
+
                         //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                     }
                     break;
                 case 2:
-  /*                  if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
-                    {
+                    /*                  if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
+                                      {
 
-                    }*/
+                                      }*/
                     break;
                 case 3:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
@@ -163,7 +164,7 @@ public abstract class UserInterface : MonoBehaviour
                         if (startInventoryID != 3)
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
-                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object); 
+                            player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
                         }
                         inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                         if (startInventoryID == 3)
@@ -173,7 +174,6 @@ public abstract class UserInterface : MonoBehaviour
                         }
                     }
                     break;
-
             }
 
             DragEnd = true;
