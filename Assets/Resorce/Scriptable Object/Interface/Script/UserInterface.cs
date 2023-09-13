@@ -10,12 +10,12 @@ using static UnityEditor.Progress;
 
 public abstract class UserInterface : MonoBehaviour
 {
-
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
     Player player;
     //임시 드레그가 끝났는지 안끝났는지 
     bool DragEnd = false;
+
     void Start()
     {
         player = GameMgr.Instance.player.GetComponent<Player>();
@@ -25,9 +25,9 @@ public abstract class UserInterface : MonoBehaviour
         }
         CreateSlots();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
+       
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -44,9 +44,19 @@ public abstract class UserInterface : MonoBehaviour
         trigger.triggers.Add(eventTrigger);
     }
 
-    public void OnEnter(GameObject obj)
+    public void OnEnter(GameObject obj, PointerEventData.InputButton inputbutton = 0)
     {
-        MouseData.slotHoveredOver = obj;
+        //Debug.Log("inputbutton의 값 :"+ inputbutton);
+        if (inputbutton == (PointerEventData.InputButton)0 || inputbutton == (PointerEventData.InputButton)2)
+        {
+            MouseData.slotHoveredOver = obj;
+        }
+        else if (inputbutton == (PointerEventData.InputButton)1)
+        {
+            //아이템이 사용할 수 있는 아이템인지 사용 못하는 아이템인지 체크
+            //사용할 수 있는 아이템이면 사용조건에 따라 사용
+            //slotsOnInterface[obj].item
+        }
     }
     public void OnExit(GameObject obj)
     {
@@ -84,7 +94,6 @@ public abstract class UserInterface : MonoBehaviour
     }
     public void OnDragEnd(GameObject obj)
     {
-        GameObject Item_coupling_object = obj.GetComponent<ItemPrefabObject>().GetObject();
         //만들어야 하는것 해당키가 없는 경우의 예외 처리 만들것
         Destroy(MouseData.tempItemBeingDragged);
         if (MouseData.interfaceMouseIsOver == null)
@@ -199,7 +208,7 @@ public abstract class UserInterface : MonoBehaviour
         }
         return null;
     }
-    
+
 }
 
 

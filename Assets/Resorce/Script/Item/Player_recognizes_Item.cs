@@ -35,6 +35,7 @@ public class Player_recognizes_Item : MonoBehaviour
     private Vector3 hitPos;
 
     int slotnum;
+    public LayerMask Dropzon_layermask;
 
 /*    private void Update()
     {
@@ -73,9 +74,10 @@ public class Player_recognizes_Item : MonoBehaviour
                     break;
             }
         }
-            //_item.groundobject = ground_Item.gameObject;
-            ItemPickup_inventory_System(ground_stript.item, ground_Item);
-        }
+        //_item.groundobject = ground_Item.gameObject;
+        ItemPickup_inventory_System(ground_stript.item, ground_Item);
+        Groundinventory.Sort();
+    }
 
     //드래그엔드일때 사용
     public void ItemPickup_inventory_System(ItemObject _itemObject, GameObject ground_Item)
@@ -133,11 +135,9 @@ public class Player_recognizes_Item : MonoBehaviour
         }*/
         Debug.Log(obj.slot_item_object);
         
- /*       Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f);
+       Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f, Dropzon_layermask);
         hitPos = rayHit.point;
-        hitPos.y += 0.01f;*/
-        hitPos = this.transform.position;
-        hitPos.y = 0.01f;
+        hitPos.y += 0.01f;
         if (obj.totalamount != 0)
         {
             grountitem = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));

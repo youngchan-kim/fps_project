@@ -20,7 +20,6 @@ public class Cam_ScreenCenter : MonoBehaviour
     [SerializeField]
     private GameObject aim; //에임의 위치를 set하기 위해 사용
 
-
     [Header("Player")]
     [SerializeField]
     private GameObject Player_Head;
@@ -32,12 +31,15 @@ public class Cam_ScreenCenter : MonoBehaviour
     private Vector3 ScreenMaxPoint;
     private Vector3 ScreenMinPoint;
 
+    public LayerMask layermask;
+
     private void Start()
     {
         range = maxrange;
     }
     private void Update()
     {
+        
         //Player Diraction Camera
         Vector3 PDC = Player_Eyes.transform.position - Camera.main.transform.position;
 
@@ -48,9 +50,12 @@ public class Cam_ScreenCenter : MonoBehaviour
         //ScreenMin의 z값이 카메라와 플레이어사이의 값보다 큰값을 써야한다.
         //그래야 항상 aim이 플레이보다 앞에 있을 수 있다.
 
-        //플레이어 앞에 고정 시킬것
-        ScreenMin = new Vector3(0.5f, 0.5f, 7f);
         //
+
+        //플레이어의 
+        //플레이어 앞에 고정 시킬것
+        ScreenMin = new Vector3(0.5f, 0.5f, 0);
+
         ScreenMax = new Vector3(0.5f, 0.5f, range);
 
 
@@ -60,22 +65,25 @@ public class Cam_ScreenCenter : MonoBehaviour
         ScreenMinPoint = Camera.main.ViewportToWorldPoint(ScreenMin);
         ScreenMaxPoint = Camera.main.ViewportToWorldPoint(ScreenMax);
 
-        test.transform.position = ScreenMinPoint;
-        //에임의 위치
-        look.transform.position = ScreenMaxPoint;
 
-        Vector3 diraction = ScreenMaxPoint - ScreenMinPoint;
+        Vector3 diraction = ScreenMaxPoint- ScreenMinPoint;
 
         //플레이어가 보는 곳에 물체가 있는 경우
-        if (Physics.Raycast(ScreenMinPoint, diraction, out rayhitObject, maxrange))
+        //에임에 걸리는 물체들은 layermask에 적용
+        if (Physics.Raycast(ScreenMinPoint, diraction, out rayhitObject, maxrange, layermask))
         {
             aim.transform.position = rayhitObject.point;
         }
         else //ray가 없는 경우 에임의 위치를 변경
         {
+            //에임의 위치를 확인하기 위한 코드
             aim.transform.position = ScreenMaxPoint;
             range = maxrange;
         }
+
+        //에임의 위치를 확인하기 위한 코드 최대에임 위치
+        look.transform.position = ScreenMaxPoint;
+        
         Player_Head.transform.LookAt(aim.transform.position);
         Debug.DrawLine(Camera.main.transform.position, ScreenMaxPoint, Color.yellow);
     }

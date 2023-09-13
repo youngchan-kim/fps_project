@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1da2f7437aa15c4699d893371c3729d, type: 3}
-  m_Name: Sniper
+  m_Name: Heal_kit
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 21300036, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
+  uiDisplay: {fileID: 21300050, guid: 5163ae49a0de665458bba61cd20c99b1, type: 3}
   characterDisplay: {fileID: 0}
-  stackable: 0
-  type: 3
+  stackable: 1
+  type: 4
   description: 
   data:
-    Name: Sniper
-    Id: 0
+    Name: Heal_kit
+    Id: 4
     buffs: []
-    addHeal: 0
+    addHeal: 80
     amount: 1
     item_object: {fileID: 0}
-    item_object_Prefab: {fileID: 3865992893041346291, guid: 137791a206f3f6f49a0a72d60b71dd29, type: 3}
+    item_object_Prefab: {fileID: 2728236884632203541, guid: 7ddac311a9bdfbf4c9a873ed96a12d6d, type: 3}

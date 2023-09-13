@@ -23,10 +23,11 @@ public class GroundInterface : UserInterface
             var obj = Instantiate(inventoryPrefab, Vector3.zero, Quaternion.identity, transform);
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
 
-            AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnEnter(obj); });
+            AddEvent(obj, EventTriggerType.PointerDown, (eventData) => { if (eventData is PointerEventData wherebuttondata) { OnEnter(obj, wherebuttondata.button); } });
+            //AddEvent(obj, EventTriggerType.PointerEnter, delegate { Debug.Log("ground목록에서 이벤트 호출"); OnEnter(obj); });
             AddEvent(obj, EventTriggerType.PointerExit, delegate { OnExit(obj); });
             AddEvent(obj, EventTriggerType.BeginDrag, delegate { OnDragStart(obj); });
-            AddEvent(obj, EventTriggerType.EndDrag, delegate { OnDragEnd(obj); });
+            AddEvent(obj, EventTriggerType.EndDrag, delegate { Debug.Log("인벤확인"); OnDragEnd(obj); });
             AddEvent(obj, EventTriggerType.Drag, delegate { OnDrag(obj); });
 
             slotsOnInterface.Add(obj, inventory.Container.Items[i]);

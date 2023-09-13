@@ -49,6 +49,7 @@ public class Item
     public string Name;
     public int Id = -1;
     public ItemBuff[] buffs;
+    public float addHeal;
     public int amount;
     [HideInInspector] public GameObject item_object;
     public GameObject item_object_Prefab;
