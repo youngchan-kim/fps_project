@@ -50,14 +50,14 @@ public class GunPickUp : PickUpController
     private void Update()
     {
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
-        if (!equipped && Input.GetKeyDown(KeyCode.F) && !slotFull)
+/*        if (!equipped && Input.GetKeyDown(KeyCode.F) && !slotFull)
             PickUpItem();
 
         //플레이어가 아이템을 가지고 있는지 체크와 G키를 통해 내려놓음
         if (equipped && Input.GetKeyDown(KeyCode.G))
         {
             DropItem();
-        }
+        }*/
     }
 
     private void PickUpItem()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : PickUpController
@@ -7,8 +8,11 @@ public class Player : PickUpController
     //public MouseItem mouseItem = new MouseItem();
     public float maxHealth = 100f;
     public float currentHealth;
+    float healvolume = 30;
+    float MaxHealvolume = 80;
 
     public HealthBar healthBar;
+
 
     public GameObject playercam;
     //public GameObject Inventory;
@@ -22,6 +26,7 @@ public class Player : PickUpController
     //[HideInInspector] 
     public GameObject floor;
 
+    Coroutine coroutine = null;
     void Start()
     {
         healthBar.SetMaxHealth(maxHealth);
@@ -117,6 +122,39 @@ public class Player : PickUpController
         healthBar.SetHealth(currentHealth);
     }
 
+    IEnumerator HpSliderAnimation(float heal)
+    {
+        healthBar.slider.value = currentHealth;
+        float t = 0.0f;
+        float elipsed = 1.0f / MaxHealvolume;
+        while (healthBar.slider.value != MaxHealvolume)
+        {
+            if(heal > 0)
+            {
+                if (heal > elipsed)
+                {
+                    heal -= elipsed;
+                    t += elipsed;
+                }
+                else
+                { 
+                    t += heal;
+                    heal = 0;
+                }
+
+            }
+            healthBar.slider.value = Mathf.Lerp(currentHealth, MaxHealvolume, t);
+            yield return new WaitForSeconds(elipsed);
+        }
+        healthBar.slider.value = currentHealth;
+        coroutine = null;
+    }
+
+    public void OnHpAnimtion(float heal)
+    {
+        if (null != coroutine) { StopCoroutine(coroutine); }
+        coroutine = StartCoroutine(HpSliderAnimation(heal));
+    }
     public bool Getlife()
     {
         return life;

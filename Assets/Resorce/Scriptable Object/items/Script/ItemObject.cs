@@ -53,6 +53,7 @@ public class Item
     public int amount;
     [HideInInspector] public GameObject item_object;
     public GameObject item_object_Prefab;
+    public bool inven_in_active;
     //public ItemType itemType;
 
     public Item()

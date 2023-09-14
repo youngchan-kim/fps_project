@@ -25,3 +25,4 @@ MonoBehaviour:
     amount: 1
     item_object: {fileID: 0}
     item_object_Prefab: {fileID: 2728236884632203541, guid: 7ddac311a9bdfbf4c9a873ed96a12d6d, type: 3}
+    inven_in_active: 1

@@ -131,6 +131,11 @@ public class InventoryObject : ScriptableObject
     {      
         for (int i = 0; i < Container.Items.Length-1; i++)
         {
+            //갯수 없으면 삭제
+            if(Container.Items[i].item.Id != -1 && Container.Items[i].totalamount ==0)
+            {
+                Container.Items[i].RemoveItem();
+            }
             if ((Container.Items[i].item.Id == -1) && (Container.Items[i + 1].item.Id >= -1))
             {
                 Container.Items[i].slot_item_object = Container.Items[i + 1].slot_item_object;

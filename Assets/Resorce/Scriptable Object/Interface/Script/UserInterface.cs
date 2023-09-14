@@ -46,18 +46,55 @@ public abstract class UserInterface : MonoBehaviour
 
     public void OnEnter(GameObject obj, PointerEventData.InputButton inputbutton = 0)
     {
-        //Debug.Log("inputbutton의 값 :"+ inputbutton);
-        if (inputbutton == (PointerEventData.InputButton)0 || inputbutton == (PointerEventData.InputButton)2)
-        {
-            MouseData.slotHoveredOver = obj;
-        }
-        else if (inputbutton == (PointerEventData.InputButton)1)
+        if (inputbutton == (PointerEventData.InputButton)1)
         {
             //아이템이 사용할 수 있는 아이템인지 사용 못하는 아이템인지 체크
             //사용할 수 있는 아이템이면 사용조건에 따라 사용
             //slotsOnInterface[obj].item
         }
+        else
+            MouseData.slotHoveredOver = obj;
     }
+
+
+    public void OnDown(GameObject obj, PointerEventData.InputButton inputbutton = 0)
+    {
+
+        if (slotsOnInterface[obj].GetInventoryID() > 0)
+        {
+            if (slotsOnInterface[obj].item.inven_in_active == true/*아이템의 인벤토리 액티브 유무*/)
+                Debug.Log("해당아이템은 우클릭으로 사용할 수 있는 기능이 있습니다.");
+            else
+                Debug.Log("해당아이템은 사용할 수 있는 기능이 없습니다.");
+        }
+        else
+        return;
+    }
+    public void OnUp(GameObject obj, PointerEventData.InputButton inputbutton = 0)
+    {
+        int InventoryID = slotsOnInterface[obj].GetInventoryID();
+        if (inputbutton == (PointerEventData.InputButton)1 && slotsOnInterface[obj].item.inven_in_active
+            && MouseData.interfaceMouseIsOver.inventory.InventoryID != 0) 
+        {
+
+            if (slotsOnInterface[obj].item.addHeal != 0 && slotsOnInterface[obj].item.Id == 4) 
+            {
+
+                player.OnHpAnimtion(obj.GetComponent<GroundItem>().heal);
+                slotsOnInterface[obj].totalamount--;
+            }
+            //기능 사용
+            //slotsOnInterface[obj].item;
+            player.Inventsort(InventoryID);
+        }
+        else
+        {
+            player.Inventsort(InventoryID);
+            return;
+        }
+            
+    }
+
     public void OnExit(GameObject obj)
     {
         MouseData.slotHoveredOver = null;
@@ -65,6 +102,7 @@ public abstract class UserInterface : MonoBehaviour
     public void OnEnterInterface(GameObject obj)
     {
         MouseData.interfaceMouseIsOver = obj.GetComponent<UserInterface>();
+
     }
     public void OnExitInterface(GameObject obj)
     {
@@ -72,7 +110,9 @@ public abstract class UserInterface : MonoBehaviour
     }
     public void OnDragStart(GameObject obj)
     {
+        
         MouseData.tempItemBeingDragged = CreateTempItem(obj);
+        Debug.Log("MouseData.tempItemBeingDragged확인" + MouseData.tempItemBeingDragged.name);
         //클릭된 아이템의 grounditem 스크립트를 알아온다.
     }
     //드래그 중인 아이템에 사용됨
@@ -94,21 +134,23 @@ public abstract class UserInterface : MonoBehaviour
     }
     public void OnDragEnd(GameObject obj)
     {
+        int InventoryID = slotsOnInterface[obj].GetInventoryID();
         //만들어야 하는것 해당키가 없는 경우의 예외 처리 만들것
+        if (MouseData.tempItemBeingDragged == null)
+            return; 
         Destroy(MouseData.tempItemBeingDragged);
         if (MouseData.interfaceMouseIsOver == null)
         {
-            Debug.Log("오브젝트를 허공에 뒀을 때");
-            if (slotsOnInterface[obj].GetInventoryID() != 0)
+            if (InventoryID != 0)
             {
                 player.ItemDropSystem(slotsOnInterface[obj]);
                 slotsOnInterface[obj].RemoveItem();
-                Debug.Log(slotsOnInterface[obj].GetInventoryID());
-                if (slotsOnInterface[obj].GetInventoryID() == 3)
+                Debug.Log(InventoryID);
+                if (InventoryID == 3)
                     player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
             }
 
-            player.Inventsort(slotsOnInterface[obj].GetInventoryID());
+            player.Inventsort(InventoryID);
             DragEnd = false;
             //Debug.Log(name);
             /*if (mouseHoverSlotData.GetInventoryID() != 0)
@@ -118,20 +160,25 @@ public abstract class UserInterface : MonoBehaviour
             }*/
             return;
         }
+        //Debug.Log(MouseData.slotHoveredOver.name);
+        //Debug.Log(MouseData.slotHoveredOver.activeSelf);
+        Debug.Log(MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].name);
+        Debug.Log(MouseData.slotHoveredOver);
+
         if (MouseData.slotHoveredOver)
         {
+
+            Debug.Log("확인5");
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
-            Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
-            //Debug.Log("땅에 있던 오브젝트의 이름" + obj.GetComponent<ItemPrefabObject>().GetObject().name);
-            int startInventoryID = slotsOnInterface[obj].GetInventoryID();
+
             int endInventoryID = mouseHoverSlotData.GetInventoryID();
             switch (endInventoryID)
             {
                 case 0:
-                    if (startInventoryID != 0)
+                    if (InventoryID != 0)
                     {
                         player.ItemDropSystem(slotsOnInterface[obj]);
-                        if (startInventoryID == 3)
+                        if (InventoryID == 3)
                             player.RemoveGun(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj]));
                         slotsOnInterface[obj].RemoveItem();
 
@@ -141,7 +188,7 @@ public abstract class UserInterface : MonoBehaviour
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
 
-                        if (startInventoryID == 1)
+                        if (InventoryID == 1)
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
                                 , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
@@ -152,10 +199,10 @@ public abstract class UserInterface : MonoBehaviour
                             Debug.Log(slotsOnInterface[obj].slot_item_object);
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
-                            Debug.Log("찾는것" + slotsOnInterface[obj].GetInventoryID());
+                            Debug.Log("찾는것" + InventoryID);
                             player.Add_Item(endInventoryID, slotsOnInterface[obj].item, slotsOnInterface[obj].totalamount);
                             player.Item_Removed(slotsOnInterface[obj].parent.inventory, endInventoryID, slotsOnInterface[obj].item);
-                            player.Inventsort(startInventoryID);
+
                         }
 
                         //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
@@ -170,13 +217,13 @@ public abstract class UserInterface : MonoBehaviour
                 case 3:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
-                        if (startInventoryID != 3)
+                        if (InventoryID != 3)
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
                         }
                         inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
-                        if (startInventoryID == 3)
+                        if (InventoryID == 3)
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
                                 , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));

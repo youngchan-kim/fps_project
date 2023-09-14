@@ -9,6 +9,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     public ItemObject item;
     //데이터 바뀌도록할것
     public int amount;
+    public float heal;
     Transform PlayerObject;
     private void Start()
     {
@@ -33,6 +34,9 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         {
             amount = item.data.amount;
         }
+        
+        heal = item.data.addHeal;
+
         Debug.Log(amount+"1번");
         if (PlayerObject.name == other.name)
         {

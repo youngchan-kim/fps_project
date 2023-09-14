@@ -22,6 +22,11 @@ public class PickUpController : Player_recognizes_Item
         return equipped;
     }
 
+
+    ///인벤토리에서
+    ///
+
+
   /*  public bool GetGunslotFull()
     {
         //Debug.Log("장착 : " + GunslotFull);

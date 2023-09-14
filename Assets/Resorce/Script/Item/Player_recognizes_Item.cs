@@ -193,6 +193,7 @@ public class Player_recognizes_Item : MonoBehaviour
         pickup = false;
     }
 
+
     /*    //목록체크
     GameObject ListActiveCheck(string name)
     {

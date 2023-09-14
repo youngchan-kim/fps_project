@@ -23,11 +23,14 @@ public class GroundInterface : UserInterface
             var obj = Instantiate(inventoryPrefab, Vector3.zero, Quaternion.identity, transform);
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
 
-            AddEvent(obj, EventTriggerType.PointerDown, (eventData) => { if (eventData is PointerEventData wherebuttondata) { OnEnter(obj, wherebuttondata.button); } });
-            //AddEvent(obj, EventTriggerType.PointerEnter, delegate { Debug.Log("ground목록에서 이벤트 호출"); OnEnter(obj); });
+            //EventTriggerType.PointerEnter을 사용한 이유는 아마다른 인터페이스에 올라가면 그 인터페이스의 슬롯으로 obj를 바꾸기위함이다.
+            AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnEnter(obj); });
+            AddEvent(obj, EventTriggerType.PointerDown, (eventData) => { if (eventData is PointerEventData wherebuttondata) { Debug.Log("땅PointerDown"); OnDown(obj, wherebuttondata.button); } });
+            AddEvent(obj, EventTriggerType.PointerUp, (eventData) => { if (eventData is PointerEventData wherebuttondata) { Debug.Log("땅PointerUp"); OnUp(obj, wherebuttondata.button); } });
+
             AddEvent(obj, EventTriggerType.PointerExit, delegate { OnExit(obj); });
-            AddEvent(obj, EventTriggerType.BeginDrag, delegate { OnDragStart(obj); });
-            AddEvent(obj, EventTriggerType.EndDrag, delegate { Debug.Log("인벤확인"); OnDragEnd(obj); });
+            AddEvent(obj, EventTriggerType.BeginDrag, delegate {  OnDragStart(obj); });
+            AddEvent(obj, EventTriggerType.EndDrag, delegate { OnDragEnd(obj); });
             AddEvent(obj, EventTriggerType.Drag, delegate { OnDrag(obj); });
 
             slotsOnInterface.Add(obj, inventory.Container.Items[i]);
