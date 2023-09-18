@@ -9,10 +9,10 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     public ItemObject item;
     //데이터 바뀌도록할것
     public int amount;
-    public float heal;
     Transform PlayerObject;
     private void Start()
     {
+
         PlayerObject = GameMgr.Instance.player.transform.Find("PlayerObject");
     }
     public void OnAfterDeserialize()
@@ -30,12 +30,11 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void OnTriggerEnter(Collider other)
     {
+         
         if(amount == 0)
         {
             amount = item.data.amount;
         }
-        
-        heal = item.data.addHeal;
 
         Debug.Log(amount+"1번");
         if (PlayerObject.name == other.name)
@@ -54,5 +53,5 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
            
         }
-    }
+    }    
 }

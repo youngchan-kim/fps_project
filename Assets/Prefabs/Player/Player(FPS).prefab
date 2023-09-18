@@ -167,6 +167,9 @@ MonoBehaviour:
   Guninventory: {fileID: 11400000, guid: 07e6282161e91c249b23f382fa9bc001, type: 2}
   pickup: 0
   equipped: 0
+  Dropzon_layermask:
+    serializedVersion: 2
+    m_Bits: 0
   Item_Mask:
     serializedVersion: 2
     m_Bits: 0
@@ -174,6 +177,7 @@ MonoBehaviour:
   currentHealth: 100
   healthBar: {fileID: 0}
   playercam: {fileID: 592227387439930338}
+  floor: {fileID: 0}
 --- !u!95 &592227386446531373
 Animator:
   serializedVersion: 5
@@ -949,7 +953,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8487529201670398306, guid: 991956759b87ee44994b395b9b6e50cc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 991956759b87ee44994b395b9b6e50cc, type: 3}
 --- !u!4 &2600835472308880177 stripped
 Transform:

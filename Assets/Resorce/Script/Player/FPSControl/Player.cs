@@ -122,15 +122,23 @@ public class Player : PickUpController
         healthBar.SetHealth(currentHealth);
     }
 
-    IEnumerator HpSliderAnimation(float heal)
+    IEnumerator HpSliderAnimation(float _heal)
     {
+        //최대 힐량
+        float heal = _heal;
+        //현재 체력을 Ui에 표시
         healthBar.slider.value = currentHealth;
+
         float t = 0.0f;
-        float elipsed = 1.0f / MaxHealvolume;
-        while (healthBar.slider.value != MaxHealvolume)
+        //최대로 채울 수 있는 값 분에 3.0을 채우는 시간
+        float elipsed = 1.0f / MaxHealvolume;   
+        //현재 채력이 최소 회복가능한 값보다 작을 때
+        while (currentHealth < MaxHealvolume)
         {
+            //heal이 남은 량이 0보다 크다면
             if(heal > 0)
             {
+                //
                 if (heal > elipsed)
                 {
                     heal -= elipsed;
@@ -147,13 +155,17 @@ public class Player : PickUpController
             yield return new WaitForSeconds(elipsed);
         }
         healthBar.slider.value = currentHealth;
+        Debug.Log("힐이 들어간 값 : "+ t);
         coroutine = null;
     }
 
-    public void OnHpAnimtion(float heal)
+    public void OnHpAnimtion(InventorySlot Slot)
     {
-        if (null != coroutine) { StopCoroutine(coroutine); }
-        coroutine = StartCoroutine(HpSliderAnimation(heal));
+        if (null != coroutine) { StopCoroutine(coroutine); Slot.totalamount++; }
+        coroutine = StartCoroutine(HpSliderAnimation(Slot.item.addHeal));
+        Slot.totalamount--;
+
+
     }
     public bool Getlife()
     {

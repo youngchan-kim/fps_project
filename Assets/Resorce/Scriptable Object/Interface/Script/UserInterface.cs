@@ -59,7 +59,6 @@ public abstract class UserInterface : MonoBehaviour
 
     public void OnDown(GameObject obj, PointerEventData.InputButton inputbutton = 0)
     {
-
         if (slotsOnInterface[obj].GetInventoryID() > 0)
         {
             if (slotsOnInterface[obj].item.inven_in_active == true/*아이템의 인벤토리 액티브 유무*/)
@@ -70,6 +69,7 @@ public abstract class UserInterface : MonoBehaviour
         else
         return;
     }
+
     public void OnUp(GameObject obj, PointerEventData.InputButton inputbutton = 0)
     {
         int InventoryID = slotsOnInterface[obj].GetInventoryID();
@@ -79,9 +79,9 @@ public abstract class UserInterface : MonoBehaviour
 
             if (slotsOnInterface[obj].item.addHeal != 0 && slotsOnInterface[obj].item.Id == 4) 
             {
+                float test = slotsOnInterface[obj].item.addHeal;
 
-                player.OnHpAnimtion(obj.GetComponent<GroundItem>().heal);
-                slotsOnInterface[obj].totalamount--;
+                player.OnHpAnimtion(slotsOnInterface[obj]);
             }
             //기능 사용
             //slotsOnInterface[obj].item;
@@ -110,9 +110,8 @@ public abstract class UserInterface : MonoBehaviour
     }
     public void OnDragStart(GameObject obj)
     {
-        
+
         MouseData.tempItemBeingDragged = CreateTempItem(obj);
-        Debug.Log("MouseData.tempItemBeingDragged확인" + MouseData.tempItemBeingDragged.name);
         //클릭된 아이템의 grounditem 스크립트를 알아온다.
     }
     //드래그 중인 아이템에 사용됨

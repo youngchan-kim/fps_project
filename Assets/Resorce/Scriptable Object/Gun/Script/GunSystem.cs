@@ -141,6 +141,7 @@ public class GunSystem : MonoBehaviour
         {
             //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<ShootingAi>())
+
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(Gun_property.damage);
 
             var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));

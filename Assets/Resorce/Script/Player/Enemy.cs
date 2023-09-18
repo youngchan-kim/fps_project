@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHP : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    public HealthBar healthBar;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    //최대체력 100을 가짐
+    public int health = 100;
+
+    // Start is called before the first frame update
+/*    void Start()
+    {
+    }*/
+
+/*    // Update is called once per frame
     void Update()
     {
         
-    }
+    }*/
+
 }

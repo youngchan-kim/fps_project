@@ -1,13 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ShootingAi : MonoBehaviour
+public class ShootingAi : Enemy
 {
-    int health;
+    public GameObject thisHpBar;
+
+    private void Start()
+    {
+        //thisHpBar = GameObject.Find("GameUI/")
+    }
+    void Update()
+    {
+        //적이 자신의 앞인지 뒤인지을 체크
+       thisHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,1.5f,0));
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0) Destroy(gameObject);
+        thisHpBar.GetComponent<Slider>().maxValue = health;
+        if (health <= 0)
+        {
+            thisHpBar.gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+
     }
+
 }
