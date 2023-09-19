@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : ShootingAi
 {
 
+
     //최대체력 100을 가짐
-    public int health = 100;
+    public float health = 100;
 
     // Start is called before the first frame update
 /*    void Start()

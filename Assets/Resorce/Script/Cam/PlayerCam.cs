@@ -36,5 +36,8 @@ public class PlayerCam : MonoBehaviour
         //카메라의 회전과 회전방향을 일치시키기 위한 단계
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+
+
+
     }
 }

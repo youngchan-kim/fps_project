@@ -11,7 +11,7 @@ public class Player : PickUpController
     float healvolume = 30;
     float MaxHealvolume = 80;
 
-    public HealthBar healthBar;
+    public GameObject healthBar;
 
 
     public GameObject playercam;
@@ -29,7 +29,7 @@ public class Player : PickUpController
     Coroutine coroutine = null;
     void Start()
     {
-        healthBar.SetMaxHealth(maxHealth);
+        healthBar.GetComponent<HealthBar>().SetMaxHealth(maxHealth);
     }
 
     public void Initialize()
@@ -41,7 +41,7 @@ public class Player : PickUpController
     // Update is called once per frame
     private void Update()
     {
-        Debug.DrawRay(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward * 5f, Color.black, 0.2f);
+        //Debug.DrawRay(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward * 5f, Color.black, 0.2f);
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
         if (Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, out rayHit,  4f, Item_Mask))
         {
@@ -52,6 +52,7 @@ public class Player : PickUpController
                 PickUp(rayHit);
             }
         }
+
         //itemDatabase save & load test code
         /*if (Input.GetKeyDown(KeyCode.End))
         {
@@ -119,7 +120,7 @@ public class Player : PickUpController
     void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
+        healthBar.GetComponent<HealthBar>().SetHealth(currentHealth);
     }
 
     IEnumerator HpSliderAnimation(float _heal)
@@ -127,7 +128,7 @@ public class Player : PickUpController
         //최대 힐량
         float heal = _heal;
         //현재 체력을 Ui에 표시
-        healthBar.slider.value = currentHealth;
+        healthBar.GetComponent<HealthBar>().slider.value = currentHealth;
 
         float t = 0.0f;
         //최대로 채울 수 있는 값 분에 3.0을 채우는 시간
@@ -151,7 +152,7 @@ public class Player : PickUpController
                 }
 
             }
-            healthBar.slider.value = Mathf.Lerp(currentHealth, MaxHealvolume, t);
+            healthBar.GetComponent<HealthBar>().value = Mathf.Lerp(currentHealth, MaxHealvolume, t);
             yield return new WaitForSeconds(elipsed);
         }
         healthBar.slider.value = currentHealth;
