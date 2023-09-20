@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public class HPBar : MonoBehaviour
 {
     [SerializeField]public GameObject slider;
 
@@ -14,6 +14,6 @@ public class HealthBar : MonoBehaviour
     }
     public void SetHealth(float health)
     {
-        slider.value = health;
+        slider.GetComponent<Slider>().value = health;
     }
 }

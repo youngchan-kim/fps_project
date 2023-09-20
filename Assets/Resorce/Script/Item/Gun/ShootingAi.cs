@@ -6,17 +6,12 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
-public class ShootingAi : HealthBar
+public class ShootingAi : HPBar
 {
     public GameObject healthBar;
-    //public GameObject Player;
-    Vector3 v = new Vector3();
-    Vector3 w = new Vector3();
     Vector3 TargetDir = new Vector3();
-    Vector3 PlayerDir = new Vector3();
     public float ViewAngle;
     float dot;
-    float playerdot;
     GameObject target;
     private void Start()
     {

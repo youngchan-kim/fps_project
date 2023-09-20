@@ -11,7 +11,7 @@ public class Player : PickUpController
     float healvolume = 30;
     float MaxHealvolume = 80;
 
-    public GameObject healthBar;
+    public HPBar hpBar;
 
 
     public GameObject playercam;
@@ -29,7 +29,7 @@ public class Player : PickUpController
     Coroutine coroutine = null;
     void Start()
     {
-        healthBar.GetComponent<HealthBar>().SetMaxHealth(maxHealth);
+        hpBar.SetMaxHealth(maxHealth);
     }
 
     public void Initialize()
@@ -120,7 +120,7 @@ public class Player : PickUpController
     void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        healthBar.GetComponent<HealthBar>().SetHealth(currentHealth);
+        hpBar.SetHealth(currentHealth);
     }
 
     IEnumerator HpSliderAnimation(float _heal)
@@ -128,7 +128,7 @@ public class Player : PickUpController
         //최대 힐량
         float heal = _heal;
         //현재 체력을 Ui에 표시
-        healthBar.GetComponent<HealthBar>().slider.value = currentHealth;
+        //hpBar.slider. = currentHealth;
 
         float t = 0.0f;
         //최대로 채울 수 있는 값 분에 3.0을 채우는 시간
@@ -152,10 +152,10 @@ public class Player : PickUpController
                 }
 
             }
-            healthBar.GetComponent<HealthBar>().value = Mathf.Lerp(currentHealth, MaxHealvolume, t);
+            //hpBar.GetComponent<HealthBar>().value = Mathf.Lerp(currentHealth, MaxHealvolume, t);
             yield return new WaitForSeconds(elipsed);
         }
-        healthBar.slider.value = currentHealth;
+        //hpBar.slider.value = currentHealth;
         Debug.Log("힐이 들어간 값 : "+ t);
         coroutine = null;
     }
