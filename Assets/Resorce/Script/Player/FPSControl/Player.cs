@@ -8,7 +8,7 @@ public class Player : PickUpController
     //public MouseItem mouseItem = new MouseItem();
     public float maxHealth = 100f;
     public float currentHealth;
-    float healvolume = 30;
+    //float healvolume = 30;
     float MaxHealvolume = 80;
 
     public HPBar hpBar;
@@ -117,6 +117,8 @@ public class Player : PickUpController
         }
         Cursor.visible = mode_chage;
     }
+
+    //플레이어가 피해를 입으면 체력이 줄어듬
     void TakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -128,7 +130,7 @@ public class Player : PickUpController
         //최대 힐량
         float heal = _heal;
         //현재 체력을 Ui에 표시
-        //hpBar.slider. = currentHealth;
+        hpBar.SetHealth(currentHealth);
 
         float t = 0.0f;
         //최대로 채울 수 있는 값 분에 3.0을 채우는 시간
@@ -152,10 +154,10 @@ public class Player : PickUpController
                 }
 
             }
-            //hpBar.GetComponent<HealthBar>().value = Mathf.Lerp(currentHealth, MaxHealvolume, t);
+            hpBar.SetHealth(Mathf.Lerp(currentHealth, MaxHealvolume, t));
             yield return new WaitForSeconds(elipsed);
         }
-        //hpBar.slider.value = currentHealth;
+        hpBar.SetHealth(currentHealth);
         Debug.Log("힐이 들어간 값 : "+ t);
         coroutine = null;
     }

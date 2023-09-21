@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: M4
   m_EditorClassIdentifier: 
   Id: 1
-  damage: 30
-  timeBetweenShooting: 0.01
+  damage: 10
+  timeBetweenShooting: 0.1
   spread: 0.01
   range: 100
   reloadTime: 1

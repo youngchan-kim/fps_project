@@ -140,9 +140,9 @@ public class GunSystem : MonoBehaviour
         if (Physics.Raycast(firePosition.transform.position, firedirection, out rayHit, Gun_property.range, Gun_property.what_can_Shoot))
         {
             //Debug.Log(rayHit.collider.name);
-            if (rayHit.collider.GetComponent<ShootingAi>())
+            if (rayHit.collider.GetComponent<Enemy>())
 
-                rayHit.collider.GetComponent<ShootingAi>().TakeDamage(Gun_property.damage);
+                rayHit.collider.GetComponent<DamegeSystem>().TakeDamage(Gun_property.damage);
 
             var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
 
