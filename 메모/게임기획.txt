@@ -35,7 +35,21 @@ OnInputItemEvent= null;
 }
 
 
+각 타입의 총알이가지는 변수는 2가지
+나가는 힘값 float bullet_forward;
+내려가는 힘 float bullet_down;
+생성될때는 추가되는 힘의 값은
+void shot_create_bullet(gun_forward)
+{
+AddForce(transform.forward*(bullet_forward+gun_forward), ForceMode.Impulse);
+AddForce(transform.forward*bullet_down;+gun_down), ForceMode.Impulse);
+}
+총알 촉에 닿는경우만 데미지를 준다.
 
+
+//AI
+변수 [AI의 속도, 시야각,  최대 생명력, 시야범위, ]
+레이어 [타겟레이어, 장애물 레이어, 아이템 레이어]
 
 사운드
 아이템을 습득할 때(모든 아이템의 습득 사운드)
