@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 6280941d93c54064989473a93d058f3d, type: 2}
 --- !u!1001 &51878081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3494,6 +3494,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 598175051}
+  testData: {fileID: 11400000, guid: 619a26f908a72774a9ba7fc9e3bb418f, type: 2}
+  testEnemy: {fileID: 0}
 --- !u!4 &613908414
 Transform:
   m_ObjectHideFlags: 0
@@ -8478,7 +8480,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1624077786
 Transform:
@@ -10772,6 +10774,10 @@ PrefabInstance:
     - target: {fileID: 644384765934363905, guid: 802a1962ceeab49418c3c923e5bc10c9, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 644384765934363905, guid: 802a1962ceeab49418c3c923e5bc10c9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 644384765934363910, guid: 802a1962ceeab49418c3c923e5bc10c9, type: 3}
       propertyPath: m_RootOrder

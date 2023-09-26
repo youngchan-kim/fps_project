@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Player Data", menuName = "Person/Player Data",order =1)]
-public class PlayerData: MonoBehaviour
+public class PlayerData: ScriptableObject
 {
 
 }
