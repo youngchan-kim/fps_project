@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+// 적이 해야될 것
+// 각 상태들로 나누고 해당 상태가 되기 위한 조건이 필요
+// 상태에서 해야하는 행동이 필요
 public class Enemy1 : MonoBehaviour
 {
     //player
@@ -33,6 +36,7 @@ public class Enemy1 : MonoBehaviour
     void Update()
     {
         //각 상태에서의 처리를 해준다.
+        //
         if(state == State.Idle)
         {
             //기본 상태일때 플레이어 찾기
