@@ -6,3 +6,57 @@ FPS 게임
 
 총이 아닌 총알은 데미지를 총으로 부터 받아서 쓴다.
 총알에 닿은 경우만 데미지가 들어간다.
+
+
+시야에 있는지 확인하는 ViewAngle클래스
+가지고 있어야하는 맴버 변수 
+    Vector3 TargetDir = new Vector3();
+    Vector3 TargetDistanst = new Vector3();
+    float dot;
+    public Transform target;
+    public Transform point;
+    float angleRange = 30f;
+
+    float base_rotation_y;
+    public Transform search_point;
+
+
+시야에 타겟이 있는지 확인하는 함수 GetSeeUnit
+
+
+타겟을 시야에 찾기 위한 TargetFind함수
+임의의 위치를 리턴해야함
+임의의 위치는 맵안이고 오브젝트가 없는 곳
+
+가는 동안 찾기위해 가는 로테이션 y값을 기준으로 y +-40안을 랜덤으로함
+base_y 변수가짐
+
+
+이터멀레이터속성의 SearchTime함수가 필요
+(
+가는 방향과는 별개로 가는 동안 좌우를 탐색할 시야가 필요함
+시야는 Random함수를 사용하여 -40, 40의 변수를 가진다.
+if(기본 y축을 기준으로 +-40인 값인 경우에만 사용한다.)
+)
+SearchTime함수가 실행되면 y값이 바뀌지만
+SearchTime함수가 끝나면 y값은 다시 돌아와야함 
+base_y을 대입함으로써 해결
+
+
+FSM 클래스
+target 변수
+//bool target_hide 변수
+
+Idle
+플레이어가 앞을 지나가면 추적을 시작한다.
+플레이어가 없다면 탐색을 시작한다.
+Run,
+목표를 향해 달린다.
+Attack,
+목표를 공격한다.
+Reconnaissance,
+목표가 없어지면 목표가 있던 지점으로 이동
+정찰한다.
+Research
+목표가 있던 지점에도 없다면
+새로 찾는다.
