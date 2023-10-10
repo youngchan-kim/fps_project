@@ -3,7 +3,9 @@
 FPS 게임
 
 케릭터가 총을 쏜다. 총알이 나간다. 총알이 나가면 피해를 받는다.
+시야각을 나눠눈후 레이를 쏴서 레이를 플레이어를 찾는다.
 
+인식하지 못한것으로 처리후 랜덤하게 찾으러 다닌다.
 총이 아닌 총알은 데미지를 총으로 부터 받아서 쓴다.
 총알에 닿은 경우만 데미지가 들어간다.
 
@@ -12,16 +14,38 @@ FPS 게임
 가지고 있어야하는 맴버 변수 
     Vector3 TargetDir = new Vector3();
     Vector3 TargetDistanst = new Vector3();
+//탐색자로 부터의 각도
     float dot;
     public Transform target;
     public Transform point;
-    float angleRange = 30f;
+    float angleRange;
 
     float base_rotation_y;
     public Transform search_point;
 
 
 시야에 타겟이 있는지 확인하는 함수 GetSeeUnit
+해당 함수의 경우 포인트의 벡터와 탐색자의 벡터를 계산하여
+포인트가 탐색자의 범위에 있으면 타겟으로 인식하고 아니면 타겟을 해제한다.
+탐색자의 탐색 각도구해져있음
+
+
+Find_Target_In_Lay()함수
+디폴트 매개변수 target = 오브젝트의 forward;
+하는 역할
+시야각으로 각을 나누어 여러번의 lay를 쏜다.
+플레이어의 정면을 기준으로 시야 제한 각 까지 쏠 수 있다.
+시야 제한 각으로 쏘면 
+총 세개의 레이가 발사된다.
+중앙 시야각, 끝지점 두곳
+시야 끝지점의 방향을 알려면
+시야각을 구하기 위해서 나의 위치와 target의 위치
+target의 방향을 구하는 방법은 target의 벡터 - 나의 벡터
+target의 각도는 vector.angle(target의 방향 , 나의 방향)
+
+
+
+
 
 
 타겟을 시야에 찾기 위한 TargetFind함수
@@ -30,6 +54,8 @@ FPS 게임
 
 가는 동안 찾기위해 가는 로테이션 y값을 기준으로 y +-40안을 랜덤으로함
 base_y 변수가짐
+transform를 y축을 +-40이 될때 까지 회전 시킨후 반대로 회전 시킨다.
+
 
 
 이터멀레이터속성의 SearchTime함수가 필요
@@ -43,6 +69,9 @@ SearchTime함수가 끝나면 y값은 다시 돌아와야함
 base_y을 대입함으로써 해결
 
 
+
+
+
 FSM 클래스
 target 변수
 //bool target_hide 변수
@@ -52,6 +81,8 @@ Idle
 플레이어가 없다면 탐색을 시작한다.
 Run,
 목표를 향해 달린다.
+타겟이 있다는 면 달린다.
+없다면 타겟이 있던 곳을 간다.
 Attack,
 목표를 공격한다.
 Reconnaissance,
