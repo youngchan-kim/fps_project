@@ -2,78 +2,32 @@
 
 수정중
 FPS 게임
-시야에 있는지 확인하는 ViewAngle클래스
-
-타겟을 최종적으로 업데이트 하는 함수 GetTarget
-타겟을 찾는 함수 Find Target
-
-
-
-수정전===================
+ViewAngle 클래스가 하는 역할
+함수만 스태틱 클래스와 스태틱함수로 변경하여 상속하지 않도록한다.
+1. 시야각을 계산
+2. 시야각을 기반으로 범위 체크
 
 
-
-시야에 있는지 확인하는 ViewAngle클래스
-가지고 있어야하는 맴버 변수 
-    Vector3 TargetDir = new Vector3();
-    Vector3 TargetDistanst = new Vector3();
-//탐색자로 부터의 각도
-    float dot;
-    public Transform target;
-    public Transform point;
-    float angleRange;
-
-    float base_rotation_y;
-    public Transform search_point;
+오브젝트는 viewAngle이라는 시야각을 가진다.
+타겟이 정해지면  타겟과 오브젝트의 위치를 기반으로 방향을 계산한다.
+TargetDir = checktarget.position - transform.position;
+방향을 기반으로 오브젝트로 부터 몇도의 각에 있는지 연산한다.
+angle = Vector3.Angle(TargetDir.normalized, transform.forward);
 
 
-시야에 타겟이 있는지 확인하는 함수 GetTarget
-찾은 타겟을 고정한다.
+TargetCheck 클래스가 하는 역할
+ViewAngle를 상속 받는다.
 
-//해당 함수의 경우 포인트의 벡터와 탐색자의 벡터를 계산하여
-//포인트가 탐색자의 범위에 있으면 타겟으로 인식하고 아니면 타겟을 해제한다.
-//탐색자의 탐색 각도구해져있음
-
-Find Target 함수
-타겟을 찾기위한 모든 기능을 가진다.
-
-Find_Target_In_Lay()함수
-디폴트 매개변수 target = 오브젝트의 forward;
-하는 역할
-시야각으로 각을 나누어 여러번의 lay를 쏜다.
-플레이어의 정면을 기준으로 시야 제한 각 까지 쏠 수 있다.
-시야 제한 각으로 쏘면 
-총 세개의 레이가 발사된다.
-중앙 시야각, 끝지점 두곳
-시야 끝지점의 방향을 알려면
-시야각을 구하기 위해서 나의 위치와 target의 위치
-target의 방향을 구하는 방법은 target의 벡터 - 나의 벡터
-target의 각도는 vector.angle(target의 방향 , 나의 방향)
+1. 오브젝트가 찾고자 하는 LayerMask가 특정 범위에 있고 없고를 체크하여 Target을 갱신한다.
+2. 놓친 경우에 대한 조건을 가진함수를 가진다. Target_Lost
+3. 우선순위에 관한 함수를 가진다.
 
 
 
+Enemy1 클래스가 하는 역할
+1.FSM을 가진다.
+2.Enemy를 회전 시킨다.
 
-
-
-타겟을 시야에 찾기 위한 Not_Find_Target함수
-
-연속해서 }
-
-가는 동안 찾기위해 가는 로테이션 y값을 기준으로 y +-40안을 랜덤으로함
-base_y 변수가짐
-transform를 y축을 +-40이 될때 까지 회전 시킨후 반대로 회전 시킨다.
-
-
-
-이터멀레이터속성의 SearchTime함수가 필요
-(
-가는 방향과는 별개로 가는 동안 좌우를 탐색할 시야가 필요함
-시야는 Random함수를 사용하여 -40, 40의 변수를 가진다.
-if(기본 y축을 기준으로 +-40인 값인 경우에만 사용한다.)
-)
-SearchTime함수가 실행되면 y값이 바뀌지만
-SearchTime함수가 끝나면 y값은 다시 돌아와야함 
-base_y을 대입함으로써 해결
 
 
 FSM 클래스
@@ -83,9 +37,8 @@ FSM 클래스
 3. 플레이어가 사라지면 렌덤하게 맵을 돌아다닌다. (0)
 4. 플레이어가 사라지면 시야를 돌려 탐색을 한다. (0)
 
-정면을 기준으로 시야각 내부에 Lay를 쐈을때 
-point(타겟이 될수 있는 오브젝트)가 있다면 target에 point를 입력
-5. 플레이어위치에 Lay를 쐈을때 다른 값이 들어온다면 target은 null인것이다.
+5. Target을 았고 공격 범위에 있으면 공격한다.
+
 
 케릭터가 총을 쏜다. 총알이 나간다. 총알이 나가면 피해를 받는다.
 시야각을 나눠눈후 레이를 쏴서 레이를 플레이어를 찾는다.
@@ -107,14 +60,10 @@ UpdateRun
 Attack,
 목표를 공격한다.
 UpdateReconnaissance
-탐색자가 느려진다.
 목표가 없어지면 목표가 있던 지점으로 이동 후
 랜덤한 구역을 정찰한다.
 정찰 중 목표를 발견하면 UpdateRun상태로 바뀐다.
 정찰한다.
-Research
-목표가 있던 지점에도 없다면
-새로 찾는다.
 
 서치의 전제 조건
 탐색의 대상이 바뀔 수 있다.
