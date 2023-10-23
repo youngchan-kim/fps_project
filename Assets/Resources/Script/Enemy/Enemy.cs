@@ -9,7 +9,7 @@ using UnityEngine.Animations;
 using UnityEngine.UI;
 
 
-public class Enemy : RandomPosition
+public class Enemy : TargetCheck
 {
 
     //target은 Player임
@@ -58,7 +58,7 @@ public class Enemy : RandomPosition
     public float maxHealth = 100f;
     public float currentHealth;
     bool life;
-    //float atteck;
+    float atteck;
     bool isAtkDelay;
 
 
@@ -118,14 +118,14 @@ public class Enemy : RandomPosition
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
         Angle = 30f;
-        Attectlen = 30f;
+        Attectlen = 10f;
         nomal_site_len = Attectlen * 2;
         reconnaissance_site_len = nomal_site_len * 2;
-        inv_len = reconnaissance_site_len * 0.01f;
+        inv_len = reconnaissance_site_len * 0.05f;
 
         life = true;
         currentHealth = maxHealth;
-        //atteck = 30;
+        atteck = 30;
         isAtkDelay = true;
     }
 
@@ -146,10 +146,11 @@ public class Enemy : RandomPosition
             agent.speed = 7f;
             agent.destination = Spot;
 
+            Debug.Log(distance + "<" + inv_len);
             //도착 장소에 도착하면 새로운 장소 지정
             if (distance < inv_len)
             {
-                Spot = RandomPoint(reconnaissance_site_len);
+                Spot = StaticRandomPosition.RandomPoint(transform.position, reconnaissance_site_len);
                 //Debug.Log("현재 회전값  : " + transform.rotation.eulerAngles + "입니다.");
 
                 SpotDir = Spot - transform.position;

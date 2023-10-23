@@ -5,22 +5,18 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class RandomPosition : TargetCheck
+public static class StaticRandomPosition
 {
-    Vector3 randomPoint;
-    public Vector3 RandomPoint(float len)
+    public static Vector3 RandomPoint(Vector3 pos, float len)
     {
-        randomPoint = transform.position + Random.insideUnitSphere * len;
+        Vector3 randomPoint = pos + Random.insideUnitSphere * len;
 
         NavMeshHit hit;
         while(NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)==false)
         {
-            randomPoint = transform.position + Random.insideUnitSphere * len;
+            randomPoint = pos + Random.insideUnitSphere * len;
         }
         
         return hit.position;
     }
-
-
-        
 }

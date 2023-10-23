@@ -13,7 +13,7 @@ public class Scope : MonoBehaviour
     };
     public Animator animator;
 
-    public GameObject scopeOverlay;
+    //public GameObject scopeOverlay;
     public Camera mainCamera;
     public GameObject scope_parts;
     private CinemachineVirtualCamera Cam;
@@ -45,7 +45,7 @@ public class Scope : MonoBehaviour
     public void OnUnScoped()
     {
         scope_parts.SetActive(false);
-        scopeOverlay.SetActive(false);
+     //   scopeOverlay.SetActive(false);
 
         mainCamera.fieldOfView = normalFOV;
     }
@@ -57,10 +57,10 @@ public class Scope : MonoBehaviour
         scope_parts.SetActive(true);
         normalFOV = mainCamera.fieldOfView;
         scopedFOV = 15f;
-        if (scope_parts.GetComponentInChildren<Transform>().Find("scope"))
+        /*if (scope_parts.GetComponentInChildren<Transform>().Find("scope"))
             scopeOverlay.SetActive(true); 
         else
-            scopeOverlay.SetActive(false);
+            scopeOverlay.SetActive(false);*/
 
 
         mainCamera.fieldOfView = scopedFOV;

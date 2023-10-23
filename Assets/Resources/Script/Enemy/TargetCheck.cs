@@ -7,40 +7,40 @@ public class TargetCheck : MonoBehaviour
 {
 
     //Transfrom
-    //target¿¡ °»½ÅÇÏ±âÀü Ã¼Å© ´Ü°èÀÇ target
+    //targetì— ê°±ì‹ í•˜ê¸°ì „ ì²´í¬ ë‹¨ê³„ì˜ target
     Transform checktarget;
-    //½ÇÁ¦·Î °»½ÅµÇ´Â target
+    //ì‹¤ì œë¡œ ê°±ì‹ ë˜ëŠ” target
     public Transform target;
 
     //Vector3
-    //targetÀÇ ¹æÇâÀ» Ã¼Å©ÇÏ±â À§ÇØ Å¸°ÙÀÇ ¹æÇâÀ» ´ã´Â º¯¼ö
+    //targetì˜ ë°©í–¥ì„ ì²´í¬í•˜ê¸° ìœ„í•´ íƒ€ê²Ÿì˜ ë°©í–¥ì„ ë‹´ëŠ” ë³€ìˆ˜
     Vector3 TargetDir = new Vector3();
-    // Å½»ö Àå¼Ò
+    // íƒìƒ‰ ì¥ì†Œ
     public Vector3 Spot;
 
-    //¿ÀºêÁ§Æ®°¡ Ã¼Å©ÇÒ ¼ö ÀÖ´Â °¢µµ
+    //ì˜¤ë¸Œì íŠ¸ê°€ ì²´í¬í•  ìˆ˜ ìˆëŠ” ê°ë„
     float angle;
-    //¹İÁö¸§
+    //ë°˜ì§€ë¦„
     float radius;
 
     float DrawGizmosAngle;
 
-    //¿ÀºêÁ§Æ®ÀÇ ¹üÀ§¸¦ º¸±âÀ§ÇÑ º¯¼öµé
-    //ºÎÃ¤²Ã¸ğ¾ç »öÄ¥
+    //ì˜¤ë¸Œì íŠ¸ì˜ ë²”ìœ„ë¥¼ ë³´ê¸°ìœ„í•œ ë³€ìˆ˜ë“¤
+    //ë¶€ì±„ê¼´ëª¨ì–‘ ìƒ‰ì¹ 
     Color _blue = new Color(0f, 0f, 1f, 0.2f);
 
-    //½ÇÁ¦·Î targetÀ» °»½ÅÇÏ±â À§ÇØ ¹İº¹ ½ÇÇàµÇ´Â ÇÔ¼ö
+    //ì‹¤ì œë¡œ targetì„ ê°±ì‹ í•˜ê¸° ìœ„í•´ ë°˜ë³µ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜
     public void UpdateTarget(float viewAngle, float len, LayerMask target_Mask)
     {
-        //Ã¹¹øÂ° º¤ÅÍ¿¡¼­ µÎ¹øÂ° º¤ÅÍ·ÎÀÇ È¸Àü °¢µµÀÔ´Ï´Ù.
-        //Ã¹¹øÂ° º¤ÅÍ·Î µÎ¹øÂ° º¤ÅÍ°¡ È¸ÀüÇÏ±â À§ÇÑ °¢µµ¸¦ ¸®ÅÏÇÑ´Ù.
-        //position°ªÀÌ ¾Æ´Ï¶ó ¹æÇâ°ªÀÌ µé¾î¿Í¾ßÇÑ´Ù.
-        //Å½»öÀÚ·Î ºÎÅÍÀÇ Æ÷ÀÎÆ®°¡ ÀÖ´Â °¢µµ¸¦ ±¸ÇØÁØ´Ù. 
-        //ÇÔ¼öÈ­ ÇÒ°Í
+        //ì²«ë²ˆì§¸ ë²¡í„°ì—ì„œ ë‘ë²ˆì§¸ ë²¡í„°ë¡œì˜ íšŒì „ ê°ë„ì…ë‹ˆë‹¤.
+        //ì²«ë²ˆì§¸ ë²¡í„°ë¡œ ë‘ë²ˆì§¸ ë²¡í„°ê°€ íšŒì „í•˜ê¸° ìœ„í•œ ê°ë„ë¥¼ ë¦¬í„´í•œë‹¤.
+        //positionê°’ì´ ì•„ë‹ˆë¼ ë°©í–¥ê°’ì´ ë“¤ì–´ì™€ì•¼í•œë‹¤.
+        //íƒìƒ‰ìë¡œ ë¶€í„°ì˜ í¬ì¸íŠ¸ê°€ ìˆëŠ” ê°ë„ë¥¼ êµ¬í•´ì¤€ë‹¤. 
+        //í•¨ìˆ˜í™” í• ê²ƒ
 
-        //¿À¹ö·¦ ½ºÇÇ¾îÀÇ µ¿ÀÛÀº ½ºÇÇ¾îÄİ¶óÀÌ´õ¿Í °°´Ù. ÇÇº¿Àº ±×´ë·Î ÀÌ°í Å©±â¸¦ Å°¿ì´Â ¹æÇâÀº Àü¹æÇâÀ¸·Î °°Àº °ªÀÌ ´Ã¾î³­´Ù.
+        //ì˜¤ë²„ë© ìŠ¤í”¼ì–´ì˜ ë™ì‘ì€ ìŠ¤í”¼ì–´ì½œë¼ì´ë”ì™€ ê°™ë‹¤. í”¼ë´‡ì€ ê·¸ëŒ€ë¡œ ì´ê³  í¬ê¸°ë¥¼ í‚¤ìš°ëŠ” ë°©í–¥ì€ ì „ë°©í–¥ìœ¼ë¡œ ê°™ì€ ê°’ì´ ëŠ˜ì–´ë‚œë‹¤.
         //
-        //½ºÇÇ¾î ÄÉ½ºÆ®ÀÇ µ¿ÀÛÀº  Ä¸½¶ Äİ¶óÀÌ´õ¿Í ºñ½ÁÇÏ´Ù. ÇÇº¿Àº ±×´ë·Î Áö¸¸ Å©±â¸¦ Å°¿ì´Â ¹æÇâÀÌ Á¤ÇØÁ®ÀÖ°í
+        //ìŠ¤í”¼ì–´ ì¼€ìŠ¤íŠ¸ì˜ ë™ì‘ì€  ìº¡ìŠ ì½œë¼ì´ë”ì™€ ë¹„ìŠ·í•˜ë‹¤. í”¼ë´‡ì€ ê·¸ëŒ€ë¡œ ì§€ë§Œ í¬ê¸°ë¥¼ í‚¤ìš°ëŠ” ë°©í–¥ì´ ì •í•´ì ¸ìˆê³ 
         //
         DrawGizmosAngle = viewAngle;
         radius = len;
@@ -48,16 +48,16 @@ public class TargetCheck : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    //ÇöÀç ÇÏ³ªÀÇ ¸ñÇ¥¸¸ Ã£´Â °æ¿ì·Î ¸¸µé¾úÀ½
-    //SphereCastAll·Î ¹Ù²Ù¾î ¸ğµç ¸ğµç °³Ã¼¿¡ ´ëÇÑ °ÍÀ¸·Î ¹Ù²Ù¾î ÁÖ¾î¾ßÇÔ
+    //í˜„ì¬ í•˜ë‚˜ì˜ ëª©í‘œë§Œ ì°¾ëŠ” ê²½ìš°ë¡œ ë§Œë“¤ì—ˆìŒ
+    //SphereCastAllë¡œ ë°”ê¾¸ì–´ ëª¨ë“  ëª¨ë“  ê°œì²´ì— ëŒ€í•œ ê²ƒìœ¼ë¡œ ë°”ê¾¸ì–´ ì£¼ì–´ì•¼í•¨
     Transform Find_Target(float viewAngle, LayerMask target_Mask)
     {
         //
-        //¿øÀÌ¶ó´Â ¹üÀ§ ¾È¿¡ Ã£°í ÀÖ´Â LayerMask°¡ ÀÖ´Ù¸é if ¹®À» ½ÇÇàÇÑ´Ù.
+        //ì›ì´ë¼ëŠ” ë²”ìœ„ ì•ˆì— ì°¾ê³  ìˆëŠ” LayerMaskê°€ ìˆë‹¤ë©´ if ë¬¸ì„ ì‹¤í–‰í•œë‹¤.
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, target_Mask);
         if (hitColliders.Length != 0)
         {
-            //¿ì¼± ¼øÀ§¸¦ µûÁö´Â ÄÚµå ÇÊ¿ä
+            //ìš°ì„  ìˆœìœ„ë¥¼ ë”°ì§€ëŠ” ì½”ë“œ í•„ìš”
 
             foreach (Collider hit in hitColliders)
             {
@@ -66,77 +66,77 @@ public class TargetCheck : MonoBehaviour
             TargetDir = StaticViewAngle.static_Obj_to_Target_Dir(checktarget.position, transform.position);
 
 
-            //Å½»öÀÚ¸¦ ÇâÇÏ´Â Å¸°ÙÀÇ º¤ÅÍ
-            //A°¡ Å¸°ÙÀÌ°í B°¡ Å½»öÀÚÀÏ¶§ B°¡ A·Î °¡±â À§ÇÑ ¹æÇâÀº
-            //A-BÀÌ´Ù.
-            //Å¸°Ù¿¡°Ô ÇâÇÏ´Â ¹æÇâ
+            //íƒìƒ‰ìë¥¼ í–¥í•˜ëŠ” íƒ€ê²Ÿì˜ ë²¡í„°
+            //Aê°€ íƒ€ê²Ÿì´ê³  Bê°€ íƒìƒ‰ìì¼ë•Œ Bê°€ Aë¡œ ê°€ê¸° ìœ„í•œ ë°©í–¥ì€
+            //A-Bì´ë‹¤.
+            //íƒ€ê²Ÿì—ê²Œ í–¥í•˜ëŠ” ë°©í–¥
             if (checktarget != null) angle = StaticViewAngle.static_Obj_ViewAngle_in_Target_Angle (TargetDir.normalized, transform.forward);
 
             else angle = viewAngle + 1;
 
-            //¿ø¾È¿¡´Â ÀÖÁö¸¸ 
-            //¿ÀºêÁ§Æ®ÀÇ ½Ã¾ß°¢ ¾È¿¡ ÀÖ´Ù¸é if¹® ½ÇÇà
+            //ì›ì•ˆì—ëŠ” ìˆì§€ë§Œ 
+            //ì˜¤ë¸Œì íŠ¸ì˜ ì‹œì•¼ê° ì•ˆì— ìˆë‹¤ë©´ ifë¬¸ ì‹¤í–‰
             if (angle <= viewAngle)
             {
 
                 /*
-                ¿¹Á¦ ÄÚµå Á»ºñÀÇ ¾ÆÀÌÅÛ ºÎºĞ
-                targetÀÇ Å¸ÀÔÀº GameObject
-                target_Mask´Â bit shift(2^indexµÈ °ªÀ» °¡Áø´Ù.)
+                ì˜ˆì œ ì½”ë“œ ì¢€ë¹„ì˜ ì•„ì´í…œ ë¶€ë¶„
+                targetì˜ íƒ€ì…ì€ GameObject
+                target_MaskëŠ” bit shift(2^indexëœ ê°’ì„ ê°€ì§„ë‹¤.)
                 */
-                //Ã£Àº ¿ÀºêÁ§Æ®°¡ Ã£À¸·Á´Â LayerMask¿Í °°Àº Áö È®ÀÎÇÏ°í ¸ÂÀ¸¸é target¿¡ Ã£À¸·Á´Â ¿ÀºêÁ§Æ®¸¦ ³Ö¾îÁØ´Ù.
+                //ì°¾ì€ ì˜¤ë¸Œì íŠ¸ê°€ ì°¾ìœ¼ë ¤ëŠ” LayerMaskì™€ ê°™ì€ ì§€ í™•ì¸í•˜ê³  ë§ìœ¼ë©´ targetì— ì°¾ìœ¼ë ¤ëŠ” ì˜¤ë¸Œì íŠ¸ë¥¼ ë„£ì–´ì¤€ë‹¤.
                 if (0 != ((1 << checktarget.transform.gameObject.layer) & target_Mask))
                 {
-                    //Debug.Log("¿øÀÇ ¹üÀ§ ¾È, ½Ã¾ß°¢ ³»ºÎ¿¡ Å¸°ÙÀÌ ÀÖ´Ù.");
-                    //TargetÀÌ ¸ÂÀ¸¸é ¿ÀºêÁ§Æ®¿Í target»çÀÌ¿¡ Àå¾Ö¹°ÀÌ ÀÖ´ÂÁö Ã¼Å©
+                    //Debug.Log("ì›ì˜ ë²”ìœ„ ì•ˆ, ì‹œì•¼ê° ë‚´ë¶€ì— íƒ€ê²Ÿì´ ìˆë‹¤.");
+                    //Targetì´ ë§ìœ¼ë©´ ì˜¤ë¸Œì íŠ¸ì™€ targetì‚¬ì´ì— ì¥ì• ë¬¼ì´ ìˆëŠ”ì§€ ì²´í¬
                     if (Physics.Raycast(transform.position, (checktarget.position - transform.position).normalized, out RaycastHit rayHit, radius))
                     {
                         if (0 != ((1 << rayHit.transform.gameObject.layer) & target_Mask))
                         {
-                            //Debug.Log("Å¸°Ù°ú ¿ÀºêÁ§Æ®»çÀÌ¿¡ Àå¾Ö¹°ÀÌ ¾ø´Ù.");
+                            //Debug.Log("íƒ€ê²Ÿê³¼ ì˜¤ë¸Œì íŠ¸ì‚¬ì´ì— ì¥ì• ë¬¼ì´ ì—†ë‹¤.");
                             target = checktarget;
                         }
                         else TargetLost();
                     }
                 }
             }
-            //½Ã¾ß°¢ ³»ºÎ¿¡¼­ ¹ş¾î³­ °æ¿ì
+            //ì‹œì•¼ê° ë‚´ë¶€ì—ì„œ ë²—ì–´ë‚œ ê²½ìš°
             else TargetLost();
         }
         else TargetLost();
         return target;
     }
 
-    //Å¸°ÙÀ» ³õÄ¡¸é 
-    // Å¸°ÙÀ» ³õÄ£ ÀÚ¸®¸¦ ÀÔ·ÂÇØÁÜ
+    //íƒ€ê²Ÿì„ ë†“ì¹˜ë©´ 
+    // íƒ€ê²Ÿì„ ë†“ì¹œ ìë¦¬ë¥¼ ì…ë ¥í•´ì¤Œ
     void TargetLost()
     {
         if (target != null)
         {
-            // Debug.Log("¿ÀºêÁ§Æ® ½Ã¾ß¿¡¼­ ¹ş¾î³µ´Ù...");
+            // Debug.Log("ì˜¤ë¸Œì íŠ¸ ì‹œì•¼ì—ì„œ ë²—ì–´ë‚¬ë‹¤...");
             Spot = target.position;
         }
         else
         {
-            // Debug.Log("Å¸°ÙÀÇ ÈçÀûµµ ¹ß°ßÇÏÁö ¸øÇß´Ù.");
+            // Debug.Log("íƒ€ê²Ÿì˜ í”ì ë„ ë°œê²¬í•˜ì§€ ëª»í–ˆë‹¤.");
         }
         target = null;
         checktarget = null;
     }
 
-    //½Ã¾ß°¢À» Scenes¿¡¼­ º¸¿©ÁÖ´Â ÄÚµå
+    //ì‹œì•¼ê°ì„ Scenesì—ì„œ ë³´ì—¬ì£¼ëŠ” ì½”ë“œ
     void OnDrawGizmos()
     {
         /*
         RaycastHit hit;
-        // Physics.SphereCast (·¹ÀÌÀú¸¦ ¹ß»çÇÒ À§Ä¡, ±¸ÀÇ ¹İ°æ, ¹ß»ç ¹æÇâ, Ãæµ¹ °á°ú, ÃÖ´ë °Å¸®)
+        // Physics.SphereCast (ë ˆì´ì €ë¥¼ ë°œì‚¬í•  ìœ„ì¹˜, êµ¬ì˜ ë°˜ê²½, ë°œì‚¬ ë°©í–¥, ì¶©ëŒ ê²°ê³¼, ìµœëŒ€ ê±°ë¦¬)
         if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, 0)) { }
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
         Gizmos.DrawWireSphere(transform.position + transform.forward * hit.distance, radius);*/
 
         Handles.color = _blue;
-        // DrawSolidArc(½ÃÀÛÁ¡, ³ë¸Öº¤ÅÍ(¹ı¼±º¤ÅÍ), ±×·ÁÁÙ ¹æÇâ º¤ÅÍ, °¢µµ, ¹İÁö¸§)
+        // DrawSolidArc(ì‹œì‘ì , ë…¸ë©€ë²¡í„°(ë²•ì„ ë²¡í„°), ê·¸ë ¤ì¤„ ë°©í–¥ ë²¡í„°, ê°ë„, ë°˜ì§€ë¦„)
         Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, DrawGizmosAngle, radius);
         Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -DrawGizmosAngle, radius);
 
@@ -146,7 +146,7 @@ public class TargetCheck : MonoBehaviour
 }
 
 /*
-//Ray¸¦ »ç¿ëÇØ¾ßÇÒ °æ¿ì RayÀÇ È¸Àü    
+//Rayë¥¼ ì‚¬ìš©í•´ì•¼í•  ê²½ìš° Rayì˜ íšŒì „    
 Vector3 RayDir(float Rayangle)
    {
 
@@ -168,7 +168,7 @@ Vector3 RayDir(float Rayangle)
        else
        {
            Ray_angle_lerp = 0;
-           Debug.Log("t °ªÀÌ ºñÁ¤»ó ÀûÀÎ °ªÀÌ µé¾î¿Í ÀÖ½À´Ï´Ù.");
+           Debug.Log("t ê°’ì´ ë¹„ì •ìƒ ì ì¸ ê°’ì´ ë“¤ì–´ì™€ ìˆìŠµë‹ˆë‹¤.");
        }
 
 

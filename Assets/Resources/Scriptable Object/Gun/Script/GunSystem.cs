@@ -11,9 +11,10 @@ public class GunSystem : MonoBehaviour
 
     //GunPickUp pickup = null;
 
-    //공격할지점
+    //공격이 시작되는 지점
     [SerializeField]
     public AimShaker firePosition;
+    //공격 할 지점
     [SerializeField]
     public Transform attackPoint;
 
@@ -71,6 +72,7 @@ public class GunSystem : MonoBehaviour
         //Debug.Log(GameMgr.Instance.player.GetComponent<Player>().GetGunslotFull());
         if (GameMgr.Instance.player.GetComponent<Player>().GetGunSlotEmpty())
         {
+            
             transform.LookAt(attackPoint.transform.position);
             Debug.DrawLine(firePosition.transform.position, attackPoint.transform.position, Color.red);
             direction = transform.forward;
