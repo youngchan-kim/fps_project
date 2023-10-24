@@ -31,3 +31,5 @@ XYZ를 기준으로 회전하기 때문에 180도가 넘어도 표현이 가능�
 
 인벤토리 시스템 scriptableObject 사용
 https://www.youtube.com/watch?v=_IqTeruf3-s&list=PLJWSdH2kAe_Ij7d7ZFR2NIW8QCJE74CyT
+
+애니메이션 클립
