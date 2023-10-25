@@ -33,7 +33,6 @@ public class Enemy : TargetCheck
     float reconnaissance_site_len;
 
     public GameObject Spot_mark;
-
     Vector3 SpotDir;
 
     //오브젝트의 회전을 위한 변수들 여기부터
@@ -61,6 +60,14 @@ public class Enemy : TargetCheck
     float atteck;
     bool isAtkDelay;
 
+    float walk_speed;
+    float Run_speed;
+
+    //시체사라지는 딜레이 체크
+    bool isDBDelay;
+    //애니메이션
+    public Enemy_Action anim;
+
 
     //상태의 종류
     enum State
@@ -84,33 +91,31 @@ public class Enemy : TargetCheck
     // Update is called once per frame
     void Update()
     {
-
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
-        if (life == false)
+        if (life == true)
         {
-            state = State.Die;
-        }
-        //각 상태에서의 처리를 해준다.
-        switch ((int)state)
-        {
-            case 0:
-                //기본 상태일때 플레이어 찾기
-                UpdateIdle();
-                break;
-            case 1:
-                UpdateRun();
-                break;
-            case 2:
-                UpdateAttack();
-                break;
-            case 3:
-                UpdateReconnaissance();
-                //Debug.Log("탐색중");
-                break;
-            case 4:
-                UpdateDie();
-                break;
+            //각 상태에서의 처리를 해준다.
+            switch ((int)state)
+            {
+                case 0:
+                    //기본 상태일때 플레이어 찾기
+                    UpdateIdle();
+                    break;
+                case 1:
+                    UpdateRun();
+                    break;
+                case 2:
+                    UpdateAttack();
+                    break;
+                case 3:
+                    UpdateReconnaissance();
+                    //Debug.Log("탐색중");
+                    break;
+                case 4:
+                    UpdateDie();
+                    break;
+            }
         }
     }
     public void Initialize()
@@ -118,15 +123,19 @@ public class Enemy : TargetCheck
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
         Angle = 30f;
-        Attectlen = 10f;
+        Attectlen = 30f;
         nomal_site_len = Attectlen * 2;
         reconnaissance_site_len = nomal_site_len * 2;
-        inv_len = reconnaissance_site_len * 0.05f;
+        inv_len = reconnaissance_site_len * 0.01f;
 
+        walk_speed = 1.5f;
+        Run_speed = 3f;
         life = true;
         currentHealth = maxHealth;
         atteck = 30;
         isAtkDelay = true;
+        //애니메이션
+        anim.Initalize();
     }
 
     private void UpdateReconnaissance()
@@ -143,10 +152,9 @@ public class Enemy : TargetCheck
 
 
             //속도 설정 : 기본 속도
-            agent.speed = 7f;
+            agent.speed = walk_speed;
             agent.destination = Spot;
 
-            Debug.Log(distance + "<" + inv_len);
             //도착 장소에 도착하면 새로운 장소 지정
             if (distance < inv_len)
             {
@@ -171,15 +179,16 @@ public class Enemy : TargetCheck
                     //오브젝트의 시야
                     Rotate_Play(2f);
 
-                    Debug.Log(base_rotation_y);
+                    //Debug.Log(base_rotation_y);
                     //목표지점을 바라보게 만듬
                     // 선형 보간 해서 시야각 돌리는 코드
                     VarRotation = Quaternion.Euler(0f, var_rotation_y, 0f);
-                    Debug.Log(var_rotation_y);
+                    //Debug.Log(var_rotation_y);
                     //코르틴을 이용한 시간 값의 증가를 통해 t의 값을 0부터 1까지 증가시켜준다.
                     //t값은 시간에 따라 1이 되어야한다.
                 }
                 transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.01f);
+                anim.Move(1);
             }
         }
     }
@@ -196,6 +205,7 @@ public class Enemy : TargetCheck
             state = State.Run;
             //애니메이션도 바꿔줘야함
         }
+
         else
         {
             //기본 상태에서 탐색 모드로 바뀔 때 처음 한번 실행되어야한다.
@@ -232,9 +242,10 @@ public class Enemy : TargetCheck
                 //공격 애니메이션을 실행해줘야함
             }
             //속도 설정 : 기본 속도
-            agent.speed = 7f;
-
+            agent.speed = Run_speed;
+            anim.Move(1);
             agent.destination = target.transform.position;
+            //Idle();
         }
 
     }
@@ -270,15 +281,18 @@ public class Enemy : TargetCheck
                     Atk_Play(1f);
                     //target.GetComponent<Player>().Damage(atteck);
                 }
-
+                //state = State.Die;
+                anim.Move(0);
             }
         }
     }
     private void UpdateDie()
     {
-        DeadBox.SetActive(true);
-        DeadBox.transform.position = gameObject.transform.position;
-        gameObject.SetActive(false);
+        anim.Die();
+        life = false;
+        //DeadBox.SetActive(true);
+        //DeadBox.transform.position = gameObject.transform.position;
+        DB_Play(3f);
 
     }
 
@@ -291,20 +305,22 @@ public class Enemy : TargetCheck
         else
         {
             currentHealth = 0f;
-            life = false;
+            state = State.Die;
         }
     }
 
     //오브젝트를 회전 시켜 타겟을 찾기
     public void Rotate_Play(float time)
     {
-
         if (isDelay == true) StartCoroutine(TimeCoroutin(time));
     }
     public void Atk_Play(float time)
     {
-
         if (isDelay == true) StartCoroutine(AtkTimeCoroutin(time));
+    }
+    public void DB_Play(float time)
+    {
+        if (isDelay == true) StartCoroutine(Dead_Body_TimeCoroutin(time));
     }
     IEnumerator TimeCoroutin(float time)
     {
@@ -343,5 +359,15 @@ public class Enemy : TargetCheck
         yield return new WaitForSeconds(time);
 
         isAtkDelay = true;
+    }
+    IEnumerator Dead_Body_TimeCoroutin(float time)
+    {
+        isDBDelay = false;
+
+        //5초에 한번 true가 된다.
+        //5초 뒤에 아래의 실행문이 한번실행된다.
+        yield return new WaitForSeconds(time);
+        gameObject.SetActive(false);
+        isDBDelay = true;
     }
 }

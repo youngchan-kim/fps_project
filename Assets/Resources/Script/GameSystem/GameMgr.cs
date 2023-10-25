@@ -7,7 +7,7 @@ public sealed class GameMgr : MonoBehaviour
 {
     public GameObject player;
     public EnemyData testData;
-    public EnemyTest testEnemy;
+    public GameObject Enemy;
     
     static GameMgr instance = null;
     public static GameMgr Instance

@@ -15,7 +15,7 @@ public class Player : PickUpController
 
 
     public GameObject playercam;
-    //public GameObject Inventory;
+    public GameObject InventoryUI;
     private bool mode_chage;
 
     private bool life;
@@ -24,7 +24,7 @@ public class Player : PickUpController
     // Start is called before the first frame update
     //Player body Object
     //[HideInInspector] 
-    public GameObject floor;
+    //public GameObject floor;
 
     Coroutine coroutine = null;
     void Start()
@@ -83,7 +83,7 @@ public class Player : PickUpController
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playercam.gameObject.SetActive(mode_chage);
-            //Inventory.SetActive(!mode_chage);
+            InventoryUI.SetActive(!mode_chage);
             mode_chage = !mode_chage;  
         }
 

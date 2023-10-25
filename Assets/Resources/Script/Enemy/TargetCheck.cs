@@ -70,7 +70,7 @@ public class TargetCheck : MonoBehaviour
             //A가 타겟이고 B가 탐색자일때 B가 A로 가기 위한 방향은
             //A-B이다.
             //타겟에게 향하는 방향
-            if (checktarget != null) angle = StaticViewAngle.static_Obj_ViewAngle_in_Target_Angle (TargetDir.normalized, transform.forward);
+            if (checktarget != null) angle = StaticViewAngle.static_Obj_ViewAngle_in_Target_Angle(TargetDir.normalized, transform.forward);
 
             else angle = viewAngle + 1;
 
@@ -95,6 +95,7 @@ public class TargetCheck : MonoBehaviour
                         {
                             //Debug.Log("타겟과 오브젝트사이에 장애물이 없다.");
                             target = checktarget;
+                            Target_Watching();
                         }
                         else TargetLost();
                     }
@@ -106,7 +107,11 @@ public class TargetCheck : MonoBehaviour
         else TargetLost();
         return target;
     }
-
+    //타겟을 바라보게함
+    void Target_Watching()
+    {
+        transform.LookAt(target);
+    }
     //타겟을 놓치면 
     // 타겟을 놓친 자리를 입력해줌
     void TargetLost()

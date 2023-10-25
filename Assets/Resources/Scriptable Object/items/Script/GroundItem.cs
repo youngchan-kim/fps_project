@@ -36,7 +36,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
             amount = item.data.amount;
         }
 
-        Debug.Log(amount+"1번");
+        //Debug.Log(amount+"1번");
         if (PlayerObject.name == other.name)
         {
             item.data.item_object = gameObject;
