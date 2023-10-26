@@ -1,0 +1,2 @@
+UI
+- Player script가 Player오브젝트 하위의 오브젝트에서 값을 얻어와서 UI에 출력한다.

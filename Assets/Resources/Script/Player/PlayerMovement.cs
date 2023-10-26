@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Player_Action
 {
     [Header("Movement")]
     public float moveSpeed;
@@ -24,8 +25,6 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
 
     Vector3 moveDirection;
 
@@ -35,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        AnimStart();
     }
 
     // Update is called once per frame
@@ -56,8 +56,9 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("땅이 아닙니다.");
             rb.drag = 0;
         }
-    }
 
+    }
+    
     private void FixedUpdate()
     {
         MovePlayer();
@@ -67,8 +68,8 @@ public class PlayerMovement : MonoBehaviour
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-
+        verticalInput =   Input.GetAxisRaw("Vertical");
+        Anim();
         //when to jump
         if (Input.GetKey(jumpKey) && readyToJump && grounded) 
         {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 public class Scope : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class Scope : MonoBehaviour
     private void Start()
     {
         Cam = GetComponent<CinemachineVirtualCamera>();
+        //if (gameObject.transform.GetChild(0).GetChild(1).gameObject.activeSelf)
+            //mainCamera = transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<CinemachinePipeline>();
+        Debug.Log(gameObject.transform.GetChild(0).GetChild(1).gameObject.activeSelf);
+        Debug.Log(gameObject.transform.GetChild(0).GetChild(1).name);
+        //
     }
     void Update()
     {
@@ -40,14 +46,14 @@ public class Scope : MonoBehaviour
             isScoped = false;
             OnUnScoped();
         }
-        animator.SetBool("is Scoped", isScoped);
+        //animator.SetBool("is Scoped", isScoped);
     }
     public void OnUnScoped()
     {
         scope_parts.SetActive(false);
-     //   scopeOverlay.SetActive(false);
+        //scopeOverlay.SetActive(false);
 
-        mainCamera.fieldOfView = normalFOV;
+        //mainCamera.fieldOfView = normalFOV;
     }
 
     IEnumerator OnScoped()
@@ -55,7 +61,7 @@ public class Scope : MonoBehaviour
         
         yield return new WaitForSeconds(.25f);
         scope_parts.SetActive(true);
-        normalFOV = mainCamera.fieldOfView;
+        //normalFOV = mainCamera.fieldOfView;
         scopedFOV = 15f;
         /*if (scope_parts.GetComponentInChildren<Transform>().Find("scope"))
             scopeOverlay.SetActive(true); 
@@ -63,6 +69,6 @@ public class Scope : MonoBehaviour
             scopeOverlay.SetActive(false);*/
 
 
-        mainCamera.fieldOfView = scopedFOV;
+        //mainCamera.fieldOfView = scopedFOV;
     }
 }
