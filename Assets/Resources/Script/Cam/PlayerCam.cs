@@ -13,11 +13,6 @@ public class PlayerCam : MonoBehaviour
     float xRotation;
     float yRotation;
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -27,6 +22,7 @@ public class PlayerCam : MonoBehaviour
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
         //마우스의 움직인 좌표값은 X좌표값은 Y축의 회전에 더해주고 Y좌표 값은 X축의 회전에 빼준다.
+        //Debug.Log(aim.GetAimX() + "  " + aim.GetAimY());
         yRotation += (mouseX + aim.GetAimX());
 
         xRotation -= (mouseY + aim.GetAimY());

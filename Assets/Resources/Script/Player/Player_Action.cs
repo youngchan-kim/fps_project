@@ -5,8 +5,7 @@ using UnityEngine;
 public class Player_Action : MonoBehaviour
 {
 
-    public float horizontalInput;
-    public float verticalInput;
+
 
     float cur_hori;
     float cur_vert;
@@ -19,40 +18,58 @@ public class Player_Action : MonoBehaviour
     {
         Debug.Log(transform.GetChild(0).name);
         anim = transform.GetChild(0).GetComponent<Animator>();
+        //anim = transform.GetComponent<Animator>();
     }
-    public void Anim()
+    public void MoveAnim(float vertical, float horizon)
     {
-        switch(horizontalInput)
+       /* Debug.Log("앞 뒤 정지:" + vertical);
+        Debug.Log("우 좌 정지:" + horizon);
+        Debug.Log("앞뒤" + anim.GetFloat("B&F"));
+        Debug.Log("좌우"+ anim.GetFloat("Dir"));*/
+        if(vertical!= 0 || horizon!=0)
         {
-            case -1:
-
-                break;
-
-            case 0:
-                break;
-
+            Debug.Log("방향이 입력됨");
+        }
+        switch (vertical)
+        {
             case 1:
+                anim.SetFloat("B&F", 1);
+                break;
+            case 0:
+                anim.SetFloat("B&F", 0);
+                break;
+            case -1:
+                anim.SetFloat("B&F", -1);
                 break;
         }
-        if (horizontalInput ==-1)
-            anim.SetFloat("B&F", -1);
-        else if (horizontalInput > cur_hori)
-            anim.SetFloat("B&F", 1);
-        else
-            anim.SetFloat("B&F", 0);
+        switch (horizon)
+        {
+            case 1:
+                anim.SetFloat("Dir", 1);
+                break;
+            case 0:
+                anim.SetFloat("Dir", 0);
+                break;
+            case -1:
+                anim.SetFloat("Dir", -1);
+                break;
+        }
+    }
 
+    public void AimStart()
+    {
+        anim.SetBool("Aim", true);
+    }
+    public void AimEnd()
+    {
+        anim.SetBool("Aim", false);
+    }
+    public void Aiming()
+    {
+      /* if(anim.GetBool("Aim"))
+       {
+            //anim.SetFloat("Aiming")
+       }*/
 
-        if (verticalInput < cur_vert)
-            anim.SetFloat("Dir", -1);
-        else if (verticalInput > cur_vert)
-            anim.SetFloat("Dir", 1);
-        else
-            anim.SetFloat("Dir", 0);
-
-
-        if (cur_hori != horizontalInput)
-            cur_hori = horizontalInput;
-        if (cur_vert != verticalInput)
-            cur_vert = verticalInput;
     }
 }

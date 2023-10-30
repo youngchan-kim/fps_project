@@ -27,8 +27,8 @@ public class Scope : MonoBehaviour
         Cam = GetComponent<CinemachineVirtualCamera>();
         //if (gameObject.transform.GetChild(0).GetChild(1).gameObject.activeSelf)
             //mainCamera = transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<CinemachinePipeline>();
-        Debug.Log(gameObject.transform.GetChild(0).GetChild(1).gameObject.activeSelf);
-        Debug.Log(gameObject.transform.GetChild(0).GetChild(1).name);
+        //Debug.Log(gameObject.transform.GetChild(0).GetChild(1).gameObject.activeSelf);
+        //Debug.Log(gameObject.transform.GetChild(0).GetChild(1).name);
         //
     }
     void Update()

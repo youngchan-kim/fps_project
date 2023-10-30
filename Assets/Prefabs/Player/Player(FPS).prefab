@@ -130,8 +130,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 749006371741362699}
-  - component: {fileID: 749006371741362698}
-  - component: {fileID: 749006371741362697}
   - component: {fileID: 749006371741362696}
   - component: {fileID: 749006371741362694}
   m_Layer: 0
@@ -162,45 +160,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &749006371741362698
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749006371741362700}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &749006371741362697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749006371741362700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 144631181b3455249a15d6fd7f3a0fd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 7
-  groundDrag: 5
-  jumpForce: 8
-  jumpCooldown: 1
-  airMultiplier: 0.4
-  jumpKey: 32
-  playerHeight: 3
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  orientation: {fileID: 749006373299088166}
 --- !u!114 &749006371741362696
 MonoBehaviour:
   m_ObjectHideFlags: 0

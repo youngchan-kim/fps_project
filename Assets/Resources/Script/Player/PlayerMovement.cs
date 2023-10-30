@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerMovement : Player_Action
 {
+    public float horizontalInput;
+    public float verticalInput;
+
     [Header("Movement")]
     public float moveSpeed;
 
@@ -41,19 +44,19 @@ public class PlayerMovement : Player_Action
     private void Update()
     {
         //ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        grounded = Physics.Raycast(transform.position, Vector3.down/*, out RaycastHit a*/,playerHeight * 0.5f + 0.2f, whatIsGround);
+
         
         MyInput();
 
         //드래그 핸들
         if (grounded)
         {
-            //Debug.Log("땅이 입니다.");
             rb.drag = groundDrag;
         }
         else
         {
-            //Debug.Log("땅이 아닙니다.");
+            Debug.Log("땅이 아닙니다.");
             rb.drag = 0;
         }
 
@@ -69,7 +72,7 @@ public class PlayerMovement : Player_Action
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput =   Input.GetAxisRaw("Vertical");
-        Anim();
+        MoveAnim(verticalInput, horizontalInput);
         //when to jump
         if (Input.GetKey(jumpKey) && readyToJump && grounded) 
         {
