@@ -7,7 +7,7 @@ public class Enemy_Action : MonoBehaviour
     Animator anim;
     private void Start()
     {
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
     }
 
     public void Initalize()

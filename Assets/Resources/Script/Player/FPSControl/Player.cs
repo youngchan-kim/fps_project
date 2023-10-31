@@ -41,6 +41,7 @@ public class Player : PickUpController
     // Update is called once per frame
     private void Update()
     {
+
         //Debug.DrawRay(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward * 5f, Color.black, 0.2f);
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
         if (Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, out rayHit,  4f, Item_Mask))

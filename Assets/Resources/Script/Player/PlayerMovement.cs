@@ -32,7 +32,8 @@ public class PlayerMovement : Player_Action
     Vector3 moveDirection;
 
     Rigidbody rb;
-
+    //총쏘는 애니매이션 테스트용
+    bool aiming;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,6 +44,22 @@ public class PlayerMovement : Player_Action
     // Update is called once per frame
     private void Update()
     {
+        //여기 있을 코드가 아니지만 테스트를 위함
+        if (Input.GetMouseButtonDown(1))
+        {
+            aiming = Aiming();
+            
+        }
+        if (aiming)
+        {
+            if (Input.GetMouseButtonDown(0)) Attacking();
+            else if(Input.GetMouseButtonUp(0)) Attacking();
+
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reloading();
+        }
         //ground check
         grounded = Physics.Raycast(transform.position, Vector3.down/*, out RaycastHit a*/,playerHeight * 0.5f + 0.2f, whatIsGround);
 

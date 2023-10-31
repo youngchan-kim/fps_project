@@ -64,12 +64,24 @@ public class Player_Action : MonoBehaviour
     {
         anim.SetBool("Aim", false);
     }
-    public void Aiming()
+    public bool Aiming()
     {
-      /* if(anim.GetBool("Aim"))
-       {
-            //anim.SetFloat("Aiming")
-       }*/
-
+        switch (anim.GetBool("Aim"))
+        {
+            case true:
+                anim.SetBool("Aim", false);
+                return false;
+            case false:
+                anim.SetBool("Aim", true);
+                return true;
+        }
+    }
+    public void Attacking()
+    {
+        anim.SetTrigger("Atteck");
+    }
+    public void Reloading()
+    {
+        anim.SetTrigger("Reload");
     }
 }
