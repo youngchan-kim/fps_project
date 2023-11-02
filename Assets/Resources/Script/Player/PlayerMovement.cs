@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : Player_Action
+public class PlayerMovement : MonoBehaviour
 {
     public float horizontalInput;
     public float verticalInput;
@@ -32,34 +32,47 @@ public class PlayerMovement : Player_Action
     Vector3 moveDirection;
 
     Rigidbody rb;
+
+    Player_Action anim;
     //총쏘는 애니매이션 테스트용
+    
     bool aiming;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        AnimStart();
+        anim = GetComponent<Player_Action>();
+        anim.AnimStart();
     }
 
     // Update is called once per frame
     private void Update()
     {
         //여기 있을 코드가 아니지만 테스트를 위함
+        //조준 모션
         if (Input.GetMouseButtonDown(1))
         {
-            aiming = Aiming();
+            aiming = anim.Aiming();
             
         }
+        //공격 모션
         if (aiming)
         {
-            if (Input.GetMouseButtonDown(0)) Attacking();
-            else if(Input.GetMouseButtonUp(0)) Attacking();
+            if (Input.GetMouseButtonDown(0)) anim.Attacking();
+            else if(Input.GetMouseButtonUp(0)) anim.Attacking();
 
         }
+        //재장전 모션
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Reloading();
+            anim.Reloading();
         }
+        //아이템 루팅 모션
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            anim.PickUpMotion();
+        }
+
         //ground check
         grounded = Physics.Raycast(transform.position, Vector3.down/*, out RaycastHit a*/,playerHeight * 0.5f + 0.2f, whatIsGround);
 
@@ -89,15 +102,19 @@ public class PlayerMovement : Player_Action
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput =   Input.GetAxisRaw("Vertical");
-        MoveAnim(verticalInput, horizontalInput);
+        anim.MoveAnim(verticalInput, horizontalInput);
         //when to jump
         if (Input.GetKey(jumpKey) && readyToJump && grounded) 
         {
             readyToJump = false;
 
             Jump();
-
+            anim.IsJump();
             Invoke(nameof(ResetJump), jumpCooldown);
+        }
+        if (Input.GetKeyDown(KeyCode.C) && grounded)
+        {
+            anim.Crouch();
         }
     }
     private void MovePlayer()

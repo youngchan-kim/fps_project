@@ -11,21 +11,17 @@ public class Player_Action : MonoBehaviour
     float cur_vert;
     // Start is called before the first frame update
 
-    public Animator anim;
+    Animator anim;
     float moveAction =0;
 
     public void AnimStart()
     {
         Debug.Log(transform.GetChild(0).name);
         anim = transform.GetChild(0).GetComponent<Animator>();
-        //anim = transform.GetComponent<Animator>();
     }
     public void MoveAnim(float vertical, float horizon)
     {
-       /* Debug.Log("앞 뒤 정지:" + vertical);
-        Debug.Log("우 좌 정지:" + horizon);
-        Debug.Log("앞뒤" + anim.GetFloat("B&F"));
-        Debug.Log("좌우"+ anim.GetFloat("Dir"));*/
+
         if(vertical!= 0 || horizon!=0)
         {
             Debug.Log("방향이 입력됨");
@@ -55,6 +51,23 @@ public class Player_Action : MonoBehaviour
                 break;
         }
     }
+    public void Crouch()
+    {
+        switch (anim.GetBool("Crouch"))
+        {
+            case true:
+                anim.SetBool("Crouch", false);
+                break;
+
+            case false:
+                anim.SetBool("Crouch", true);
+                break;
+        }
+    }
+    public void IsJump()
+    {               
+        anim.SetTrigger("Jump");
+    }
 
     public void AimStart()
     {
@@ -83,5 +96,10 @@ public class Player_Action : MonoBehaviour
     public void Reloading()
     {
         anim.SetTrigger("Reload");
+    }
+
+    public void PickUpMotion()
+    {
+        anim.SetTrigger("Pickup");
     }
 }
