@@ -69,7 +69,7 @@ public class GunPickUp : PickUpController
         //총의 스크립스 활성화
         gunScript.enabled = true;
         scopeScript.enabled = true;
-        Equit_icon.sprite = gunScript.GetSprite();
+        //Equit_icon.sprite = gunScript.GetSprite();
     }
 
     private void DropItem()

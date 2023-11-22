@@ -21,7 +21,7 @@ public class Gun_Scriptable : ScriptableObject
     //재장전 시간
     public float reloadTime;
     //연사속도
-    public float timeBetweenShots;
+    public float timeBetweenshootclick;
     //탄창의 사이즈
     public int magazineSize;
     //한번 누를때 발사하는 총알의 수

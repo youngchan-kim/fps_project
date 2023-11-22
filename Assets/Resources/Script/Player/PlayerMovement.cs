@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         anim = GetComponent<Player_Action>();
-        anim.AnimStart();
     }
 
     // Update is called once per frame
@@ -66,11 +65,18 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             anim.Reloading();
+            StartCoroutine(ReloadTimer());
         }
         //아이템 루팅 모션
         if (Input.GetKeyDown(KeyCode.F))
         {
             anim.PickUpMotion();
+            StartCoroutine(PickupTimer());
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            anim.Drink_A_Heal();
+            StartCoroutine(DrinkTimer());
         }
 
         //ground check
@@ -109,7 +115,6 @@ public class PlayerMovement : MonoBehaviour
             readyToJump = false;
 
             Jump();
-            anim.IsJump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
         if (Input.GetKeyDown(KeyCode.C) && grounded)
@@ -160,5 +165,29 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("점프를 누를수 있습니다." + jumpCooldown+"초 지났습니다.");
         readyToJump = true;  
+    }
+    IEnumerator JumpingTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        anim.IsJump();
+        StopCoroutine(JumpingTimer());
+    }
+    IEnumerator DrinkTimer()
+    {
+        yield return new WaitForSeconds(4f);
+        anim.Drink_A_Heal();
+        StopCoroutine(DrinkTimer());
+    }
+    IEnumerator PickupTimer()
+    {
+        yield return new WaitForSeconds(2f);
+        anim.PickUpMotion();
+        StopCoroutine(PickupTimer());
+    }
+    IEnumerator ReloadTimer()
+    {
+        yield return new WaitForSeconds(3f);
+        anim.Reloading();
+        StopCoroutine(ReloadTimer());
     }
 }

@@ -9,50 +9,30 @@ public class Cam_ScreenCenter : MonoBehaviour
 
     private float range;
     private float maxrange = 100f;
-    [Header("Look")]
-    [SerializeField]
-    private GameObject look; //바라보는 최대 위치를 확인하기위해 사용
-    [SerializeField]
-    private GameObject test; //에임을 바라보는 위치값을 알기위해 사용
 
+    GameObject aim; //에임의 위치를 set하기 위해 사용
 
-    [Header("Aim")]
-    [SerializeField]
-    private GameObject aim; //에임의 위치를 set하기 위해 사용
-
-    [Header("Player")]
-    [SerializeField]
-    private GameObject Player_Head;
-    [SerializeField]
-    private Transform Player_Eyes;
 
     private Vector3 ScreenMax;
     private Vector3 ScreenMin;
-    private Vector3 ScreenMaxPoint;
-    private Vector3 ScreenMinPoint;
+
+    public AimShaker aimshaker;
 
     public LayerMask layermask;
-
+    Camera maincam;
     private void Start()
     {
+        //Camera는 메인 카메라를 tag로 찾는다.
+        maincam = Camera.main;
         range = maxrange;
+        aim = transform.GetChild(1).gameObject;
     }
     private void Update()
     {
-        
-        //Player Diraction Camera
-        Vector3 PDC = Player_Eyes.transform.position - Camera.main.transform.position;
-
         //뷰포인트 상에서의 가로세로는 0~1로 정할 수 있는 UV 좌표계를 사용한다.
         //중간 값인 0.5f를 사용했고 월드좌표상으로 카메라와 떨어져있을 거리를 입력하면 
         //화면에서는 항상 중앙에 있지만 거리또한 항상 일정한 좌표가 완성된다.
-        //ScreenMin = new Vector3(0.5f, 0.5f, 7f);의 Z값은 3인칭 캠의 가장 멀리서 플레이어를 봤을때
-        //ScreenMin의 z값이 카메라와 플레이어사이의 값보다 큰값을 써야한다.
-        //그래야 항상 aim이 플레이보다 앞에 있을 수 있다.
 
-        //
-
-        //플레이어의 
         //플레이어 앞에 고정 시킬것
         ScreenMin = new Vector3(0.5f, 0.5f, 0);
 
@@ -62,11 +42,11 @@ public class Cam_ScreenCenter : MonoBehaviour
         //문제는 카메라가 움직이면 뷰포인트가 바라보는 월드상의 좌표가 달라지는 데 계속 업데이트 해줘야
         //뷰포인트의 중간점을 갱신하게 되는데 업데이트 하지않고 한번만 호출한게 문제였다.
         //카메라가 바라보는 곳의 중앙
-        ScreenMinPoint = Camera.main.ViewportToWorldPoint(ScreenMin);
-        ScreenMaxPoint = Camera.main.ViewportToWorldPoint(ScreenMax);
 
+        Vector3 ScreenMinPoint = maincam.ViewportToWorldPoint(ScreenMin);
+        Vector3 ScreenMaxPoint = maincam.ViewportToWorldPoint(ScreenMax);
 
-        Vector3 diraction = ScreenMaxPoint- ScreenMinPoint;
+        Vector3 diraction = ScreenMaxPoint - ScreenMinPoint;
 
         //플레이어가 보는 곳에 물체가 있는 경우
         //에임에 걸리는 물체들은 layermask에 적용
@@ -76,15 +56,11 @@ public class Cam_ScreenCenter : MonoBehaviour
         }
         else //ray가 없는 경우 에임의 위치를 변경
         {
-            //에임의 위치를 확인하기 위한 코드
+            //에임의 위치를 확인하기 위한 코드 최대에임 위치
             aim.transform.position = ScreenMaxPoint;
             range = maxrange;
         }
 
-        //에임의 위치를 확인하기 위한 코드 최대에임 위치
-        look.transform.position = ScreenMaxPoint;
-        
-        Player_Head.transform.LookAt(aim.transform.position);
         Debug.DrawLine(Camera.main.transform.position, ScreenMaxPoint, Color.yellow);
     }
 

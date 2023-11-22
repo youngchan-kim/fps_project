@@ -6,39 +6,33 @@ public class AimShaker : MonoBehaviour
 {
     float x = 0;
     float y = 0;
+    //총구가 바라보는 곳의 position를 변경해준다.?
+    Vector2 Look_aim;
+
+
     public IEnumerator AimShake(float spreed)
     {
-
-        //에임의 기본 위치에서
-        Vector3 originalPos = transform.localPosition;
-
         //정해진 크기만큼 랜덤하게 x,y축을 변형
         x = Random.Range(-1.1f, 1.1f) * spreed;
         y = Random.Range(0f, 2f) * spreed;
-       /* //에임의 로컬위치에 해당 값을 대입
-        transform.localPosition = new Vector3(x, y, originalPos.z);*/
-        
+        Look_aim.x += x;
+        Look_aim.y += y;
+
         yield return null;
-/*        //예제에서는 복귀 하지만 복귀할 필요가 없음
-        //처음 위치로 에임의 위치를 복귀
-        transform.localPosition = originalPos;*/
-        x = 0;
-        y = 0;
+        x = y = 0;
 
     }
 
+    //사용되는 곳 찾아볼 것
+    public Vector2 GetLookpoint() { return Look_aim; }
+
+    //사용 되는 곳 에임중 마우스의 값을 강제적으로 추가할때 사용
     public float GetAimX()
     {
-        if (x == 0)
-            return 0;
-        else
-            return x;
+        return x;
     }
     public float GetAimY()
     {
-        if (y == 0)
-            return 0;
-        else
-            return y;
+        return y;
     }
 }

@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Mesh;
+using UnityEngine.UI;
 
 public sealed class GameMgr : MonoBehaviour
 {
+    [Header("Player")]
+    [SerializeField]
     public GameObject player;
-    public EnemyData testData;
-    public GameObject Enemy;
-    
+    [Header("Enemy")]
+    [SerializeField]
+    public GameObject enumy;
+    /*
+    [Header("GUIMgr")]
+    [SerializeField]
+    public GUIMgr uiMgr;
+    */
     static GameMgr instance = null;
+    
     public static GameMgr Instance
     {
         get
@@ -37,10 +45,13 @@ public sealed class GameMgr : MonoBehaviour
     void StartGame() 
     {
         player.GetComponent<Player>().Initialize();
+        enumy.GetComponent<Enemy>().Initialize();
     }
     public GameObject GetCollierPlayer()
     {
         return player;
     }
+
+
 }
 

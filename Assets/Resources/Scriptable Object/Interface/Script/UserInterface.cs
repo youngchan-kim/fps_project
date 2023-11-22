@@ -81,7 +81,7 @@ public abstract class UserInterface : MonoBehaviour
             {
                 float test = slotsOnInterface[obj].item.addHeal;
 
-                player.OnHpAnimtion(slotsOnInterface[obj]);
+                player.hp.OnHpAnimtion(slotsOnInterface[obj]);
             }
             //기능 사용
             //slotsOnInterface[obj].item;

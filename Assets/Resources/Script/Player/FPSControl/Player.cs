@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class Player : PickUpController
 {
-    //public MouseItem mouseItem = new MouseItem();
-    public float maxHealth = 100f;
-    public float currentHealth;
-    //float healvolume = 30;
-    float MaxHealvolume = 80;
-
+    [Serialize]
+    public HP_System hp;
+    DamegeSystem damegeSystem;
+    //maxHealth, MaxHealvolume을 스크립터블 오브젝트로 만들어 놓기
+    float maxHealth = 100f;
+    float maxHealvolume = 80f;
+    bool life;
     public HPBar hpBar;
 
 
@@ -18,29 +19,71 @@ public class Player : PickUpController
     public GameObject InventoryUI;
     private bool mode_chage;
 
-    private bool life;
 
     RaycastHit rayHit;
-    // Start is called before the first frame update
-    //Player body Object
-    //[HideInInspector] 
-    //public GameObject floor;
+    Transform Gun;
+    GunSystem gunSystem;
 
-    Coroutine coroutine = null;
+    Animator anim;
+
     void Start()
     {
+        anim = GetComponent<Animator>();
+
+        Gun = transform.GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5);
+        //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
+        //내가 현재 손에 들고 있는 총이 맞는지 확인
+        gunSystem = Gun.GetChild(0).GetComponent<GunSystem>();
+
+        damegeSystem = GetComponent<DamegeSystem>();
         hpBar.SetMaxHealth(maxHealth);
     }
 
     public void Initialize()
     {
         life = true;
-        currentHealth = maxHealth;
+        hp.Initialize(maxHealth, maxHealvolume, life);
         Cursor.lockState = CursorLockMode.Locked;
     }
     // Update is called once per frame
     private void Update()
     {
+        if (gunSystem.HoldButtonUse())
+        {
+            gunSystem.ClickToShoot(Input.GetKey(KeyCode.Mouse0));
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                {
+                    //anim.Shoot();
+                    gunSystem.Firing();
+                }
+
+            }
+        }
+        else
+        {
+            gunSystem.ClickToShoot(Input.GetKeyDown(KeyCode.Mouse0));
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                {
+                    //anim.Shoot();
+                    gunSystem.Firing();
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.R) && gunSystem.ReloadIsPossible())
+            gunSystem.Reload();
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            playercam.gameObject.SetActive(mode_chage);
+            //Inventory.SetActive(!mode_chage);
+            mode_chage = !mode_chage;
+        }
+
+    
 
         //Debug.DrawRay(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward * 5f, Color.black, 0.2f);
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
@@ -88,92 +131,22 @@ public class Player : PickUpController
             mode_chage = !mode_chage;  
         }
 
-        if (Getlife())
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                TakeDamage(15);
-            }
-            if (currentHealth <= 0)
-            {
-                currentHealth = 0;
-                life = false;
-            }
-        }
-
         CuserControl(mode_chage);
         
     }
     void CuserControl(bool mode_chage)
     {
         //커서를 움직이지 않도록 하고 보이지 않도록 해야함.
-        if (mode_chage == false)
-        { 
-            Cursor.lockState = CursorLockMode.Locked; 
-        }
-
-        else
-        { 
-            Cursor.lockState = CursorLockMode.Confined; 
-        }
+        if (mode_chage == false) Cursor.lockState = CursorLockMode.Locked;
+        else Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = mode_chage;
     }
 
-    //플레이어가 피해를 입으면 체력이 줄어듬
-    void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-        hpBar.SetHealth(currentHealth);
-    }
-
-    IEnumerator HpSliderAnimation(float _heal)
-    {
-        //최대 힐량
-        float heal = _heal;
-        //현재 체력을 Ui에 표시
-        hpBar.SetHealth(currentHealth);
-
-        float t = 0.0f;
-        //최대로 채울 수 있는 값 분에 3.0을 채우는 시간
-        float elipsed = 1.0f / MaxHealvolume;   
-        //현재 채력이 최소 회복가능한 값보다 작을 때
-        while (currentHealth < MaxHealvolume)
-        {
-            //heal이 남은 량이 0보다 크다면
-            if(heal > 0)
-            {
-                //
-                if (heal > elipsed)
-                {
-                    heal -= elipsed;
-                    t += elipsed;
-                }
-                else
-                { 
-                    t += heal;
-                    heal = 0;
-                }
-
-            }
-            hpBar.SetHealth(Mathf.Lerp(currentHealth, MaxHealvolume, t));
-            yield return new WaitForSeconds(elipsed);
-        }
-        hpBar.SetHealth(currentHealth);
-        Debug.Log("힐이 들어간 값 : "+ t);
-        coroutine = null;
-    }
-
-    public void OnHpAnimtion(InventorySlot Slot)
-    {
-        if (null != coroutine) { StopCoroutine(coroutine); Slot.totalamount++; }
-        coroutine = StartCoroutine(HpSliderAnimation(Slot.item.addHeal));
-        Slot.totalamount--;
 
 
-    }
     public bool Getlife()
     {
-        return life;
+        return hp.GetLife();
     }
 
     //데이터 관리 클래스
