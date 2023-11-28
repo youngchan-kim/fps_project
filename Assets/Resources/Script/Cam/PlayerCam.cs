@@ -13,7 +13,9 @@ public class PlayerCam : MonoBehaviour
     float yRotation;
     private void Start()
     {
+        //humanoid Player
         playerBady = transform.parent;
+        //Debug.Log(playerBady.parent.GetChild(1).name);
         aim = playerBady.parent.GetChild(1).GetComponent<AimShaker>();
     }
 

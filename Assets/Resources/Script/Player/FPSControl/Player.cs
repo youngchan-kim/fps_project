@@ -30,13 +30,14 @@ public class Player : PickUpController
     {
         anim = GetComponent<Animator>();
 
-        Gun = transform.GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5);
+        Gun = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
+            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5);
         //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
         //내가 현재 손에 들고 있는 총이 맞는지 확인
         gunSystem = Gun.GetChild(0).GetComponent<GunSystem>();
 
         damegeSystem = GetComponent<DamegeSystem>();
-        hpBar.SetMaxHealth(maxHealth);
+        //hpBar.SetMaxHealth(maxHealth);
     }
 
     public void Initialize()
@@ -153,10 +154,12 @@ public class Player : PickUpController
     public void OnApplicationQuit()
     {
         //@슬롯
+/*        
         Groundinventory.Container.Clear();
         inventory.Container.Clear();
         Equipinventory.Container.Clear();
         Guninventory.Container.Clear();
+*/
     }
 
 }

@@ -21,9 +21,10 @@ public class Scope : MonoBehaviour
 
     public float scopedFOV;
     private float normalFOV;
-    private bool isScoped = false;
+    private bool isScoped;
     private void Start()
     {
+        isScoped = false;
         Cam = GetComponent<CinemachineVirtualCamera>();
         //if (gameObject.transform.GetChild(0).GetChild(1).gameObject.activeSelf)
             //mainCamera = transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<CinemachinePipeline>();
@@ -33,23 +34,15 @@ public class Scope : MonoBehaviour
     }
     void Update()
     {
-
         //마우스 오른 버튼이 눌리면 
-        if (Input.GetMouseButton(1))
-        {
-            isScoped = true;
+        if (Input.GetMouseButton(1)) StartCoroutine(OnScoped());
+        else OnUnScoped();
 
-            StartCoroutine(OnScoped());
-        }
-        else
-        {
-            isScoped = false;
-            OnUnScoped();
-        }
         //animator.SetBool("is Scoped", isScoped);
     }
     public void OnUnScoped()
     {
+        isScoped = false;
         scope_parts.SetActive(false);
         //scopeOverlay.SetActive(false);
 
@@ -58,7 +51,7 @@ public class Scope : MonoBehaviour
 
     IEnumerator OnScoped()
     {
-        
+        isScoped = true;
         yield return new WaitForSeconds(.25f);
         scope_parts.SetActive(true);
         //normalFOV = mainCamera.fieldOfView;
