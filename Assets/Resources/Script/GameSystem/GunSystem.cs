@@ -235,7 +235,7 @@ public class GunSystem : MonoBehaviour
 
                 //타겟의 DamegeSystem으로 데미지를 넣어줌
                 rayHit.collider.GetComponent<DamegeSystem>().TakeDamage(Gun_property.damage);
-                Debug.Log("타겟에게 데미지를 입혔습니다.");
+                //Debug.Log("타겟에게 데미지를 입혔습니다.");
             }
 
             var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
