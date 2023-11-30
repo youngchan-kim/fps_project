@@ -229,7 +229,7 @@ public class GunSystem : MonoBehaviour
         if (Physics.Raycast(GunMuzzle.position, GunMuzzle.forward, out rayHit, Gun_property.range, Gun_property.what_can_Shoot))
         {
             //일단 쏘고 맞은 대상이 데미지 시스템이 있는지 확인 할것
-            Debug.Log(rayHit.collider.name);
+            //Debug.Log(rayHit.collider.name);
             if (rayHit.collider.GetComponent<DamegeSystem>())
             {
 

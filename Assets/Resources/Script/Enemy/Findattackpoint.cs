@@ -16,9 +16,8 @@ public class Findattackpoint : MonoBehaviour
         EyeObject = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0);
         //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0).name);
         enemy = GetComponent<Enemy>();
-        
+
         attackPoint = transform.GetChild(1);
-        //Debug.Log(attackPoint.name);
     }
 
     // Update is called once per frame
@@ -33,13 +32,18 @@ public class Findattackpoint : MonoBehaviour
     public void LookTargetCheck(Transform target)
     {
         if (target != null)
-            attackPoint = target.GetComponent<Player_Action>().EnemyIsLookHaedTr();
+        {
+            attackPoint.position = target.GetComponent<Player_Action>().EnemyIsLookHaedTr().position;
+        }
         else
+        {
             attackPoint.position = EyeObject.position + EyeObject.forward * len;
+        }
+
     }
 
-void LooktheLine()
+    void LooktheLine()
     {
-        Debug.DrawLine(EyeObject.position, EyeObject.position+ EyeObject.forward*len, Color.blue);
+        Debug.DrawLine(EyeObject.position, EyeObject.position + EyeObject.forward * len, Color.blue);
     }
 }
