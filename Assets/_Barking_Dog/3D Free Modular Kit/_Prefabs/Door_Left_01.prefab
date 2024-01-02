@@ -12,13 +12,12 @@ GameObject:
   - component: {fileID: 3384098}
   - component: {fileID: 2355204}
   - component: {fileID: 6507386}
-  - component: {fileID: 3434415285263308823}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Door_Left_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &419594
 Transform:
@@ -28,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 169994}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0.0000012575437, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -99,22 +98,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.7500012, y: 0.40800077, z: 3.499999}
   m_Center: {x: -1.6250011, y: -0.50000024, z: 1.7499998}
---- !u!208 &3434415285263308823
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169994}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.3750001, y: 0.20400001, z: 1.7500001}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -1.6250001, y: -0.5, z: 1.7500001}
-  m_TimeToStationary: 0.5
 --- !u!1 &192030
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,12 +108,12 @@ GameObject:
   m_Component:
   - component: {fileID: 421664}
   - component: {fileID: 8249556}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Door_Left_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &421664
 Transform:

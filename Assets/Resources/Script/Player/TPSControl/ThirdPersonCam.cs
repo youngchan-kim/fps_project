@@ -29,7 +29,20 @@ public class ThirdPersonCam : MonoBehaviour
     public enum CameraStyle
     {
         Basic
+        /*             ,
+               RightWave,
+                LeftWave,
+                OnePerson,
+                Topdown*/
     }
+
+    /*  public CameraStyle GetCameraStyle()
+      {
+          return curentStyle;
+      }*/
+
+    //
+    /* int wavecontrol = 0;*/
 
     private void Start()
     {
@@ -40,6 +53,29 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Update()
     {
+        //wavecontrol = WaveControl(wavecontrol);
+        //카메라 스타일 바꾸기
+        /* if (wavecontrol == 0)
+         {
+
+             if (curentStyle == CameraStyle.RightWave)
+                 thirdPersonCam.transform.localPosition.Set(rightWaveCam.transform.position.x + 10, rightWaveCam.transform.position.y, rightWaveCam.transform.position.z);
+             else if (curentStyle == CameraStyle.LeftWave)
+                 thirdPersonCam.transform.position.Set(leftWaveCam.transform.position.x - 10, leftWaveCam.transform.position.y, leftWaveCam.transform.position.z);
+             SwitchCameraStyle(CameraStyle.Basic); 
+         }*/
+        /* else if (wavecontrol == 1 && curentStyle == CameraStyle.Basic)
+         {
+             rightWaveCam.transform.position.Set(thirdPersonCam.transform.position.x - 10, thirdPersonCam.transform.position.y, thirdPersonCam.transform.position.z);
+             SwitchCameraStyle(CameraStyle.RightWave);
+         }
+         else if (wavecontrol == -1 && curentStyle == CameraStyle.Basic)
+         {
+             leftWaveCam.transform.position.Set(thirdPersonCam.transform.position.x + 10, thirdPersonCam.transform.position.y, thirdPersonCam.transform.position.z);
+             SwitchCameraStyle(CameraStyle.LeftWave);
+         }*/
+        
+
         //카메라에서 플레이어까지의 방향을 계산하여 전방이 어디인지 알아내기
         Vector3 viewDir = player.position - new Vector3(TPC.transform.position.x, player.position.y, TPC.transform.position.z);
 
@@ -55,6 +91,57 @@ public class ThirdPersonCam : MonoBehaviour
         //플레이어 오브젝트의 정면을 입력받은 방향으로 선형 보간사용으로 부드럽게  회전시킴 
         if (inputDir != Vector3.zero)
             playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+        /*if (curentStyle == CameraStyle.Basic)
+        {
+            if (inputDir != Vector3.zero)
+                playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 
+        }*/
+        /* else if (curentStyle == CameraStyle.RightWave)
+         {
+             Vector3 dirToRightWaveLookAt = RightLookAt.position - new Vector3(transform.position.x, RightLookAt.position.y, transform.position.z);
+             orientation.forward = dirToRightWaveLookAt.normalized;
+             playerObj.forward = dirToRightWaveLookAt.normalized;          
+         }
+         else if (curentStyle == CameraStyle.LeftWave)
+         {
+             Vector3 dirToLeftWaveLookAt = LeftLookAt.position - new Vector3(transform.position.x, LeftLookAt.position.y, transform.position.z);
+             orientation.forward = dirToLeftWaveLookAt.normalized;
+
+             playerObj.forward = dirToLeftWaveLookAt.normalized;
+
+         }*/
     }
+
+   /* private int WaveControl(int wavecontrol)
+    {
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (wavecontrol >= 0)
+                wavecontrol -= 1;
+            else if (wavecontrol == -1)
+                wavecontrol += 1;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (wavecontrol <= 0)
+                wavecontrol += 1;
+            else if (wavecontrol == 1)
+                wavecontrol -= 1;
+        }
+        return wavecontrol;
+    }*/
+
+    /*private void SwitchCameraStyle(CameraStyle newStyle)
+    {
+        rightWaveCam.SetActive(false);
+        leftWaveCam.SetActive(false);
+        thirdPersonCam.SetActive(false);
+
+        if (newStyle == CameraStyle.Basic) { thirdPersonCam.SetActive(true); }
+        else if (newStyle == CameraStyle.RightWave) { rightWaveCam.SetActive(true);  }
+        else if (newStyle == CameraStyle.LeftWave) { leftWaveCam.SetActive(true);  }
+        curentStyle = newStyle;
+    }*/
 }
