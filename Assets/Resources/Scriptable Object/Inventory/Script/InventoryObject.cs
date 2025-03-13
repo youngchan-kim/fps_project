@@ -5,8 +5,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEditor;
 using System.Runtime.Serialization;
-using static UnityEditor.Progress;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+/*using static UnityEditor.Progress;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;*/
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 

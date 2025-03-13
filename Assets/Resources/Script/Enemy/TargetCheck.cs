@@ -129,7 +129,7 @@ public class TargetCheck : MonoBehaviour
         target = null;
         checktarget = null;
     }
-
+#if UNITY_EDITOR
     //시야각을 Scenes에서 보여주는 코드
     void OnDrawGizmos()
     {
@@ -145,9 +145,8 @@ public class TargetCheck : MonoBehaviour
         // DrawSolidArc(시작점, 노멀벡터(법선벡터), 그려줄 방향 벡터, 각도, 반지름)
         Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, DrawGizmosAngle, radius);
         Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -DrawGizmosAngle, radius);
-
     }
-
+#endif
 
 }
 
