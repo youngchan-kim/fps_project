@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         //limit velocity if needed
-        //케릭터의 벡터의 평균이 moveSpeed보다 클때 적용
+            //케릭터의 벡터의 평균이 moveSpeed보다 클때 적용
         if(flatVel.magnitude > moveSpeed)
         {
             //최고 속도는 케릭터의 정규화백터에 무브스피트를 곱해준다. 
