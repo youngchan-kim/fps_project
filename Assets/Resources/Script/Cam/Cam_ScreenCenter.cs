@@ -70,7 +70,15 @@ public class Cam_ScreenCenter : MonoBehaviour
             aim.transform.position = ScreenMaxPoint;
             range = maxrange;
         }
-        Dir.LookAt(aim.transform.position); 
+        // [수정] 조준 지점과 회전 기준점 사이의 방향 계산
+        Vector3 aimDirection = aim.transform.position - Dir.position;
+
+        // [수정] 목표가 너무 가까우면 회전하지 않음
+        // 가까운 지점에서 방향이 급격하게 뒤집히는 현상을 방지
+        if (aimDirection.sqrMagnitude > 0.25f)
+        {
+            Dir.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+        }
         //Debug.Log("출력");
         Debug.DrawLine(Camera.main.transform.position, ScreenMaxPoint, Color.yellow);
     }

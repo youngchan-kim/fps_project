@@ -39,7 +39,7 @@ public class PlayerCam : MonoBehaviour
         xRotation -= mouseY;
         xRotation -= aim.GetAimY();
         //x축화전에 90도가 넘어가면 뒤집히지 않도록 고정해준다.
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -80f, 80f);
 
         //마우스가 회전한 만큼PlayerRotate를 회전시킴
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);

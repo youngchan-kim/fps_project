@@ -37,11 +37,16 @@ public class PlayerMovement : MonoBehaviour
     //총쏘는 애니매이션 테스트용
     
     bool aiming;
+
+    Player player;
+    
     private void Start()
     {
+        
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         anim = GetComponent<Player_Action>();
+        player = GetComponent<Player>();
         orientation = transform.GetChild(0).GetChild(1).GetChild(2);
     }
 
@@ -65,8 +70,13 @@ public class PlayerMovement : MonoBehaviour
         //재장전 모션
         if (Input.GetKeyDown(KeyCode.R))
         {
-            anim.Reloading();
-            StartCoroutine(ReloadTimer());
+            GunSystem gun = player.GetGunSystem();
+
+            if (gun != null && gun.ReloadIsPossible())
+            {
+                anim.Reloading();
+                StartCoroutine(ReloadTimer());
+            }
         }
         //아이템 루팅 모션
         if (Input.GetKeyDown(KeyCode.F))
