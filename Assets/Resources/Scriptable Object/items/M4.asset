@@ -17,10 +17,13 @@ MonoBehaviour:
   stackable: 0
   type: 3
   description: 
+  equippedGunPrefab: {fileID: 8058998865455413511, guid: 991956759b87ee44994b395b9b6e50cc, type: 3}
   data:
     Name: M4
     Id: 1
     buffs: []
+    addHeal: 0
     amount: 1
     item_object: {fileID: 0}
     item_object_Prefab: {fileID: 5330394481861556738, guid: 2e254a7352b4f374f914509cfb9f6cf0, type: 3}
+    inven_in_active: 0

@@ -31,8 +31,8 @@ public class Player_Action : MonoBehaviour
         Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).name);
         Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
             .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0).name);*/
-        gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
-            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0);
+/*        gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
+            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0);*/
         // cam = transform.GetComponent<Player>().Player_cam;
 
 

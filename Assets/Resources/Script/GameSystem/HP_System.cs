@@ -13,7 +13,7 @@ public class HP_System : MonoBehaviour
     public void Initialize(float MaxHealth, float MaxHealvolume, bool life)
     {
         MaxHp = MaxHealth;
-        CurrentHp = MaxHealth;
+        CurrentHp = 50;
         BasicHealvolume = MaxHealvolume;
         HP_life = life;
     }

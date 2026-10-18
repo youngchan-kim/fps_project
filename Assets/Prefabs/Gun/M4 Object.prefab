@@ -473,12 +473,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gun_property: {fileID: 11400000, guid: 8e68749a7935ee748a80c3cfc77b9721, type: 2}
-  GunMuzzle: {fileID: 0}
+  GunMuzzle: {fileID: 8234433008120408158}
   MuzzleAimShaker: {fileID: 0}
   attackPoint: {fileID: 0}
   bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
   text: {fileID: 0}
-  muzzleFlashparticle: {fileID: 0}
+  muzzleFlashparticle: {fileID: 3251707403971169344}
   bullet: {fileID: 11400000, guid: b515ee65afda9804fa1cbd936632bbe7, type: 2}
 --- !u!114 &6823976936530775459
 MonoBehaviour:
@@ -557,6 +557,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9defeac88977c0d448aa4541073ee9e4, type: 3}
+--- !u!198 &3251707403971169344 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198000012944515248, guid: 9defeac88977c0d448aa4541073ee9e4, type: 3}
+  m_PrefabInstance: {fileID: 3431476085343202544}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3427583105247862090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000011227296186, guid: 9defeac88977c0d448aa4541073ee9e4, type: 3}

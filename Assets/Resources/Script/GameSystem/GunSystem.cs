@@ -88,15 +88,22 @@ public class GunSystem : MonoBehaviour
     private void Start()
     {
         player = GameMgr.Instance.player.GetComponent<Player>();
-        //Debug.Log(transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.GetChild(1).name);
-        attackPoint = transform.parent.parent.parent.parent.parent.parent.parent
-            .parent.parent.parent.parent.parent.GetChild(1);
-        GunMuzzle = transform.GetChild(0).GetChild(0);
-        MuzzleAimShaker = GunMuzzle.GetComponent<AimShaker>();
-      
-        muzzleFlashparticle = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
-        //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).name);
 
+        if (GunMuzzle == null)
+        {
+            Debug.Log(name + ": GunMuzzle이 연결되지 않았습니다.");
+            enabled = false;
+            return;
+        }
+
+        MuzzleAimShaker = GunMuzzle.GetComponent<AimShaker>();
+
+        if (attackPoint == null)
+        {
+            Debug.Log(name + ": attackPoint가 연결되지 않았습니다.");
+            enabled = false;
+            return;
+        }
     }
     //public int CheckGunParts()
     //{
@@ -305,11 +312,30 @@ public class GunSystem : MonoBehaviour
 
         reloading = false;
     }
-
+    public void SetAttackPoint(Transform point)
+    {
+        attackPoint = point;
+    }
     /* public Sprite GetSprite()
      {
          return Gun_property.sprites;
      }
     */
 
+    public int GetCurrentAmmo()
+    {
+        return bulletsLeft;
+    }
+
+    public int GetMagazineSize()
+    {
+        return Gun_property.magazineSize;
+    }
+    public int GetReserveAmmo()
+    {
+        if (player == null || bullet == null)
+            return 0;
+
+        return player.GetInven_Find_Item(bullet);
+    }
 }

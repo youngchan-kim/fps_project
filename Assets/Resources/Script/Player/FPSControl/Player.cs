@@ -32,10 +32,23 @@ public class Player : PickUpController
     {
         anim = GetComponent<Animator>();
 
-        Gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
-            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4);
-        //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
-        // Start()에서 고정 총기 참조 제거
+        Gun = transform.GetChild(0).GetChild(0).GetChild(0)
+            .GetChild(2).GetChild(0).GetChild(0)
+            .GetChild(2).GetChild(0).GetChild(0)
+            .GetChild(0).GetChild(4);
+
+        // 게임 시작 시 모든 총기 비활성화
+        for (int i = 0; i < Gun.childCount; i++)
+        {
+            Gun.GetChild(i).gameObject.SetActive(false);
+        }
+
+        // 슬롯 등록 정보 초기화
+        for (int i = 0; i < Gunslot.Length; i++)
+        {
+            Gunslot[i] = null;
+        }
+
         GunSystem_chage();
 
         damegeSystem = GetComponent<DamegeSystem>();
@@ -199,5 +212,6 @@ public class Player : PickUpController
         Guninventory.Container.Clear();
 
     }
+  
 
 }

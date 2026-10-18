@@ -28,13 +28,14 @@ public enum Attributes
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
 public class ItemObject : ScriptableObject
 {
-    
+
     public Sprite uiDisplay;
     public GameObject characterDisplay;
     public bool stackable;
     public ItemType type;
     [TextArea(15, 20)]
     public string description;
+    public GameObject equippedGunPrefab;
     public Item data = new Item();
     /*public Item CreateItem()
     {

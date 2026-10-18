@@ -31,6 +31,8 @@ public class Player_recognizes_Item : MonoBehaviour
     //아이템의 실제정보를 가지고 있음
     public static GameObject[] Itemslot = new GameObject[4];
     public bool equipped;
+    [SerializeField]
+    private Transform gunEquipPoint;
     //아이템을 두기 위한 위치
     //월드 포지션을 가지기 위함
     private Vector3 hitPos;
@@ -117,34 +119,59 @@ public class Player_recognizes_Item : MonoBehaviour
     public void ItemPickup_inventory_System(ItemObject _itemObject, GameObject ground_Item)
     {
         Item _item = _itemObject.data;
-        switch(_itemObject.type)
+        switch (_itemObject.type)
         {
             case ItemType.Gun:
                 {
-                    GameObject gunObject = Gun_Item_ID_Check(_item.Id);
-
-                    if (gunObject == null)
+                    if (_itemObject.equippedGunPrefab == null)
                     {
-                        Debug.LogWarning("총기 오브젝트를 찾지 못했습니다.");
+                        Debug.LogError("장착용 총기 프리팹이 없습니다.");
                         break;
                     }
 
-                    if (!GetGunSlotEmpty())
+                    if (gunEquipPoint == null)
                     {
-                        Debug.LogWarning("총기 슬롯에 빈 공간이 없습니다.");
+                        Debug.LogError("총기 장착 위치가 없습니다.");
+                        break;
+                    }
+                    if (slotnum < 0 || slotnum >= Gunslot.Length)
+                    {
+                        Debug.LogWarning("잘못된 총기 슬롯 번호: " + slotnum);
                         break;
                     }
 
-                    Additem(Gunslot, gunObject);
+                    int targetSlot = slotnum;
+                    // 총기 슬롯에 오브젝트 등록
+                    // 이미 등록된 총기가 있다면 중복 생성 방지
+                    if (Gunslot[targetSlot] != null)
+                    {
+                        Debug.LogWarning("이미 총기가 있는 슬롯입니다.");
+                        break;
+                    }
 
-                    GunActive(0);
+                    GameObject newGun = Instantiate(_itemObject.equippedGunPrefab,gunEquipPoint); 
+                    GunSystem newGunSystem = newGun.GetComponent<GunSystem>();
 
-                    if (ground_Item != null)
-                        ground_Item.SetActive(false);
+                    if (newGunSystem == null)
+                    {
+                        Debug.LogError("생성한 총기에 GunSystem이 없습니다.");
+                        Destroy(newGun);
+                        break;
+                    }
 
-                    Debug.Log("총기 장착 처리 완료: " + gunObject.name);
-                }
-                break;
+                    // 기존 Player_Action에서 사용하는 조준 지점
+                    Transform point = transform.GetChild(1);
+
+                    newGunSystem.SetAttackPoint(point);
+                    Gunslot[targetSlot] = newGun;
+                    // 등록한 총기만 활성화
+                    GunActive(targetSlot);
+
+                    slotnum = -1;
+
+                    Debug.Log("총기 생성 및 장착 완료: " + newGun.name);
+                    break;
+                } 
             case ItemType.Bullet:
                 //아이템 슬롯에 아이템 넣어야함
                 //디스트로이하기 때문에 필요 없다.
@@ -422,17 +449,22 @@ public class Player_recognizes_Item : MonoBehaviour
             return;
         }
 
-        if (Gunslot[num] != null)
-        {
-            Gunslot[num].SetActive(false);
-        }
-        else
+        GameObject gun = Gunslot[num];
+
+        if (gun == null)
         {
             Debug.LogWarning(
-                "Gun 슬롯 " + num + "에 등록된 총기 오브젝트가 없습니다.");
+                "Gun 슬롯 " + num + "에 등록된 총기가 없습니다.");
+            return;
         }
 
+        // 슬롯 참조 먼저 제거
         Gunslot[num] = null;
+
+        // 장착용 총기 오브젝트 삭제
+        Destroy(gun);
+
+        Debug.Log("장착용 총기 삭제: " + gun.name);
     }
     public void GunSlot_swap(int slotnum1, int slotnum2)
     {
@@ -459,11 +491,15 @@ public class Player_recognizes_Item : MonoBehaviour
     GameObject Gun_Item_ID_Check(int Id)
     {
         GunSystem[] guns = GetComponentsInChildren<GunSystem>(true);
-
+        Debug.Log($"[총기 검색] 요청 ID: {Id}, 검색된 총기 수: {guns.Length}");
         foreach (GunSystem gun in guns)
         {
             if (gun.Gun_property == null)
+            {
+                Debug.LogWarning($"[총기 검색] {gun.name}: Gun_property 없음");
                 continue;
+            }
+            Debug.Log($"[총기 검색] {gun.name}, 총기 ID: {gun.Gun_property.Id}");
 
             if (gun.Gun_property.Id == Id)
             {
@@ -472,7 +508,7 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
 
-        Debug.LogWarning("총기 ID " + Id + "에 해당하는 오브젝트가 없습니다.");
+        Debug.LogError($"[총기 검색 실패] ID {Id}에 해당하는 총기가 없음");
 
         return null;
     }

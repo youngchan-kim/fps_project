@@ -17,6 +17,7 @@ MonoBehaviour:
   stackable: 0
   type: 3
   description: 
+  equippedGunPrefab: {fileID: 4919082156224477547, guid: b6b2d8815765b9841b8613e0abfa755c, type: 3}
   data:
     Name: Sniper
     Id: 0
@@ -25,3 +26,4 @@ MonoBehaviour:
     amount: 1
     item_object: {fileID: 0}
     item_object_Prefab: {fileID: 3865992893041346291, guid: 137791a206f3f6f49a0a72d60b71dd29, type: 3}
+    inven_in_active: 0
