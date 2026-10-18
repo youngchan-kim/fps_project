@@ -44,7 +44,8 @@ public sealed class GameMgr : MonoBehaviour
     void StartGame() 
     {
         player.GetComponent<Player>().Initialize();
-        enumy.GetComponent<Enemy>().Initialize();
+        // Enemy는 자신의 Start()에서 초기화
+        //enumy.GetComponent<Enemy>().Initialize();
         GUI_Mgr.GetComponent<GUI_Mgr>().Initialize();
     }
     public GameObject GetCollierPlayer()

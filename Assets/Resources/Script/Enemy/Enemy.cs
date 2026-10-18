@@ -96,6 +96,7 @@ public class Enemy : TargetCheck
     {
         ATKpoint = GetComponent<Findattackpoint>();
         damegeSystem = GetComponent<DamegeSystem>();
+        //enemy 본인을 초기화
         Initialize();
     }
 
