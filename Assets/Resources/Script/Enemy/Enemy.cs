@@ -402,7 +402,7 @@ public class Enemy : TargetCheck
         {
             Atk_Play(1f);
 
-            if (gunSystem.BulletIsEmpty() &&
+            if (gunSystem.HasAmmo() &&
                 gunSystem.ReadyToShoot() &&
                 gunSystem.FiringIsPossible())
             {

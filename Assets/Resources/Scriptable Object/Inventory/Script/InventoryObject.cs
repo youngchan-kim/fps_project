@@ -276,7 +276,7 @@ public class InventorySlot
     }
     public void AddAmount(Item _item, int value)
     {
-        totalamount += _item.amount;
+        totalamount += value;
     }
 
     //허용된 슬롯만 가능

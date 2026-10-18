@@ -59,7 +59,10 @@ public class GunSystem : MonoBehaviour
     int total_magazineSize;
     float total_timeBetweenshootclick;
 
-    //Player player;
+    [SerializeField]
+    private ItemObject bullet;
+
+    private Player player;
     //스크립터블에 들어가야함
     int len = 100;
     public Transform GetMuzzleTr()
@@ -77,12 +80,14 @@ public class GunSystem : MonoBehaviour
         //pickup = GetComponent<GunPickUp>();
         //탄창사이즈 만큼 남은 탄을 채워준다.
         //bulletsLeft = 0;
-        bulletsLeft = 3000;
+        //bulletsLeft = 3000;
+        bulletsLeft = Gun_property.magazineSize;
         //쏠 수 있는 상태
         readyToShoot = true;
     }
     private void Start()
     {
+        player = GameMgr.Instance.player.GetComponent<Player>();
         //Debug.Log(transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.GetChild(1).name);
         attackPoint = transform.parent.parent.parent.parent.parent.parent.parent
             .parent.parent.parent.parent.parent.GetChild(1);
@@ -149,11 +154,10 @@ public class GunSystem : MonoBehaviour
             return true;
         return false;
     }
-    public bool BulletIsEmpty()
+    // 총알이 남아 있으면 true 리턴
+    public bool HasAmmo()
     {
-        if (bulletsLeft > 0)
-            return true;
-        return false;
+        return bulletsLeft > 0;
     }
 
     //단발인지 연사인지에 따라 조건으로 실해되어야함
@@ -187,7 +191,7 @@ public class GunSystem : MonoBehaviour
             shootclick = Input.GetKey(KeyCode.Mouse0);
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                if (FiringIsPossible() && ReadyToShoot() && BulletIsEmpty())
+                if (FiringIsPossible() && ReadyToShoot() && HasAmmo())
                 {
                     // Firing();
                 }
@@ -199,7 +203,7 @@ public class GunSystem : MonoBehaviour
             shootclick = Input.GetKeyDown(KeyCode.Mouse0);
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if (FiringIsPossible() && ReadyToShoot() && BulletIsEmpty())
+                if (FiringIsPossible() && ReadyToShoot() && HasAmmo())
                 {
                     // Firing();
                 }
@@ -213,9 +217,19 @@ public class GunSystem : MonoBehaviour
 
     public bool ReloadIsPossible()
     {
-        if (bulletsLeft < Gun_property.magazineSize && !reloading)
+        if (reloading)
+            return false;
+
+        if (bulletsLeft >= Gun_property.magazineSize)
+            return false;
+
+        if (player.GetInven_Find_Item(bullet) <= 0)
+            return false;
+
+        return true;
+        /*if (bulletsLeft < Gun_property.magazineSize && !reloading)
             return true;
-        return false;
+        return false;*/
     }
 
     private void Shoot()
@@ -266,6 +280,8 @@ public class GunSystem : MonoBehaviour
     //장전시 호출
     public void Reload()
     {
+        if (!ReloadIsPossible())
+            return;
         reloading = true;
         total_reloadTime = Gun_property.reloadTime + 0;
         Invoke("ReloadFinished", total_reloadTime);
@@ -274,23 +290,20 @@ public class GunSystem : MonoBehaviour
 
     private void ReloadFinished()
     {
-        total_magazineSize = Gun_property.magazineSize + 0;
-        //int haveBullet = player.GetInven_Find_Item(bullet);
-        int addBullet = 0;
-        addBullet = total_magazineSize - bulletsLeft;
+        total_magazineSize = Gun_property.magazineSize;
 
-        /*if (haveBullet <= addBullet)
-        {
-            bulletsLeft = bulletsLeft + haveBullet;
-            //player.SetInven_Find_Item(bullet, 0);
-        }
-        else
-        {
-            bulletsLeft = addBullet;
-            //player.SetInven_Find_Item(bullet, haveBullet- addBullet);
-        }*/
+        int haveBullet = player.GetInven_Find_Item(bullet);
+        int needBullet = total_magazineSize - bulletsLeft;
+
+        int addBullet = Mathf.Min(haveBullet, needBullet);
+
+        bulletsLeft += addBullet;
+
+        player.SetInven_Find_Item(bullet, haveBullet - addBullet);
+
+        player.InventRefresh();
+
         reloading = false;
-        //player.InventRefresh();
     }
 
     /* public Sprite GetSprite()

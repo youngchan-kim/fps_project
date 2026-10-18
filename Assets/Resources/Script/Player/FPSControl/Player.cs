@@ -35,8 +35,8 @@ public class Player : PickUpController
         Gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
             .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4);
         //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
-        //내가 현재 손에 들고 있는 총이 맞는지 확인
-        gunSystem = Gun.GetChild(0).GetComponent<GunSystem>();
+        // Start()에서 고정 총기 참조 제거
+        GunSystem_chage();
 
         damegeSystem = GetComponent<DamegeSystem>();
         //Debug.Log(GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).name);
@@ -61,14 +61,18 @@ public class Player : PickUpController
             Debug.Log("케릭터 바닥 위치" + rayHit.point);
         }*/
         /*Debug.Log(Hold_contorl_check);*/
-        if (Hold_contorl_check == false)
+
+        //이제 총을 장착하지 않은 상태에서 사격 입력이 들어와도 NullReferenceException이 발생하지 않음
+        GunSystem_chage();
+
+        if (Hold_contorl_check == false && gunSystem != null)
         {
             if (gunSystem.HoldButtonUse())
             {
                 gunSystem.ClickToShoot(Input.GetKey(KeyCode.Mouse0));
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                    if (gunSystem.HasAmmo() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
                     {
                         //anim.Shoot();
                         gunSystem.Firing();
@@ -80,7 +84,7 @@ public class Player : PickUpController
                 gunSystem.ClickToShoot(Input.GetKeyDown(KeyCode.Mouse0));
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                    if (gunSystem.HasAmmo() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
                     {
                         //anim.Shoot();
                         gunSystem.Firing();
@@ -136,6 +140,38 @@ public class Player : PickUpController
             CuserControl(mode_chage);
         }
     }
+
+    //활성화된 총이 없으면 gunSystem을 null로 설정
+    //GunSystem 컴포넌트가 없는 오브젝트를 건너뜀
+    public void GunSystem_chage()
+    {
+        gunSystem = null;
+
+        if (Gun == null)
+            return;
+
+        for (int i = 0; i < Gun.childCount; i++)
+        {
+            Transform gun = Gun.GetChild(i);
+
+            if (!gun.gameObject.activeInHierarchy)
+                continue;
+
+            GunSystem currentGun = gun.GetComponent<GunSystem>();
+
+            if (currentGun != null)
+            {
+                gunSystem = currentGun;
+                break;
+            }
+        }
+    }
+
+    public GunSystem GetGunSystem()
+    {
+        return gunSystem;
+    }
+
     void CuserControl(bool mode_chage)
     {
         //커서를 움직이지 않도록 하고 보이지 않도록 해야함.
