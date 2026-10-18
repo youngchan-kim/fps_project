@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7626659170592545843}
   - component: {fileID: 7626659170592545840}
   - component: {fileID: 7626659170592545839}
-  m_Layer: 11
+  m_Layer: 15
   m_Name: SR_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1397970969607586, guid: f19d6bc16f603024aa4eba1116a7fe46, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1432603531362136, guid: f19d6bc16f603024aa4eba1116a7fe46, type: 3}
       propertyPath: m_Name
@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1432603531362136, guid: f19d6bc16f603024aa4eba1116a7fe46, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4702108054472202, guid: f19d6bc16f603024aa4eba1116a7fe46, type: 3}
       propertyPath: m_LocalScale.x
@@ -138,6 +138,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5537019528528283696, guid: f19d6bc16f603024aa4eba1116a7fe46, type: 3}
       propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537019528528283696, guid: f19d6bc16f603024aa4eba1116a7fe46, type: 3}
+      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

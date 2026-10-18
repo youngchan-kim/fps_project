@@ -19,6 +19,7 @@ public class InventoryScroll : MonoBehaviour, IScrollHandler
 
     public void OnScroll(PointerEventData eventData)
     {
+        Debug.Log("스크롤 동작");
         ParentSR.OnScroll(eventData);
         Debug.Log("스크롤 동작");
     }

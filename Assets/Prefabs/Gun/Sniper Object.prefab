@@ -4973,12 +4973,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gun_property: {fileID: 11400000, guid: 5f53e92c473688a4896d0094d2f5db76, type: 2}
-  firePosition: {fileID: 4484724472038757009}
+  GunMuzzle: {fileID: 0}
+  MuzzleAimShaker: {fileID: 0}
   attackPoint: {fileID: 0}
   bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
   text: {fileID: 0}
   muzzleFlashparticle: {fileID: 2897648099720367066}
-  Equipped_parts_Scopes: 1
+  bullet: {fileID: 11400000, guid: 8c0b200afe3f44746addd882989891c2, type: 2}
 --- !u!114 &5724646878594375502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4992,7 +4993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  scopeOverlay: {fileID: 0}
   mainCamera: {fileID: 0}
   scope_parts: {fileID: 8923578555014442941}
   scopedFOV: 15

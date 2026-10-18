@@ -25,33 +25,55 @@ public class InventoryObject : ScriptableObject
 
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, InventoryType inventoryType, int itemamount)
-    {
-        if (EmptySlotCount <= 0)
-            return false;
-
-        InventorySlot slot = FindItemOnInventory(_item);
-        if (inventoryType == InventoryType.Ground)
+    /*    public bool AddItem(Item _item, InventoryType inventoryType, int itemamount)
         {
-            SetEmptySlot(_item, itemamount);
+            if (EmptySlotCount <= 0)
+                return false;
 
-            return true;
-        }
-        else if (inventoryType == InventoryType.other)
-        {            
-            if (!database.Items[_item.Id].stackable || slot == null)
+            InventorySlot slot = FindItemOnInventory(_item);
+            if (inventoryType == InventoryType.Ground)
             {
                 SetEmptySlot(_item, itemamount);
 
                 return true;
             }
-            slot.AddAmount(slot.item, itemamount);
-        }
-        return true;
-    }
+            else if (inventoryType == InventoryType.other)
+            {            
+                if (!database.Items[_item.Id].stackable || slot == null)
+                {
+                    SetEmptySlot(_item, itemamount);
 
+                    return true;
+                }
+                slot.AddAmount(slot.item, itemamount);
+            }
+            return true;
+
+        }*/
+
+    public bool AddItem(Item _item, InventoryType inventoryType, int itemamount)
+    {
+        if (_item == null || _item.Id < 0 || itemamount <= 0)
+            return false;
+
+        if (inventoryType == InventoryType.Ground)
+            return SetEmptySlot(_item, itemamount) != null;
+
+        if (database == null || database.Items[_item.Id] == null)
+            return false;
+
+        InventorySlot slot = FindItemOnInventory(_item);
+
+        if (database.Items[_item.Id].stackable && slot != null)
+        {
+            slot.AddAmount(slot.item, itemamount);
+            return true;
+        }
+
+        return SetEmptySlot(_item, itemamount) != null;
+    }
     //Ground
-  public bool AddGroundItem(Item _item, int itemamount)
+    public bool AddGroundItem(Item _item, int itemamount)
     {
         if (EmptySlotCount <= 0)
             return false;
@@ -274,6 +296,7 @@ public class InventorySlot
         item = new Item();
         totalamount = 0;
     }
+    //기존 슬롯에 탄약이 있다면 새 슬롯을 만들지 않고 수량을 증가
     public void AddAmount(Item _item, int value)
     {
         totalamount += value;

@@ -47,40 +47,70 @@ public class Player_recognizes_Item : MonoBehaviour
     }
 
     //키보드로 먹을때
+    //기존에는 획득 후 ItemPickup_inventory_System()까지 호출하면서 중복 처리 가능성이 있었어.
+    //이제 아이템 추가에 성공했을 때만 바닥 아이템을 제거
     public void Pickup_Swap_Item(Collider Coll)
     {
-        Transform coll_parent = Coll.transform.parent;
-        GameObject ground_Item =  coll_parent.gameObject;
-        GroundItem ground_stript = coll_parent.GetComponent<GroundItem>();
-        Item _item = ground_stript.item.data;   
+        if (Coll == null)
+            return;
 
-        if (Groundinventory.FindItemOnInventory(_item) != null)
+        GroundItem ground = Coll.GetComponentInParent<GroundItem>();
+
+        if (ground == null || ground.item == null)
+
+            return;
+        ItemObject itemObject = ground.item;
+        Item item = itemObject.data;
+        int amount = ground.amount;
+
+        InventoryObject targetInventory = null;
+
+        switch (itemObject.type)
         {
-            switch (ground_stript.item.type)
-            {
-                case ItemType.Gun:
-                    Debug.Log("아이템 픽업");
-                    Add_Item(Guninventory.InventoryID, _item, ground_stript.amount);
-                    Item_Removed(Groundinventory, Guninventory.InventoryID, _item);
-                    break;
+            case ItemType.Bullet:
+            case ItemType.Medical:
+                targetInventory = inventory;
+                break;
 
-                case ItemType.Helmet:
-                case ItemType.Bag:
-                case ItemType.Armor:
-                    Add_Item(Equipinventory.InventoryID, _item, ground_stript.amount);
-                    Item_Removed(Groundinventory, Equipinventory.InventoryID, _item);
+            case ItemType.Helmet:
+            case ItemType.Bag:
+            case ItemType.Armor:
+                targetInventory = Equipinventory;
+                break;
 
-                    break;
-                case ItemType.Bullet:
-                    Add_Item(inventory.InventoryID, _item, ground_stript.amount);
-                    Item_Removed(Groundinventory, inventory.InventoryID, _item);
-                    //Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), inventory.GetEmptySlot());
-                    break;
-            }
+            default:
+                Debug.LogWarning("아직 획득 처리를 구현하지 않은 아이템: "
+                                 + itemObject.type);
+                return;
         }
-        //_item.groundobject = ground_Item.gameObject;
-        ItemPickup_inventory_System(ground_stript.item, ground_Item);
-        Groundinventory.Sort();
+
+        if (targetInventory == null)
+            return;
+
+        bool success = targetInventory.AddItem(
+            item, InventoryType.other, amount);
+
+        if (!success)
+        {
+            Debug.Log("인벤토리에 공간이 없습니다.");
+            return;
+        }
+
+        // 월드 오브젝트를 제거하기 전에 바닥 UI 데이터도 제거
+        if (Groundinventory != null)
+        {
+            InventorySlot groundSlot =
+                Groundinventory.FindItemOnInventory(item);
+
+            if (groundSlot != null)
+                groundSlot.RemoveItem();
+        }
+
+        Destroy(ground.gameObject);
+
+        pickup = true;
+
+        Debug.Log(item.Name + " 획득: " + amount);
     }
 
     //드래그엔드일때 사용
@@ -90,17 +120,29 @@ public class Player_recognizes_Item : MonoBehaviour
         switch(_itemObject.type)
         {
             case ItemType.Gun:
-                if (Activeitem = Gun_Item_ID_Check(_item.Id))
                 {
-                    //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
-                    if (GetGunSlotEmpty())
+                    GameObject gunObject = Gun_Item_ID_Check(_item.Id);
+
+                    if (gunObject == null)
                     {
-                        //해당 부분 오류
-                        //Activeitem.SetActive(true);
-                        Additem(Gunslot, Gun_Item_ID_Check(_item.Id));
-                        GunActive(0);
-                        ground_Item.SetActive(false);
+                        Debug.LogWarning("총기 오브젝트를 찾지 못했습니다.");
+                        break;
                     }
+
+                    if (!GetGunSlotEmpty())
+                    {
+                        Debug.LogWarning("총기 슬롯에 빈 공간이 없습니다.");
+                        break;
+                    }
+
+                    Additem(Gunslot, gunObject);
+
+                    GunActive(0);
+
+                    if (ground_Item != null)
+                        ground_Item.SetActive(false);
+
+                    Debug.Log("총기 장착 처리 완료: " + gunObject.name);
                 }
                 break;
             case ItemType.Bullet:
@@ -120,36 +162,58 @@ public class Player_recognizes_Item : MonoBehaviour
         //_item.groundobject.SetActive(false);
     }
 
-
-    public void ItemDropSystem(InventorySlot obj/*, InventorySlot slot*/)
+    //프리팹이 없거나 바닥을 찾지 못했을 때 인벤토리 아이템이 사라지는 문제를 막을 수 있
+    public bool ItemDropSystem(InventorySlot slot)
     {
-        GameObject grountitem;
-        /*if (crruntitem.groundobject.name == "Gun")
+        if (slot == null || slot.item == null)
+            return false;
+
+        if (slot.item.Id < 0 || slot.totalamount <= 0)
+            return false;
+
+        GameObject prefab = slot.item.item_object_Prefab;
+
+        if (prefab == null)
         {
-            //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
-            if (equipped)
-            {
-                equipped = false;
-                ItemActiveCheck().SetActive(false);
-            }
+            Debug.LogError("바닥 아이템 프리팹이 없습니다.");
+            return false;
         }
-        else
+
+        if (!Physics.Raycast(
+            transform.position + Vector3.up,
+            Vector3.down,
+            out RaycastHit hit,
+            10f,
+            Dropzon_layermask))
         {
-            //ItemActiveCheck().SetActive(false);
-        }*/
-        //Debug.Log(obj.slot_item_object);
-        Debug.Log(transform.name);
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit Hit, 10f))
-        {
-            Debug.Log("땅 인식1");
-            hitPos = Hit.point;
-            hitPos.y += 0.01f;
-            if (obj.totalamount != 0)
-            {
-                grountitem = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
-                grountitem.GetComponent<GroundItem>().amount = obj.totalamount;
-            }
+            Debug.LogWarning("아이템을 놓을 바닥을 찾지 못했습니다.");
+            return false;
         }
+
+        Vector3 dropPosition = hit.point + Vector3.up * 0.1f;
+
+        GameObject droppedItem = Instantiate(
+            prefab,
+            dropPosition,
+            Quaternion.identity);
+
+        GroundItem ground = droppedItem.GetComponent<GroundItem>();
+
+        if (ground == null)
+            ground = droppedItem.GetComponentInChildren<GroundItem>();
+
+        if (ground == null)
+        {
+            Debug.LogError("프리팹에 GroundItem 컴포넌트가 없습니다.");
+            Destroy(droppedItem);
+            return false;
+        }
+
+        ground.amount = slot.totalamount;
+
+        Debug.Log("아이템 버리기 성공: " + slot.item.Name);
+
+        return true;
     }
 
 
@@ -236,24 +300,46 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public int GetInven_Find_Item(ItemObject _item)
     {
+        if (_item == null || inventory == null || _item.data == null)
+            return 0;
+
+        if (inventory.Container == null || inventory.Container.Items == null)
+            return 0;
+
         for (int i = 0; i < inventory.Container.Items.Length; i++)
-        { 
-            if(inventory.Container.Items[i].item.Id == _item.data.Id)
+        {
+            InventorySlot slot = inventory.Container.Items[i];
+
+            if (slot == null || slot.item == null)
+                continue;
+
+            if (slot.item.Id == _item.data.Id)
             {
-                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
-                return inventory.Container.Items[i].totalamount;
-            }  
+                return slot.totalamount;
+            }
         }
+
         return 0;
     }
     public void SetInven_Find_Item(ItemObject _item, int num)
     {
+        if (_item == null || inventory == null || _item.data == null)
+            return;
+
+        if (inventory.Container == null || inventory.Container.Items == null)
+            return;
+
         for (int i = 0; i < inventory.Container.Items.Length; i++)
         {
-            if (inventory.Container.Items[i].item.Id == _item.data.Id)
+            InventorySlot slot = inventory.Container.Items[i];
+
+            if (slot == null || slot.item == null)
+                continue;
+
+            if (slot.item.Id == _item.data.Id)
             {
-                //int item_amount_test = inventory.Container.Items[i].itemobject_data.amount;
-                inventory.Container.Items[i].totalamount = num;
+                slot.totalamount = Mathf.Max(0, num);
+                return;
             }
         }
     }
@@ -327,17 +413,26 @@ public class Player_recognizes_Item : MonoBehaviour
     {
         slotnum = num;
     }
+    //Gunslot[i]가 null이면 SetActive(false)에서 NullReferenceException이 발생해서 null인경우를 if처리로 예외발생을 막음
     public void RemoveGun(int num)
     {
-        for (int i = 0; i < Gunslot.Length; i++)
+        if (num < 0 || num >= Gunslot.Length)
         {
-            if (i == num)
-            {
-                Gunslot[i].gameObject.SetActive(false);
-                Gunslot[i] = null;
-                return;
-            }
+            Debug.LogWarning("잘못된 Gun 슬롯 번호: " + num);
+            return;
         }
+
+        if (Gunslot[num] != null)
+        {
+            Gunslot[num].SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning(
+                "Gun 슬롯 " + num + "에 등록된 총기 오브젝트가 없습니다.");
+        }
+
+        Gunslot[num] = null;
     }
     public void GunSlot_swap(int slotnum1, int slotnum2)
     {
@@ -356,17 +451,29 @@ public class Player_recognizes_Item : MonoBehaviour
         }
     }
     //아이템 id 찾기
+    //수정 사항 
+    // 복잡한 GetChild() 경로 제거
+    //자식 인덱스 오류 방지
+    //비활성화된 총기까지 검색
+    //총기 ID를 기준으로 오브젝트 검색
     GameObject Gun_Item_ID_Check(int Id)
     {
-        int ItemListcount = transform.GetChild(1).GetChild(0).GetChild(0).childCount;
-        for (int i = 0; i < ItemListcount; i++)
+        GunSystem[] guns = GetComponentsInChildren<GunSystem>(true);
+
+        foreach (GunSystem gun in guns)
         {
-            if (Id == transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).transform.GetComponent<GunSystem>().Gun_property.Id)
+            if (gun.Gun_property == null)
+                continue;
+
+            if (gun.Gun_property.Id == Id)
             {
-                //Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject.name);
-                return transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject;
+                Debug.Log("총기 검색 성공: " + gun.name);
+                return gun.gameObject;
             }
         }
+
+        Debug.LogWarning("총기 ID " + Id + "에 해당하는 오브젝트가 없습니다.");
+
         return null;
     }
 
