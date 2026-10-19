@@ -17,11 +17,12 @@ MonoBehaviour:
   stackable: 1
   type: 4
   description: 
+  equippedGunPrefab: {fileID: 0}
   data:
     Name: Heal_kit
     Id: 4
     buffs: []
-    addHeal: 80
+    addHeal: 50
     amount: 1
     item_object: {fileID: 0}
     item_object_Prefab: {fileID: 2728236884632203541, guid: 7ddac311a9bdfbf4c9a873ed96a12d6d, type: 3}

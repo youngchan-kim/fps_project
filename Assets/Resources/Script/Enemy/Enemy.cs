@@ -94,10 +94,16 @@ public class Enemy : TargetCheck
     // Start is called before the first frame update
     void Start()
     {
+        /*Debug.Log($"[Enemy] {name}: Start 시작");*/
+
         ATKpoint = GetComponent<Findattackpoint>();
         damegeSystem = GetComponent<DamegeSystem>();
         //enemy 본인을 초기화
+        /*Debug.Log($"[Enemy] {name}: Initialize 호출");*/
+
         Initialize();
+
+        /*Debug.Log($"[Enemy] {name}: Initialize 완료");*/
     }
 
     public void Initialize()
@@ -130,6 +136,16 @@ public class Enemy : TargetCheck
         // 모든 컴포넌트 초기화가 끝난 후 FSM 생성
         FSM = new EnemyFSM(this);
 
+       // Debug.Log($"[Enemy] {name}: 애니메이션 초기화 시작");
+        anim.Initalize();
+
+        Debug.Log($"[Enemy] {name}: HP 초기화 시작");
+        hp.Initialize(maxHealth, maxHealvolume, life);
+
+        Debug.Log($"[Enemy] {name}: FSM 생성 시작");
+        FSM = new EnemyFSM(this);
+
+        Debug.Log($"[Enemy] {name}: FSM 생성 완료");
     }
     public float maxlen()
     {
@@ -141,13 +157,23 @@ public class Enemy : TargetCheck
     {
 
         UpdateTarget(Angle, nomal_site_len, target_Mask);
-        Spot_mark.transform.position = Spot;
+        if (Spot_mark != null)
+        {
+            Spot_mark.transform.position = Spot;
+        }
         if (target == null)
             ATKpoint.LookTargetCheck(null);
-        if (life == true)
+        if (!life) return;
+        if (FSM == null)
         {
-            FSM.Update();
+            Debug.LogError(
+                $"[Enemy FSM 오류] {gameObject.name}: FSM이 null입니다.",
+                this
+            );
+            return;
         }
+
+        FSM.Update();
 
     }
 

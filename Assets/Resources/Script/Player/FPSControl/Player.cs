@@ -54,7 +54,7 @@ public class Player : PickUpController
         damegeSystem = GetComponent<DamegeSystem>();
         //Debug.Log(GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).name);
         InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
-        //hpBar.SetMaxHealth(maxHealth);
+        hpBar.SetMaxHealth(maxHealth);
         Hold_contorl_check = false;
     }
 
@@ -62,6 +62,13 @@ public class Player : PickUpController
     {
         life = true;
         hp.Initialize(maxHealth, maxHealvolume, life);
+
+        if (hpBar != null)
+        {
+            hpBar.SetMaxHealth(maxHealth);
+            hpBar.SetHealth(hp.GetCurHp());
+        }
+
         Cursor.lockState = CursorLockMode.Locked;
     }
     // Update is called once per frame
@@ -151,6 +158,10 @@ public class Player : PickUpController
             InventoryUI.SetActive(!mode_chage);
             mode_chage = !mode_chage;
             CuserControl(mode_chage);
+        }
+        if (hpBar != null)
+        {
+            hpBar.SetHealth(hp.GetCurHp());
         }
     }
 

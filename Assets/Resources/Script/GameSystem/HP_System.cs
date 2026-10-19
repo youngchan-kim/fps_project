@@ -44,44 +44,71 @@ public class HP_System : MonoBehaviour
     {
 
     }
-    public void OnHpAnimtion(InventorySlot Slot)
+    public void OnHpAnimtion(InventorySlot slot)
     {
-        if (null != coroutine) { StopCoroutine(coroutine); Slot.totalamount++; }
+//        HP가 최대치여도 아이템을 소모할 수 있음
+//        수량이 0인지 확인하지 않음
+//        회복 중 다시 사용하면 이전 코루틴을 중단함
+//        이전 코루틴 중단 시 현재 슬롯의 수량을 다시 증가시키는 방식이 부정확함
+/*        if (null != coroutine) { StopCoroutine(coroutine); Slot.totalamount++; }
         coroutine = StartCoroutine(HpSliderAnimation(Slot.item.addHeal));
-        Slot.totalamount--;
+        Slot.totalamount--;*/
+
+        if (slot == null || slot.item == null)
+            return;
+
+        if (slot.totalamount <= 0)
+            return;
+
+        if (CurrentHp >= MaxHp)
+        {
+            Debug.Log("HP가 최대치입니다.");
+            return;
+        }
+
+        if (coroutine != null)
+        {
+            Debug.Log("이미 회복 중입니다.");
+            return;
+        }
+
+        float healAmount = slot.item.addHeal;
+
+        slot.totalamount--;
+
+        coroutine = StartCoroutine(HpSliderAnimation(healAmount));
     }
 
     //힐 이터멀레이터
-    IEnumerator HpSliderAnimation(float _heal)
+    IEnumerator HpSliderAnimation(float heal)
     {
-        //최대 힐량
-        float heal = _heal;
+        float remainingHeal = heal;
+        float healSpeed = 30f;
 
-        float t = 0.0f;
-        //최대로 채울 수 있는 값 분에 3.0을 채우는 시간
-        float elipsed = 1.0f / GetBasicHealvolume();
-        //현재 채력이 최소 회복가능한 값보다 작을 때
-        while (GetCurHp() < GetBasicHealvolume())
+        while (remainingHeal > 0f)
         {
-            //heal이 남은 량이 0보다 크다면
-            if (heal > 0)
-            {
-                //
-                if (heal > elipsed)
-                {
-                    heal -= elipsed;
-                    t += elipsed;
-                }
-                else
-                {
-                    t += heal;
-                    heal = 0;
-                }
+            float healStep = Mathf.Min(
+                healSpeed * Time.deltaTime,
+                remainingHeal
+            );
 
-            }
-            yield return new WaitForSeconds(elipsed);
+            float actualHeal = Mathf.Min(
+                healStep,
+                MaxHp - CurrentHp
+            );
+
+            if (actualHeal <= 0f)
+                break;
+
+            CurrentHp += actualHeal;
+            remainingHeal -= actualHeal;
+
+            yield return null;
         }
-        Debug.Log("힐이 들어간 값 : " + t);
+
+        coroutine = null;
+
+        Debug.Log("회복 완료, 현재 HP: " + CurrentHp);
     }
 }
 

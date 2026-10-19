@@ -717,7 +717,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208913283}
-  m_LocalRotation: {x: 0.16018222, y: -4.1894842e-15, z: 1.2204045e-15, w: 0.9870875}
+  m_LocalRotation: {x: 0.1601822, y: 0.000000041602625, z: -0.0000000067511747, w: 0.9870875}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1309,7 +1309,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433181325}
-  m_LocalRotation: {x: 0.1601822, y: -0.00000004160263, z: 0.000000006751175, w: 0.9870875}
+  m_LocalRotation: {x: 0.1601822, y: -0.000000041602625, z: 0.0000000067511747, w: 0.9870875}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9775,6 +9775,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
+      propertyPath: hpBar
+      value: 
+      objectReference: {fileID: 1614140018}
     - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: playercam
       value: 

@@ -11,16 +11,26 @@ using UnityEngine.UI;
 /// </summary>
 public class InventoryScroll : MonoBehaviour, IScrollHandler
 {
-    public ScrollRect ParentSR;
+    private ScrollRect parentSR;
+
     private void Awake()
     {
-        ParentSR = transform.parent.parent.parent.GetComponent<ScrollRect>();
+        // 부모 계층에서 ScrollRect 자동 검색
+        parentSR = GetComponentInParent<ScrollRect>();
+
+        if (parentSR == null)
+        {
+            Debug.LogWarning(
+                $"{gameObject.name}: 부모에서 ScrollRect를 찾지 못했습니다."
+            );
+        }
     }
 
     public void OnScroll(PointerEventData eventData)
     {
-        Debug.Log("스크롤 동작");
-        ParentSR.OnScroll(eventData);
-        Debug.Log("스크롤 동작");
+        if (parentSR == null)
+            return;
+
+        parentSR.OnScroll(eventData);
     }
 }
